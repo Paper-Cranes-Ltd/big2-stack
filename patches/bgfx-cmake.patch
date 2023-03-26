@@ -1,0 +1,84 @@
+From b25ea227c56de22e0a3d686ed59258705725ab52 Mon Sep 17 00:00:00 2001
+From: Hristo Iliev <capitane71@gmail.com>
+Date: Fri, 24 Mar 2023 17:35:10 +0200
+Subject: [PATCH 1/2] Improvments on the shader compiler utility
+
+The custom command didn't recognize bgfx::shaderc and the generator expression seems bettter. I also added an include option since it might be important to be able to define those.
+---
+ cmake/bgfxToolUtils.cmake | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/cmake/bgfxToolUtils.cmake b/cmake/bgfxToolUtils.cmake
+index 22a1c67d..2308cd2d 100644
+--- a/cmake/bgfxToolUtils.cmake
++++ b/cmake/bgfxToolUtils.cmake
+@@ -535,12 +535,13 @@ endfunction()
+ # 	SHADERS filenames
+ # 	VARYING_DEF filename
+ # 	OUTPUT_DIR directory
++# 	INCLUDE_DIRS directories
+ # )
+ #
+ function(bgfx_compile_shader_to_header)
+ 	set(options "")
+ 	set(oneValueArgs TYPE VARYING_DEF OUTPUT_DIR)
+-	set(multiValueArgs SHADERS)
++	set(multiValueArgs SHADERS INCLUDE_DIRS)
+ 	cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
+
+ 	set(PROFILES 120 300_es spirv) # pssl
+@@ -596,11 +597,11 @@ function(bgfx_compile_shader_to_header)
+ 				PROFILE ${PROFILE}
+ 				O "$<$<CONFIG:debug>:0>$<$<CONFIG:release>:3>$<$<CONFIG:relwithdebinfo>:3>$<$<CONFIG:minsizerel>:3>"
+ 				VARYINGDEF ${ARGS_VARYING_DEF}
+-				INCLUDES ${BGFX_SHADER_INCLUDE_PATH}
++				INCLUDES ${BGFX_SHADER_INCLUDE_PATH} ${ARGS_INCLUDE_DIRS}
+ 				BIN2C BIN2C ${SHADER_FILE_NAME_WE}_${PROFILE_EXT}
+ 			)
+ 			list(APPEND OUTPUTS ${OUTPUT})
+-			list(APPEND COMMANDS COMMAND bgfx::shaderc ${CLI})
++			list(APPEND COMMANDS COMMAND $<TARGET_FILE:shaderc> ${CLI})
+ 		endforeach()
+
+ 		add_custom_command(
+
+From f3befc71f0172dc3bc5ed77b06c06300b2f22834 Mon Sep 17 00:00:00 2001
+From: Hristo Iliev <capitane71@gmail.com>
+Date: Sun, 26 Mar 2023 16:52:17 +0300
+Subject: [PATCH 2/2] Also add an output variable name parameter.
+
+This is so that we can use the generated files for defining a custom target or as dependencies in general.
+---
+ cmake/bgfxToolUtils.cmake | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/cmake/bgfxToolUtils.cmake b/cmake/bgfxToolUtils.cmake
+index 2308cd2d..38efe079 100644
+--- a/cmake/bgfxToolUtils.cmake
++++ b/cmake/bgfxToolUtils.cmake
+@@ -535,12 +535,13 @@ endfunction()
+ # 	SHADERS filenames
+ # 	VARYING_DEF filename
+ # 	OUTPUT_DIR directory
++# 	OUT_FILES_VAR variable name
+ # 	INCLUDE_DIRS directories
+ # )
+ #
+ function(bgfx_compile_shader_to_header)
+ 	set(options "")
+-	set(oneValueArgs TYPE VARYING_DEF OUTPUT_DIR)
++	set(oneValueArgs TYPE VARYING_DEF OUTPUT_DIR OUT_FILES_VAR)
+ 	set(multiValueArgs SHADERS INCLUDE_DIRS)
+ 	cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
+
+@@ -603,6 +604,10 @@ function(bgfx_compile_shader_to_header)
+ 			list(APPEND OUTPUTS ${OUTPUT})
+ 			list(APPEND COMMANDS COMMAND $<TARGET_FILE:shaderc> ${CLI})
+ 		endforeach()
++
++		if(DEFINED ARGS_OUT_FILES_VAR)
++			set(${ARGS_OUT_FILES_VAR} ${OUTPUTS} PARENT_SCOPE)
++		endif()
+
+ 		add_custom_command(
+ 			OUTPUT ${OUTPUTS}

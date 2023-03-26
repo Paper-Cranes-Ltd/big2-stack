@@ -1,5 +1,53 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.24)
 project(big2-stack)
 
 set(CMAKE_CXX_STANDARD 17)
+set(USE_FOLDERS TRUE)
+set(CMAKE_FOLDER "BIG2")
 
+include(cmake/utils.cmake)
+
+# Requirements
+
+find_package(Git)
+if (NOT GIT_FOUND)
+    message(FATAL_ERROR "Git needs to be installed to pull the dependencies")
+else()
+    string(REGEX MATCH "^[0-9]+[.][0-9]+" GIT_VERSION "${GIT_VERSION_STRING}")
+    if("${GIT_VERSION}" LESS "2.35")
+        message(FATAL_ERROR "Git version of 2.35 is needed for patch application")
+    endif()
+endif()
+
+# Options
+
+option(BIG2_BUILD_EXAMPLES "Whether or not to build examples with this stack" "${PROJECT_IS_TOP_LEVEL}")
+option(BIG2_INCLUDE_IMGUI "Whether or not to build examples with this stack" ON)
+option(BIG2_INCLUDE_GLM "Whether or not to build examples with this stack" ON)
+
+# Dependencies
+include(FetchContent)
+
+set(BIG2_COMMON_DEPS_OPTIONS)
+list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_SHALLOW TRUE)
+list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_PROGRESS TRUE)
+list(APPEND BIG2_COMMON_DEPS_OPTIONS USES_TERMINAL_DOWNLOAD TRUE)
+list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_REMOTE_UPDATE_STRATEGY CHECKOUT)
+list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_SUBMODULES_RECURSE TRUE)
+
+include(cmake/glfw.cmake)
+include(cmake/bgfx.cmake)
+
+if("${BIG2_INCLUDE_IMGUI}")
+    include(cmake/imgui.cmake)
+endif()
+
+if("${BIG2_INCLUDE_GLM}")
+    include(cmake/glm.cmake)
+endif()
+
+add_subdirectory(big2)
+
+if("${BIG2_BUILD_EXAMPLES}")
+    add_subdirectory(examples)
+endif()

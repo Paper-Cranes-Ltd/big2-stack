@@ -22,6 +22,7 @@ void ImGuiBeginFrame() {
 }
 
 void ImGuiEndFrame() {
+  ImGui::EndFrame();
   ImGui::Render();
   ImGui_ImplBgfx_RenderDrawData(ImGui::GetDrawData());
 }

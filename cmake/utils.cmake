@@ -45,6 +45,10 @@ function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
     )
     
     set(OUTPUT_FILES ${VERTEX_OUTPUT_FILES} ${FRAGMENT_OUTPUT_FILES})
+    list(LENGTH OUTPUT_FILES SHADER_COUNT)
+    if(SHADER_COUNT EQUAL 0)
+        return()
+    endif()
     file(TOUCH ${OUTPUT_FILES})
     
     set(INCLUDE_ALL_HEADER "")

@@ -5,7 +5,10 @@
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
 #include <big2.h>
+
+#if BIG2_IMGUI_ENABLED
 #include <imgui.h>
+#endif // BIG2_IMGUI_ENABLED
 
 #include <iostream>
 
@@ -68,6 +71,9 @@ int main(int, char**)
 
   const bgfx::ViewId main_view_id = 0;
 
+
+#if BIG2_IMGUI_ENABLED
+
   // Setup Dear ImGui context
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
@@ -102,6 +108,8 @@ int main(int, char**)
   // Our state
   bool show_demo_window = true;
 
+#endif // BIG2_IMGUI_ENABLED
+
   bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);
   bgfx::setViewRect(main_view_id, 0, 0, static_cast<std::uint16_t>(width), static_cast<std::uint16_t>(height));
 
@@ -122,9 +130,10 @@ int main(int, char**)
 
 	bgfx::touch(main_view_id);
 
+
+#if BIG2_IMGUI_ENABLED
 	// Start the Dear ImGui frame
 	big2::ImGuiBeginFrame();
-
 
 	if (show_demo_window)
 	{
@@ -132,12 +141,17 @@ int main(int, char**)
 	}
 
 	big2::ImGuiEndFrame();
+#endif // BIG2_IMGUI_ENABLED
+
 	bgfx::frame();
   }
 
   // Cleanup
+
+#if BIG2_IMGUI_ENABLED
   big2::ImGuiTerminate();
   ImGui::DestroyContext();
+#endif // BIG2_IMGUI_ENABLED
 
   glfwDestroyWindow(window);
   glfwTerminate();

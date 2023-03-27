@@ -1,7 +1,7 @@
 From b25ea227c56de22e0a3d686ed59258705725ab52 Mon Sep 17 00:00:00 2001
 From: Hristo Iliev <capitane71@gmail.com>
 Date: Fri, 24 Mar 2023 17:35:10 +0200
-Subject: [PATCH 1/3] Improvments on the shader compiler utility
+Subject: [PATCH 1/4] Improvments on the shader compiler utility
 
 The custom command didn't recognize bgfx::shaderc and the generator expression seems bettter. I also added an include option since it might be important to be able to define those.
 ---
@@ -45,7 +45,7 @@ index 22a1c67d..2308cd2d 100644
 From 7d8e63e12afa5abeffe256f62780e546647a9dfa Mon Sep 17 00:00:00 2001
 From: Hristo Iliev <capitane71@gmail.com>
 Date: Sun, 26 Mar 2023 16:52:17 +0300
-Subject: [PATCH 2/3] Also add an output variable name parameter.
+Subject: [PATCH 2/4] Also add an output variable name parameter.
 
 This is so that we can use the generated files for defining a custom target or as dependencies in general.
 ---
@@ -86,7 +86,7 @@ index 2308cd2d..cfde1fad 100644
 From a6002e6d6150098370172c61a1cf701f1603a90f Mon Sep 17 00:00:00 2001
 From: Hristo Iliev <capitane71@gmail.com>
 Date: Sun, 26 Mar 2023 17:05:57 +0300
-Subject: [PATCH 3/3] Update cmake/bgfxToolUtils.cmake
+Subject: [PATCH 3/4] Update cmake/bgfxToolUtils.cmake
 
 Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
 ---
@@ -102,6 +102,90 @@ index cfde1fad..cd45a675 100644
  			list(APPEND COMMANDS COMMAND $<TARGET_FILE:shaderc> ${CLI})
  		endforeach()
 -		
+ 		if(DEFINED ARGS_OUT_FILES_VAR)
+ 			set(${ARGS_OUT_FILES_VAR} ${OUTPUTS} PARENT_SCOPE)
+ 		endif()
+
+From 02e15944236d3a081f8a4547a2828222f0be93a3 Mon Sep 17 00:00:00 2001
+From: Hristo Iliev <capitane71@gmail.com>
+Date: Mon, 27 Mar 2023 12:19:53 +0300
+Subject: [PATCH 4/4] Utility function to allow choosing profiles to compile.
+ Also profiles shouldn't be platform dependent. You generally want to generate
+ for all platforms or if you don't you can then opt-in to choose
+
+---
+ cmake/bgfxToolUtils.cmake | 32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
+
+diff --git a/cmake/bgfxToolUtils.cmake b/cmake/bgfxToolUtils.cmake
+index cd45a675..d1e41b7f 100644
+--- a/cmake/bgfxToolUtils.cmake
++++ b/cmake/bgfxToolUtils.cmake
+@@ -532,6 +532,7 @@ endfunction()
+ 
+ # bgfx_compile_shader_to_header(
+ # 	TYPE VERTEX|FRAGMENT|COMPUTE
++# 	PROFILES 120|300_es|spriv|metal|s_3_0|s_4_0|s_5_0
+ # 	SHADERS filenames
+ # 	VARYING_DEF filename
+ # 	OUTPUT_DIR directory
+@@ -542,17 +543,31 @@ endfunction()
+ function(bgfx_compile_shader_to_header)
+ 	set(options "")
+ 	set(oneValueArgs TYPE VARYING_DEF OUTPUT_DIR OUT_FILES_VAR)
+-	set(multiValueArgs SHADERS INCLUDE_DIRS)
++	set(multiValueArgs SHADERS INCLUDE_DIRS PROFILES)
+ 	cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
+ 
+-	set(PROFILES 120 300_es spirv) # pssl
++	if(DEFINED ARGS_PROFILES)
++		set(PROFILES ${ARGS_PROFILES})
++	else()
++		set(PROFILES 120 300_es spirv metal) # pssl
++		if(ARGS_TYPE STREQUAL "VERTEX" OR ARGS_TYPE STREQUAL "FRAGMENT")
++			list(APPEND PROFILES s_3_0)
++			list(APPEND PROFILES s_4_0)
++			list(APPEND PROFILES s_5_0)
++		elseif(ARGS_TYPE STREQUAL "COMPUTE")
++			list(APPEND PROFILES s_4_0)
++			list(APPEND PROFILES s_5_0)
++		else()
++			message(error "shaderc: Unsupported type")
++		endif()
++	endif()
++
+ 	if(UNIX AND NOT APPLE)
+ 		set(PLATFORM LINUX)
+ 	elseif(EMSCRIPTEN)
+ 		set(PLATFORM ASM_JS)
+ 	elseif(APPLE)
+ 		set(PLATFORM OSX)
+-		list(APPEND PROFILES metal)
+ 	elseif(
+ 		WIN32
+ 		OR MINGW
+@@ -560,16 +575,6 @@ function(bgfx_compile_shader_to_header)
+ 		OR CYGWIN
+ 	)
+ 		set(PLATFORM WINDOWS)
+-		if(ARGS_TYPE STREQUAL "VERTEX" OR ARGS_TYPE STREQUAL "FRAGMENT")
+-			list(APPEND PROFILES s_3_0)
+-			list(APPEND PROFILES s_4_0)
+-			list(APPEND PROFILES s_5_0)
+-		elseif(ARGS_TYPE STREQUAL "COMPUTE")
+-			list(APPEND PROFILES s_4_0)
+-			list(APPEND PROFILES s_5_0)
+-		else()
+-			message(error "shaderc: Unsupported type")
+-		endif()
+ 	else()
+ 		message(error "shaderc: Unsupported platform")
+ 	endif()
+@@ -604,6 +609,7 @@ function(bgfx_compile_shader_to_header)
+ 			list(APPEND OUTPUTS ${OUTPUT})
+ 			list(APPEND COMMANDS COMMAND $<TARGET_FILE:shaderc> ${CLI})
+ 		endforeach()
++
  		if(DEFINED ARGS_OUT_FILES_VAR)
  			set(${ARGS_OUT_FILES_VAR} ${OUTPUTS} PARENT_SCOPE)
  		endif()

@@ -72,9 +72,9 @@ function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
     
     string(MD5 DIR_HASH "${SHADERS_DIR}")
     set(TARGET_NAME "Shaders_${DIR_HASH}")
-    add_custom_target("${DIR_HASH}" ALL SOURCES ${OUTPUT_FILES} DEPENDS ${OUTPUT_FILES})
+    add_custom_target("${DIR_HASH}" ALL DEPENDS ${OUTPUT_FILES})
 
-    add_library("${TARGET_NAME}" INTERFACE ${OUTPUT_FILES})
+    add_library("${TARGET_NAME}" INTERFACE)
     add_dependencies("${TARGET_NAME}" shaderc "${DIR_HASH}")
     target_include_directories("${TARGET_NAME}" INTERFACE "${CMAKE_CURRENT_BINARY_DIR}/include")
 

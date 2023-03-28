@@ -56,8 +56,6 @@ function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
     list(APPEND OUTPUT_FILES ${VERTEX_OUTPUT_FILES})
     list(APPEND OUTPUT_FILES ${FRAGMENT_OUTPUT_FILES})
 
-    message(STATUS ${OUTPUT_FILES})
-
     list(LENGTH OUTPUT_FILES SHADER_COUNT)
     if(SHADER_COUNT EQUAL 0)
         return()
@@ -74,7 +72,7 @@ function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
     
     string(MD5 DIR_HASH "${SHADERS_DIR}")
     set(TARGET_NAME "Shaders_${DIR_HASH}")
-    add_custom_target("${DIR_HASH}" ALL SOURCES ${OUTPUT_FILES})
+    add_custom_target("${DIR_HASH}" ALL SOURCES ${OUTPUT_FILES} DEPENDS ${OUTPUT_FILES})
 
     add_library("${TARGET_NAME}" INTERFACE ${OUTPUT_FILES})
     add_dependencies("${TARGET_NAME}" shaderc "${DIR_HASH}")

@@ -6,10 +6,11 @@ add_shaders_directory(shaders SHADERS_TARGET_NAME)
 
 set(BIG2_SOURCES)
 list(APPEND BIG2_SOURCES include/big2.h)
+list(APPEND BIG2_SOURCES include/big2/embedded_shader.h)
 list(APPEND BIG2_SOURCES src/library.cpp)
 
 if("${BIG2_INCLUDE_IMGUI}")
-    list(APPEND BIG2_SOURCES include/imgui_impl_bgfx.h)
+    list(APPEND BIG2_SOURCES include/big2/imgui_impl_bgfx.h)
     list(APPEND BIG2_SOURCES src/imgui_impl_bgfx.cpp)
 endif()
 

@@ -1,6 +1,11 @@
 #include <big2.h>
 #include <backends/imgui_impl_glfw.h>
-#include <imgui_impl_bgfx.h>
+
+#if BIG2_IMGUI_ENABLED
+
+#include <big2/imgui_impl_bgfx.h>
+
+#endif // BIG2_IMGUI_ENABLED
 
 namespace big2 {
 

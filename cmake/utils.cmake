@@ -60,7 +60,6 @@ function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
     if(SHADER_COUNT EQUAL 0)
         return()
     endif()
-    file(TOUCH ${OUTPUT_FILES})
     
     set(INCLUDE_ALL_HEADER "")
     foreach(OUTPUT_FILE IN LISTS OUTPUT_FILES)

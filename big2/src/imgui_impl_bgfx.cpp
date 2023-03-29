@@ -13,13 +13,13 @@
 // 2023-03-23: Renderer: Added the main code that displays imgui.
 
 #include <imgui.h>
-#include <imgui_impl_bgfx.h>
+#include <big2/imgui_impl_bgfx.h>
 
 #include <cstdint> // sized integers
 #include <cstring> // memcpy
 
 #include <bgfx/bgfx.h>
-#include <bgfx/embedded_shader.h>
+#include <big2/embedded_shader.h>
 #include <bx/math.h>
 
 #if __cplusplus >= 202301L

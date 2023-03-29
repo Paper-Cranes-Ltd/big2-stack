@@ -25,7 +25,7 @@
 #elif BX_PLATFORM_OSX
 #define GLFW_EXPOSE_NATIVE_COCOA
 #endif
-#include <glfw/glfw3native.h>
+#include <GLFW/glfw3native.h>
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -49,7 +49,7 @@ int main(int, char**)
 
 #if BX_PLATFORM_LINUX
   init_object.platformData.ndt = glfwGetX11Display();
-	init_object.platformData.nwh = static_cast<void*>(glfwGetX11Window(window));
+	init_object.platformData.nwh = reinterpret_cast<void*>(glfwGetX11Window(window));
 #elif BX_PLATFORM_OSX
   init_object.platformData.nwh = glfwGetCocoaWindow(window);
 #elif BX_PLATFORM_WINDOWS

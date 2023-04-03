@@ -1,0 +1,18 @@
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Matches multiple files with brace expansion notation
+# Set default charset
+[*.{h,hpp,cpp,sc,sh}]
+charset = utf-8
+indent_style = space
+indent_size = 4
+tab_width = 4
+curly_bracket_next_line = true
+continuation_indent_size = 8
+indent_brace_style = Allman
+spaces_around_operators = true

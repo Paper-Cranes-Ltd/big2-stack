@@ -10,17 +10,17 @@
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
 #pragma once
-#include "imgui.h"
-#include "bgfx/bgfx.h"
+#include <imgui.h>
+#include <bgfx/bgfx.h>
 
 // Backend API
-IMGUI_IMPL_API bool     ImGui_ImplBgfx_Init(bgfx::ViewId view_id);
-IMGUI_IMPL_API void     ImGui_ImplBgfx_Shutdown();
-IMGUI_IMPL_API void     ImGui_ImplBgfx_NewFrame();
-IMGUI_IMPL_API void     ImGui_ImplBgfx_RenderDrawData(ImDrawData* draw_data);
+IMGUI_IMPL_API bool ImGui_ImplBgfx_Init(bgfx::ViewId view_id);
+IMGUI_IMPL_API void ImGui_ImplBgfx_Shutdown();
+IMGUI_IMPL_API void ImGui_ImplBgfx_NewFrame();
+IMGUI_IMPL_API void ImGui_ImplBgfx_RenderDrawData(ImDrawData *draw_data);
 
 // Extra
-IMGUI_IMPL_API bool     ImGui_ImplBgfx_CreateFontsTexture();
-IMGUI_IMPL_API void     ImGui_ImplBgfx_DestroyFontsTexture();
-IMGUI_IMPL_API bool     ImGui_ImplBgfx_CreateDeviceObjects();
-IMGUI_IMPL_API void     ImGui_ImplBgfx_DestroyDeviceObjects();
+IMGUI_IMPL_API bool ImGui_ImplBgfx_CreateFontsTexture();
+IMGUI_IMPL_API void ImGui_ImplBgfx_DestroyFontsTexture();
+IMGUI_IMPL_API bool ImGui_ImplBgfx_CreateDeviceObjects();
+IMGUI_IMPL_API void ImGui_ImplBgfx_DestroyDeviceObjects();

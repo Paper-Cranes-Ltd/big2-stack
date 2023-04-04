@@ -28,17 +28,17 @@
 #include <cmath>
 namespace std
 {
-    using float32_t = float_t;
+using float32_t = float_t;
 }
 #endif
 
 struct ImGui_ImplBgfx_Data
 {
-    bgfx::ViewId ViewId = 0;
-    bgfx::TextureHandle FontTextureHandle = BGFX_INVALID_HANDLE;
-    bgfx::ProgramHandle ShaderHandle = BGFX_INVALID_HANDLE;
-    bgfx::UniformHandle TextureLocationHandle = BGFX_INVALID_HANDLE;
-    bgfx::VertexLayout VertexLayout;
+  bgfx::ViewId ViewId = 0;
+  bgfx::TextureHandle FontTextureHandle = BGFX_INVALID_HANDLE;
+  bgfx::ProgramHandle ShaderHandle = BGFX_INVALID_HANDLE;
+  bgfx::UniformHandle TextureLocationHandle = BGFX_INVALID_HANDLE;
+  bgfx::VertexLayout VertexLayout;
 };
 
 static ImGui_ImplBgfx_Data *ImGui_ImplBgfx_GetBackendData()
@@ -49,10 +49,11 @@ static ImGui_ImplBgfx_Data *ImGui_ImplBgfx_GetBackendData()
 #include <generated/shaders/big2/all.h>
 
 static const bgfx::EmbeddedShader EmbeddedShaders[] =
-    {
-        BGFX_EMBEDDED_SHADER(vs_ocornut_imgui),
-        BGFX_EMBEDDED_SHADER(fs_ocornut_imgui),
-        BGFX_EMBEDDED_SHADER_END()};
+        {
+                BGFX_EMBEDDED_SHADER(vs_ocornut_imgui),
+                BGFX_EMBEDDED_SHADER(fs_ocornut_imgui),
+                BGFX_EMBEDDED_SHADER_END()
+        };
 
 bool ImGui_ImplBgfx_Init(bgfx::ViewId view_id)
 {
@@ -105,7 +106,7 @@ void ImGui_ImplBgfx_RenderDrawData(ImDrawData *draw_data)
     // Setup render state: alpha-blending enabled, no face culling,
     // no depth testing, scissor enabled
     constexpr const std::uint64_t state =
-        BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_MSAA | BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_INV_SRC_ALPHA);
+            BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_MSAA | BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_INV_SRC_ALPHA);
 
     const bgfx::Caps *caps = bgfx::getCaps();
 
@@ -186,13 +187,13 @@ bool ImGui_ImplBgfx_CreateFontsTexture()
     constexpr std::uint64_t flags = 0;
 
     bd->FontTextureHandle = bgfx::createTexture2D(
-        static_cast<std::uint16_t>(width),
-        static_cast<std::uint16_t>(height),
-        hasMips,
-        layers,
-        bgfx::TextureFormat::BGRA8,
-        flags,
-        bgfx::copy(pixels, width * height * 4));
+            static_cast<std::uint16_t>(width),
+            static_cast<std::uint16_t>(height),
+            hasMips,
+            layers,
+            bgfx::TextureFormat::BGRA8,
+            flags,
+            bgfx::copy(pixels, width * height * 4));
 
     io.Fonts->SetTexID(reinterpret_cast<ImTextureID>(static_cast<std::intptr_t>(bd->FontTextureHandle.idx)));
 
@@ -219,15 +220,16 @@ bool ImGui_ImplBgfx_CreateDeviceObjects()
 
     bgfx::RendererType::Enum type = bgfx::getRendererType();
     bd->ShaderHandle = bgfx::createProgram(
-        bgfx::createEmbeddedShader(EmbeddedShaders, type, "vs_ocornut_imgui"),
-        bgfx::createEmbeddedShader(EmbeddedShaders, type, "fs_ocornut_imgui"),
-        true);
+            bgfx::createEmbeddedShader(EmbeddedShaders, type, "vs_ocornut_imgui"),
+            bgfx::createEmbeddedShader(EmbeddedShaders, type, "fs_ocornut_imgui"),
+            true
+    );
 
     bd->VertexLayout.begin()
-        .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-        .end();
+      .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
+      .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+      .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+      .end();
 
     bd->TextureLocationHandle = bgfx::createUniform("g_AttribLocationTex", bgfx::UniformType::Sampler);
 

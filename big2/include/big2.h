@@ -14,13 +14,13 @@ namespace big2
 {
 
 #if BIG2_IMGUI_ENABLED
-    void ImGuiInit(GLFWwindow *window, bgfx::ViewId view_id);
-    void ImGuiTerminate();
-    void ImGuiBeginFrame();
-    void ImGuiEndFrame();
+void ImGuiInit(GLFWwindow *window, bgfx::ViewId view_id);
+void ImGuiTerminate();
+void ImGuiBeginFrame();
+void ImGuiEndFrame();
 #endif // BIG2_IMGUI_ENABLED
 
-    void SetNativeWindowData(bgfx::Init &init_obj, GLFWwindow* window);
+void SetNativeWindowData(bgfx::Init &init_obj, GLFWwindow *window);
 
 }
 

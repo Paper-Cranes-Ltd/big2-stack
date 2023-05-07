@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(USE_FOLDERS TRUE)
 set(CMAKE_FOLDER "BIG2")
 
-include(cmake/utils.cmake)
-
 # Requirements
 
 find_package(Git)
@@ -37,6 +35,8 @@ list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_SUBMODULES_RECURSE TRUE)
 
 include(cmake/glfw.cmake)
 include(cmake/bgfx.cmake)
+include(cmake/microsoft-gsl.cmake)
+include(cmake/utils.cmake)
 
 if("${BIG2_INCLUDE_IMGUI}")
     include(cmake/imgui.cmake)

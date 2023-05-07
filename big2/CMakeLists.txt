@@ -17,6 +17,7 @@ endif()
 add_library(${PROJECT_NAME} ${BIG2_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw bx bimg bgfx)
+target_link_libraries(${PROJECT_NAME} PUBLIC Microsoft.GSL::GSL)
 
 if("${BIG2_INCLUDE_IMGUI}")
     target_link_libraries(${PROJECT_NAME} PUBLIC imgui)

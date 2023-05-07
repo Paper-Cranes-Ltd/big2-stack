@@ -1,5 +1,3 @@
-
-
 function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
     get_filename_component(SHADERS_DIR "${SHADERS_DIR}" ABSOLUTE)
     get_filename_component(NAMESPACE "${CMAKE_CURRENT_SOURCE_DIR}" NAME_WE)

@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2023 Paper Cranes Ltd.
+// All rights reserved.
+//
 // dear imgui: Renderer Backend for BGFX with shaders / programmatic pipeline
 // This needs to be used along with a Platform Backend (e.g. GLFW, SDL, Win32, custom...)
 
@@ -13,7 +17,7 @@
 // 2023-03-23: Renderer: Added the main code that displays imgui.
 
 #include <imgui.h>
-#include <big2/imgui_impl_bgfx.h>
+#include <big2/imgui/imgui_impl_bgfx.h>
 
 #include <cstdint> // sized integers
 #include <cstring> // memcpy

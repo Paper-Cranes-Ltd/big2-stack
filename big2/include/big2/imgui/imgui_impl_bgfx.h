@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2023 Paper Cranes Ltd.
+// All rights reserved.
+//
 // dear imgui: Renderer Backend for BGFX with shaders / programmatic pipeline
 // This needs to be used along with a Platform Backend (e.g. GLFW, SDL, Win32, custom...)
 
@@ -9,7 +13,9 @@
 // If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
-#pragma once
+#ifndef BIG2_STACK_BIG2_IMGUI_IMGUI_IMPL_BGFX_H_
+#define BIG2_STACK_BIG2_IMGUI_IMGUI_IMPL_BGFX_H_
+
 #include <imgui.h>
 #include <bgfx/bgfx.h>
 
@@ -24,3 +30,5 @@ IMGUI_IMPL_API bool ImGui_ImplBgfx_CreateFontsTexture();
 IMGUI_IMPL_API void ImGui_ImplBgfx_DestroyFontsTexture();
 IMGUI_IMPL_API bool ImGui_ImplBgfx_CreateDeviceObjects();
 IMGUI_IMPL_API void ImGui_ImplBgfx_DestroyDeviceObjects();
+
+#endif //BIG2_STACK_BIG2_IMGUI_IMGUI_IMPL_BGFX_H_

@@ -8,7 +8,9 @@
 
 #include <bx/bx.h>
 #include <bgfx/bgfx.h>
+#include <gsl/span>
 struct GLFWwindow;
+struct GLFWmonitor;
 
 namespace big2
 {
@@ -21,6 +23,7 @@ void ImGuiEndFrame();
 #endif // BIG2_IMGUI_ENABLED
 
 void SetNativeWindowData(bgfx::Init &init_obj, GLFWwindow *window);
+gsl::span<GLFWmonitor*> GetMonitors();
 
 }
 

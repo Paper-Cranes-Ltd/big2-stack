@@ -61,4 +61,11 @@ void SetNativeWindowData(bgfx::Init &init_obj, GLFWwindow *window)
 #endif
 }
 
+gsl::span<GLFWmonitor*> GetMonitors()
+{
+    std::int32_t count;
+    GLFWmonitor** monitors = glfwGetMonitors(&count);
+    return {monitors, static_cast<std::size_t>(count) };
+}
+
 }

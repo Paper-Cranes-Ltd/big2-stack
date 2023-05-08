@@ -5,31 +5,9 @@
 
 #include <big2/glfw_utils.h>
 #include <GLFW/glfw3.h>
-#include <bx/bx.h>
-
-#if BX_PLATFORM_LINUX
-#define GLFW_EXPOSE_NATIVE_X11
-#elif BX_PLATFORM_WINDOWS
-#define GLFW_EXPOSE_NATIVE_WIN32
-#elif BX_PLATFORM_OSX
-#define GLFW_EXPOSE_NATIVE_COCOA
-#endif
-#include <GLFW/glfw3native.h>
 
 namespace big2
 {
-
-void SetNativeWindowData(bgfx::Init &init_obj, GLFWwindow *window)
-{
-#if BX_PLATFORM_LINUX
-    init_obj.platformData.ndt = glfwGetX11Display();
-    init_obj.platformData.nwh = reinterpret_cast<void *>(glfwGetX11Window(window));
-#elif BX_PLATFORM_OSX
-    init_obj.platformData.nwh = glfwGetCocoaWindow(window);
-#elif BX_PLATFORM_WINDOWS
-    init_obj.platformData.nwh = glfwGetWin32Window(window);
-#endif
-}
 
 gsl::span<GLFWmonitor *> GetMonitors()
 {
@@ -38,23 +16,30 @@ gsl::span<GLFWmonitor *> GetMonitors()
     return {monitors, static_cast<std::size_t>(count)};
 }
 
-glm::ivec2 GetMonitorResolution(GLFWmonitor *monitor)
+glm::ivec2 GetMonitorResolution(gsl::not_null<GLFWmonitor *> monitor)
 {
     const GLFWvidmode *mode = glfwGetVideoMode(monitor);
     return {mode->width, mode->height};
 }
 
-glm::ivec2 GetMonitorPosition(GLFWmonitor *monitor)
+glm::ivec2 GetMonitorPosition(gsl::not_null<GLFWmonitor *> monitor)
 {
     glm::ivec2 position;
     glfwGetMonitorPos(monitor, &position.x, &position.y);
     return position;
 }
 
-std::int32_t GetMonitorRefreshRate(GLFWmonitor *monitor)
+std::int32_t GetMonitorRefreshRate(gsl::not_null<GLFWmonitor *> monitor)
 {
     const GLFWvidmode *mode = glfwGetVideoMode(monitor);
     return mode->refreshRate;
+}
+
+glm::ivec2 GetWindowSize(gsl::not_null<GLFWwindow *> window)
+{
+    glm::ivec2 window_size;
+    glfwGetWindowSize(window, &window_size.x, &window_size.y);
+    return window_size;
 }
 
 }

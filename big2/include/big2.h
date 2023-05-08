@@ -10,6 +10,7 @@
 #include <bgfx/bgfx.h>
 
 #include <big2/glfw_utils.h>
+#include <big2/bgfx_utils.h>
 
 #if BIG2_IMGUI_ENABLED
 #include <big2/imgui/imgui.h>

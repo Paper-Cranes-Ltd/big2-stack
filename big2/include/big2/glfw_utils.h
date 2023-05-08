@@ -14,12 +14,40 @@ struct GLFWmonitor;
 
 namespace big2
 {
+
+/**
+ * @brief A wrapper over glfwGetMonitors() but returning a span over the raw pointers.
+ * @return span over the monitor pointer array returned from glfwGetMonitors()
+ * @ref glfwGetMonitors()
+ */
 [[nodiscard]] gsl::span<GLFWmonitor*> GetMonitors();
+
+/**
+ * @brief Returns the monitor resolution
+ * @return A 2D vector where x is the width and y is the height of the monitor
+ */
 [[nodiscard]] glm::ivec2 GetMonitorResolution(gsl::not_null<GLFWmonitor *> monitor);
+
+/**
+ * @brief Returns the monitor position
+ * @details This is a virtual position provided by the OS.
+ * You can use it when setting window position to move the window inside the monitor.
+ * @return A 2D vector indicating the virtual position of this monitor
+ */
 [[nodiscard]] glm::ivec2 GetMonitorPosition(gsl::not_null<GLFWmonitor *> monitor);
+
+/**
+ * @brief Returns the monitor refresh rate
+ * @return An integer value indicating the monitor refresh rate
+ */
 [[nodiscard]] std::int32_t GetMonitorRefreshRate(gsl::not_null<GLFWmonitor *> monitor);
 
+/**
+ * @brief Returns the window size
+ * @return  A 2D vector where x is the width and y is the height of the window
+ */
 [[nodiscard]] glm::ivec2 GetWindowSize(gsl::not_null<GLFWwindow *> window);
+
 }
 
 #endif //BIG2_STACK_BIG2_GLFW_UTILS_H_

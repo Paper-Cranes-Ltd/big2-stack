@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(big2-stack)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
+
 set(CMAKE_CXX_STANDARD 17)
 set(USE_FOLDERS TRUE)
 set(CMAKE_FOLDER "BIG2")
@@ -20,6 +22,7 @@ endif()
 # Options
 
 option(BIG2_BUILD_EXAMPLES "Whether or not to build examples with this stack" "${PROJECT_IS_TOP_LEVEL}")
+option(BIG2_BUILD_DOCS "Whether or not to generate documentation" "${PROJECT_IS_TOP_LEVEL}")
 option(BIG2_INCLUDE_IMGUI "Whether or not to build examples with this stack" ON)
 option(BIG2_INCLUDE_GLM "Whether or not to build examples with this stack" ON)
 
@@ -37,6 +40,7 @@ include(cmake/glfw.cmake)
 include(cmake/bgfx.cmake)
 include(cmake/microsoft-gsl.cmake)
 include(cmake/utils.cmake)
+include(cmake/docs.cmake)
 
 if("${BIG2_INCLUDE_IMGUI}")
     include(cmake/imgui.cmake)

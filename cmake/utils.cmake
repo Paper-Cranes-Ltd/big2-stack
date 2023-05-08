@@ -30,19 +30,12 @@ function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
 
     file(MAKE_DIRECTORY "${SHADERS_OUT_DIR}")
 
-    # 120|300_es|spirv|metal|s_3_0|s_4_0|s_5_0
-    set(PROFILES 120 300_es spirv s_3_0 s_4_0 s_5_0)
-    if(APPLE)
-        list(APPEND PROFILES metal)
-    endif()
-
     bgfx_compile_shader_to_header(
             TYPE VERTEX
             SHADERS ${VERTEX_SHADER_FILES}
             VARYING_DEF "${VARYING_DEF_LOCATION}"
             OUTPUT_DIR "${SHADERS_OUT_DIR}"
             OUT_FILES_VAR VERTEX_OUTPUT_FILES
-            PROFILES ${PROFILES}
             INCLUDE_DIRS "${SHADERS_DIR}" "${BGFX_DIR}/src"
     )
 
@@ -52,13 +45,26 @@ function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
             VARYING_DEF "${VARYING_DEF_LOCATION}"
             OUTPUT_DIR "${SHADERS_OUT_DIR}"
             OUT_FILES_VAR FRAGMENT_OUTPUT_FILES
-            PROFILES ${PROFILES}
             INCLUDE_DIRS "${SHADERS_DIR}" "${BGFX_DIR}/src"
     )
 
     set(OUTPUT_FILES)
     # TODO: Remove when https://github.com/bkaradzic/bgfx.cmake/pull/199 gets submitted
     # TEMPORARY SECTION
+
+    set(PROFILES 120 300_es spirv) # pssl
+    if(APPLE)
+        list(APPEND PROFILES metal)
+    elseif(
+            WIN32
+            OR MINGW
+            OR MSYS
+            OR CYGWIN
+    )
+        list(APPEND PROFILES s_3_0)
+        list(APPEND PROFILES s_4_0)
+        list(APPEND PROFILES s_5_0)
+    endif()
 
     foreach(SHADER_FILE IN LISTS VERTEX_SHADER_FILES FRAGMENT_SHADER_FILES)
         get_filename_component(SHADER_FILE_BASENAME ${SHADER_FILE} NAME)

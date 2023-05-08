@@ -19,7 +19,6 @@
 namespace big2
 {
 
-
 void SetNativeWindowData(bgfx::Init &init_obj, GLFWwindow *window)
 {
 #if BX_PLATFORM_LINUX
@@ -32,11 +31,30 @@ void SetNativeWindowData(bgfx::Init &init_obj, GLFWwindow *window)
 #endif
 }
 
-gsl::span<GLFWmonitor*> GetMonitors()
+gsl::span<GLFWmonitor *> GetMonitors()
 {
     std::int32_t count;
-    GLFWmonitor** monitors = glfwGetMonitors(&count);
-    return {monitors, static_cast<std::size_t>(count) };
+    GLFWmonitor **monitors = glfwGetMonitors(&count);
+    return {monitors, static_cast<std::size_t>(count)};
+}
+
+glm::ivec2 GetMonitorResolution(GLFWmonitor *monitor)
+{
+    const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+    return {mode->width, mode->height};
+}
+
+glm::ivec2 GetMonitorPosition(GLFWmonitor *monitor)
+{
+    glm::ivec2 position;
+    glfwGetMonitorPos(monitor, &position.x, &position.y);
+    return position;
+}
+
+std::int32_t GetMonitorRefreshRate(GLFWmonitor *monitor)
+{
+    const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+    return mode->refreshRate;
 }
 
 }

@@ -48,6 +48,12 @@ namespace big2
  */
 [[nodiscard]] glm::ivec2 GetWindowSize(gsl::not_null<GLFWwindow *> window);
 
+/**
+ * @brief Gets the platform native window handle.
+ * @param window An initialized window handle
+ */
+[[nodiscard]] void * GetNativeWindowHandle(gsl::not_null<GLFWwindow *>window);
+
 }
 
 #endif //BIG2_STACK_BIG2_GLFW_UTILS_H_

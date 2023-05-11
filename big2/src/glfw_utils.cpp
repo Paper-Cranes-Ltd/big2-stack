@@ -5,6 +5,8 @@
 
 #include <big2/glfw_utils.h>
 #include <GLFW/glfw3.h>
+#include <bx/bx.h>
+#include <native_window.h>
 
 namespace big2
 {
@@ -40,6 +42,19 @@ glm::ivec2 GetWindowSize(gsl::not_null<GLFWwindow *> window)
     glm::ivec2 window_size;
     glfwGetWindowSize(window, &window_size.x, &window_size.y);
     return window_size;
+}
+
+void * GetNativeWindowHandle(gsl::not_null<GLFWwindow *>window)
+{
+#if BX_PLATFORM_LINUX
+    return reinterpret_cast<void *>(glfwGetX11Window(window));
+#elif BX_PLATFORM_OSX
+    return glfwGetCocoaWindow(window);
+#elif BX_PLATFORM_WINDOWS
+    return glfwGetWin32Window(window);
+#else
+    return nullptr;
+#endif
 }
 
 }

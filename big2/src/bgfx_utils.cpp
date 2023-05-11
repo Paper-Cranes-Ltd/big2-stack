@@ -6,32 +6,10 @@
 #include <big2/glfw_utils.h>
 #include <GLFW/glfw3.h>
 #include <bx/bx.h>
-
-
-#if BX_PLATFORM_LINUX
-#define GLFW_EXPOSE_NATIVE_X11
-#elif BX_PLATFORM_WINDOWS
-#define GLFW_EXPOSE_NATIVE_WIN32
-#elif BX_PLATFORM_OSX
-#define GLFW_EXPOSE_NATIVE_COCOA
-#endif
-#include <GLFW/glfw3native.h>
+#include <native_window.h>
 
 namespace big2
 {
-
-void * GetNativeWindowHandle(gsl::not_null<GLFWwindow *>window)
-{
-#if BX_PLATFORM_LINUX
-    return reinterpret_cast<void *>(glfwGetX11Window(window));
-#elif BX_PLATFORM_OSX
-    return glfwGetCocoaWindow(window);
-#elif BX_PLATFORM_WINDOWS
-    return glfwGetWin32Window(window);
-#else
-    return nullptr;
-#endif
-}
 
 void SetNativeData(bgfx::Init &init_obj)
 {

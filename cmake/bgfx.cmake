@@ -1,7 +1,7 @@
 fetchcontent_declare(
         bgfx
         GIT_REPOSITORY "https://github.com/bkaradzic/bgfx.cmake.git"
-        GIT_TAG "v1.118.8455-424"
+        GIT_TAG "v1.118.8455-425"
         ${BIG2_COMMON_DEPS_OPTIONS}
 )
 

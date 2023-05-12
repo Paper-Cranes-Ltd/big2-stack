@@ -6,7 +6,6 @@
 
 #include <big2.h>
 
-
 #include <iostream>
 #include <string>
 
@@ -16,54 +15,51 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-static void glfw_error_callback(int error, const char *description)
-{
-    std::cerr << "GLFW Error " << error << ": " << description << std::endl;
+static void glfw_error_callback(int error, const char *description) {
+  std::cerr << "GLFW Error " << error << ": " << description << std::endl;
 }
 
 // Main code
-int main(int, char **)
-{
-    glfwSetErrorCallback(glfw_error_callback);
-    if (!glfwInit())
-        return 1;
+int main(int, char **) {
+  glfwSetErrorCallback(glfw_error_callback);
+  Expects(glfwInit());
 
-    bgfx::Init init_object;
-    big2::SetNativeData(init_object);
-    bgfx::init(init_object);
+  gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
-    std::array<GLFWwindow*, 2> windows {};
-    std::array<bgfx::ViewId, 2> views {};
-    std::array<bgfx::FrameBufferHandle, 2> frame_buffers {};
-    for(std::uint32_t i = 0; i < windows.size(); i++)
-    {
-        std::string title = "Window " + std::to_string(i);
-        windows[i] = glfwCreateWindow(800, 600, title.c_str(), nullptr, nullptr);
-        Expects(windows[i] != nullptr);
+  bgfx::Init init_object;
+  big2::SetNativeData(init_object);
+  Expects(bgfx::init(init_object));
 
-        views[i] = i;
-        frame_buffers[i] = big2::CreateWindowFramebuffer(windows[i]);
-        bgfx::setViewFrameBuffer(views[i], frame_buffers[i]);
-        glm::ivec2 window_size = big2::GetWindowSize(windows[i]);
+  std::array<GLFWwindow *, 2> windows{};
+  std::array<bgfx::ViewId, 2> views{};
+  std::array<bgfx::FrameBufferHandle, 2> frame_buffers{};
+  for (std::uint32_t i = 0; i < windows.size(); i++) {
+    std::string title = "Window " + std::to_string(i);
+    windows[i] = glfwCreateWindow(800, 600, title.c_str(), nullptr, nullptr);
+    Expects(windows[i] != nullptr);
 
-        bgfx::setViewRect(views[i], 0, 0, static_cast<std::uint16_t>(window_size.x), static_cast<std::uint16_t>(window_size.y));
-    }
+    views[i] = i;
+    frame_buffers[i] = big2::CreateWindowFramebuffer(windows[i]);
+    bgfx::setViewFrameBuffer(views[i], frame_buffers[i]);
+    glm::ivec2 window_size = big2::GetWindowSize(windows[i]);
 
-    bgfx::setViewClear(views[0], BGFX_CLEAR_COLOR, 0x993399FF);
-    bgfx::setViewClear(views[1], BGFX_CLEAR_COLOR, 0x333399FF);
+    bgfx::setViewRect(views[i], 0, 0, static_cast<std::uint16_t>(window_size.x), static_cast<std::uint16_t>(window_size.y));
+  }
 
-    // Main loop
-    while (std::none_of(windows.begin(), windows.end(), [](GLFWwindow* window) { return glfwWindowShouldClose(window); }))
-    {
-        glfwPollEvents();
-        std::for_each(views.begin(), views.end(), [](bgfx::ViewId view_id) { bgfx::touch(view_id); });
-        bgfx::frame();
-    }
-
-    // Cleanup
+  gsl::final_action terminate_windows([&frame_buffers, &windows]() {
     std::for_each(frame_buffers.begin(), frame_buffers.end(), [](bgfx::FrameBufferHandle fbh) { bgfx::destroy(fbh); });
-    std::for_each(windows.begin(), windows.end(), [](GLFWwindow* w) { glfwDestroyWindow(w); });
-    glfwTerminate();
+    std::for_each(windows.begin(), windows.end(), [](GLFWwindow *w) { glfwDestroyWindow(w); });
+  });
 
-    return 0;
+  bgfx::setViewClear(views[0], BGFX_CLEAR_COLOR, 0x993399FF);
+  bgfx::setViewClear(views[1], BGFX_CLEAR_COLOR, 0x333399FF);
+
+  // Main loop
+  while (std::none_of(windows.begin(), windows.end(), [](GLFWwindow *window) { return glfwWindowShouldClose(window); })) {
+    glfwPollEvents();
+    std::for_each(views.begin(), views.end(), [](bgfx::ViewId view_id) { bgfx::touch(view_id); });
+    bgfx::frame();
+  }
+
+  return 0;
 }

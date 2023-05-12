@@ -12,8 +12,7 @@
 
 struct GLFWwindow;
 
-namespace big2
-{
+namespace big2 {
 
 /**
  * @brief Adds native display data to the initialization object.

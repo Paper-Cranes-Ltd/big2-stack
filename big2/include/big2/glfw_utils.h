@@ -12,15 +12,14 @@
 struct GLFWwindow;
 struct GLFWmonitor;
 
-namespace big2
-{
+namespace big2 {
 
 /**
  * @brief A wrapper over glfwGetMonitors() but returning a span over the raw pointers.
  * @return span over the monitor pointer array returned from glfwGetMonitors()
  * @ref glfwGetMonitors()
  */
-[[nodiscard]] gsl::span<GLFWmonitor*> GetMonitors();
+[[nodiscard]] gsl::span<GLFWmonitor *> GetMonitors();
 
 /**
  * @brief Returns the monitor resolution
@@ -52,7 +51,7 @@ namespace big2
  * @brief Gets the platform native window handle.
  * @param window An initialized window handle
  */
-[[nodiscard]] void * GetNativeWindowHandle(gsl::not_null<GLFWwindow *>window);
+[[nodiscard]] void *GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window);
 
 }
 

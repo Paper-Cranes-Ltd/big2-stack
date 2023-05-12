@@ -11,8 +11,7 @@
 
 struct GLFWwindow;
 
-namespace big2
-{
+namespace big2 {
 
 /**
  * @brief Initializes ImGui with the official backend of glfw and a big2 renderer

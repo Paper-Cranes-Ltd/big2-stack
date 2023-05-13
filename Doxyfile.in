@@ -14,7 +14,7 @@ GENERATE_XML = YES
 EXTRACT_ALL = YES
 
 HTML_EXTRA_STYLESHEET = \
-    @CMAKE_CURRENT_SOURCE_DIR@/doxygen-awesome-css/doxygen-awesome.css \
-    @CMAKE_CURRENT_SOURCE_DIR@/doxygen-awesome-css/doxygen-awesome-sidebar-only.css
+    @CMAKE_CURRENT_SOURCE_DIR@/external/doxygen-awesome-css/doxygen-awesome.css \
+    @CMAKE_CURRENT_SOURCE_DIR@/external/doxygen-awesome-css/doxygen-awesome-sidebar-only.css
 
 HTML_COLORSTYLE = LIGHT

@@ -22,13 +22,13 @@ static void glfw_error_callback(int error, const char *description) {
 // Main code
 int main(int, char **) {
   glfwSetErrorCallback(glfw_error_callback);
-  Expects(glfwInit());
+  Ensures(glfwInit());
 
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
   bgfx::Init init_object;
   big2::SetNativeData(init_object);
-  Expects(bgfx::init(init_object));
+  Ensures(bgfx::init(init_object));
 
   std::array<GLFWwindow *, 2> windows{};
   std::array<bgfx::ViewId, 2> views{};
@@ -36,7 +36,7 @@ int main(int, char **) {
   for (std::uint32_t i = 0; i < windows.size(); i++) {
     std::string title = "Window " + std::to_string(i);
     windows[i] = glfwCreateWindow(800, 600, title.c_str(), nullptr, nullptr);
-    Expects(windows[i] != nullptr);
+    Ensures(windows[i] != nullptr);
 
     views[i] = i;
     frame_buffers[i] = big2::CreateWindowFramebuffer(windows[i]);

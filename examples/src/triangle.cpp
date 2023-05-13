@@ -31,25 +31,23 @@ static void GlfwErrorCallback(int error, const char *description) {
 
 int main(int, char **) {
   glfwSetErrorCallback(GlfwErrorCallback);
-  Expects(glfwInit());
+  Ensures(glfwInit());
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
   GLFWwindow *window = glfwCreateWindow(800, 600, "Hello, BGFX!", nullptr, nullptr);
-  Expects(window != nullptr);
+  Ensures(window != nullptr);
   gsl::final_action destroy_window([window]() { glfwDestroyWindow(window); });
 
   // Inside main after window is created and before main loop
   bgfx::Init init_object;
   big2::SetNativeWindowData(init_object, window);
 
-  std::int32_t width;
-  std::int32_t height;
-  glfwGetWindowSize(window, &width, &height);
-  init_object.resolution.width = static_cast<uint32_t>(width);
-  init_object.resolution.height = static_cast<uint32_t>(height);
+  glm::ivec2 window_size = big2::GetWindowSize(window);
+  init_object.resolution.width = window_size.x;
+  init_object.resolution.height = window_size.y;
   init_object.resolution.reset = BGFX_RESET_VSYNC;
 
-  Expects(bgfx::init(init_object));
+  Ensures(bgfx::init(init_object));
 
   // We will use this to reference where we're drawing
   const bgfx::ViewId main_view_id = 0;
@@ -58,7 +56,7 @@ int main(int, char **) {
   bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);
 
   // This is set to determine the size of the drawable surface
-  bgfx::setViewRect(main_view_id, 0, 0, static_cast<std::uint16_t>(width), static_cast<std::uint16_t>(height));
+  bgfx::setViewRect(main_view_id, 0, 0, window_size.x, window_size.y);
 
   NormalColorVertex kTriangleVertices[] =
       {
@@ -97,12 +95,15 @@ int main(int, char **) {
 
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
+
     // Inside the main loop after glfwPollEvents
     // Check if window size changed and update the view respectively
-    std::int32_t display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
-    bgfx::reset(display_w, display_h, BGFX_RESET_VSYNC);
-    bgfx::setViewRect(main_view_id, 0, 0, bgfx::BackbufferRatio::Equal);
+    const glm::ivec2 new_window_size = big2::GetWindowSize(window);
+    if (new_window_size != window_size) {
+      bgfx::reset(new_window_size.x, new_window_size.y, BGFX_RESET_VSYNC);
+      bgfx::setViewRect(main_view_id, 0, 0, bgfx::BackbufferRatio::Equal);
+      window_size = new_window_size;
+    }
 
     // Ensure the view is redrawn even if no graphic commands are called
     bgfx::touch(main_view_id);

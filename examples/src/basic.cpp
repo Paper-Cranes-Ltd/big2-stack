@@ -25,27 +25,24 @@ static void glfw_error_callback(int error, const char *description) {
 // Main code
 int main(int, char **) {
   glfwSetErrorCallback(glfw_error_callback);
-  Expects(glfwInit());
+  Ensures(glfwInit());
 
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
   GLFWwindow *window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+BGFX example", nullptr, nullptr);
-  Expects(window != nullptr);
+  Ensures(window != nullptr);
 
   gsl::final_action destroy_window([window]() { glfwDestroyWindow(window); });
 
   bgfx::Init init_object;
   big2::SetNativeWindowData(init_object, window);
 
-  std::int32_t width;
-  std::int32_t height;
-
-  glfwGetWindowSize(window, &width, &height);
-  init_object.resolution.width = static_cast<uint32_t>(width);
-  init_object.resolution.height = static_cast<uint32_t>(height);
+  glm::ivec2 window_size = big2::GetWindowSize(window);
+  init_object.resolution.width = window_size.x;
+  init_object.resolution.height = window_size.y;
   init_object.resolution.reset = BGFX_RESET_VSYNC;
 
-  Expects(bgfx::init(init_object));
+  Ensures(bgfx::init(init_object));
   const bgfx::ViewId main_view_id = 0;
 
 #if BIG2_IMGUI_ENABLED
@@ -93,7 +90,7 @@ int main(int, char **) {
 #endif // BIG2_IMGUI_ENABLED
 
   bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);
-  bgfx::setViewRect(main_view_id, 0, 0, static_cast<std::uint16_t>(width), static_cast<std::uint16_t>(height));
+  bgfx::setViewRect(main_view_id, 0, 0, window_size.x, window_size.y);
 
   // Main loop
   while (!glfwWindowShouldClose(window)) {
@@ -103,6 +100,13 @@ int main(int, char **) {
     // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
     // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
     glfwPollEvents();
+
+    const glm::ivec2 new_window_size = big2::GetWindowSize(window);
+    if (new_window_size != window_size) {
+      bgfx::reset(new_window_size.x, new_window_size.y, BGFX_RESET_VSYNC);
+      bgfx::setViewRect(main_view_id, 0, 0, bgfx::BackbufferRatio::Equal);
+      window_size = new_window_size;
+    }
 
     std::int32_t display_w, display_h;
     glfwGetFramebufferSize(window, &display_w, &display_h);

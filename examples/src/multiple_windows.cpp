@@ -38,7 +38,7 @@ int main(int, char **) {
     windows[i] = glfwCreateWindow(800, 600, title.c_str(), nullptr, nullptr);
     Ensures(windows[i] != nullptr);
 
-    views[i] = i;
+    views[i] = big2::ReserveViewId();
     frame_buffers[i] = big2::CreateWindowFramebuffer(windows[i]);
     bgfx::setViewFrameBuffer(views[i], frame_buffers[i]);
     glm::ivec2 window_size = big2::GetWindowSize(windows[i]);
@@ -46,8 +46,9 @@ int main(int, char **) {
     bgfx::setViewRect(views[i], 0, 0, static_cast<std::uint16_t>(window_size.x), static_cast<std::uint16_t>(window_size.y));
   }
 
-  gsl::final_action terminate_windows([&frame_buffers, &windows]() {
+  gsl::final_action terminate_windows([&frame_buffers, &windows, &views]() {
     std::for_each(frame_buffers.begin(), frame_buffers.end(), [](bgfx::FrameBufferHandle fbh) { bgfx::destroy(fbh); });
+    std::for_each(views.begin(), views.end(), [](bgfx::ViewId value) { big2::FreeViewId(value); });
     std::for_each(windows.begin(), windows.end(), [](GLFWwindow *w) { glfwDestroyWindow(w); });
   });
 

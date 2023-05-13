@@ -43,7 +43,7 @@ int main(int, char **) {
   init_object.resolution.reset = BGFX_RESET_VSYNC;
 
   Ensures(bgfx::init(init_object));
-  const bgfx::ViewId main_view_id = 0;
+  const bgfx::ViewId main_view_id = big2::ReserveViewId();
 
 #if BIG2_IMGUI_ENABLED
 

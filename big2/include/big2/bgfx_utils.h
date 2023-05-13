@@ -9,6 +9,7 @@
 #include <bgfx/bgfx.h>
 #include <glm/glm.hpp>
 #include <gsl/gsl>
+#include <vector>
 
 struct GLFWwindow;
 
@@ -36,6 +37,25 @@ void SetNativeWindowData(bgfx::Init &init_obj, gsl::not_null<GLFWwindow *> windo
  * @return A handle to the frame buffer. You would likely need to link this to a bgfx::ViewId through bgfx::setViewFrameBuffer
  */
 [[nodiscard]] bgfx::FrameBufferHandle CreateWindowFramebuffer(gsl::not_null<GLFWwindow *> window);
+
+/**
+ * @brief BIG2 will use an IdManager class to reserve and monitor ViewIds
+ * @return The first free ViewId (that isn't reserved by this function)
+ */
+[[nodiscard]] bgfx::ViewId ReserveViewId();
+
+/**
+ * @brief Get the ViewIds that were reserved by BIG2's ReserveViewId()
+ * @return A vector of ViewId values that were previously reserved
+ */
+[[nodiscard]] std::vector<bgfx::ViewId> GetReservedViewIds();
+
+/**
+ * @brief Frees previously reserved ViewId
+ * @param The ViewId that will be freed
+ */
+void FreeViewId(bgfx::ViewId value);
+
 }
 
 #endif //BIG2_STACK_BIG2_BGFX_UTILS_H_

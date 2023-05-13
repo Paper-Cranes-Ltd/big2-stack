@@ -7,8 +7,11 @@
 #include <GLFW/glfw3.h>
 #include <bx/bx.h>
 #include <native_window.h>
+#include <id_manager.h>
 
 namespace big2 {
+
+static IdManager<bgfx::ViewId> view_id_manager;
 
 void SetNativeData(bgfx::Init &init_obj) {
 #if BX_PLATFORM_LINUX
@@ -24,6 +27,18 @@ void SetNativeWindowData(bgfx::Init &init_obj, gsl::not_null<GLFWwindow *> windo
 bgfx::FrameBufferHandle CreateWindowFramebuffer(gsl::not_null<GLFWwindow *> window) {
   glm::ivec2 window_size = GetWindowSize(window);
   return bgfx::createFrameBuffer(GetNativeWindowHandle(window), window_size.x, window_size.y);
+}
+
+bgfx::ViewId ReserveViewId() {
+  return view_id_manager.Reserve();
+}
+
+std::vector<bgfx::ViewId> GetReservedViewIds() {
+  return view_id_manager.GetReservedIds();
+}
+
+void FreeViewId(bgfx::ViewId value) {
+  view_id_manager.Free(value);
 }
 
 }

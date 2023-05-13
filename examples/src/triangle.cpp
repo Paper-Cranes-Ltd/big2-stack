@@ -50,7 +50,7 @@ int main(int, char **) {
   Ensures(bgfx::init(init_object));
 
   // We will use this to reference where we're drawing
-  const bgfx::ViewId main_view_id = 0;
+  const bgfx::ViewId main_view_id = big2::ReserveViewId();
 
   // This is set once to determine the clear color to use on starting a new frame
   bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);

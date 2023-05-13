@@ -108,11 +108,6 @@ int main(int, char **) {
       window_size = new_window_size;
     }
 
-    std::int32_t display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
-    bgfx::reset(display_w, display_h, BGFX_RESET_VSYNC);
-    bgfx::setViewRect(main_view_id, 0, 0, bgfx::BackbufferRatio::Equal);
-
     bgfx::touch(main_view_id);
 
 #if BIG2_IMGUI_ENABLED

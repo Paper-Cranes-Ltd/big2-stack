@@ -39,7 +39,6 @@ list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_SUBMODULES_RECURSE TRUE)
 include(cmake/glfw.cmake)
 include(cmake/bgfx.cmake)
 include(cmake/microsoft-gsl.cmake)
-include(cmake/range-v3.cmake)
 include(cmake/utils.cmake)
 include(cmake/docs.cmake)
 

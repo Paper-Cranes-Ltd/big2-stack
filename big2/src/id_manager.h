@@ -8,10 +8,10 @@
 
 #include <set>
 #include <type_traits>
-#include <range/v3/all.hpp>
 #include <gsl/gsl>
 #include <functional>
 #include <typeinfo>
+#include <numeric>
 
 namespace big2 {
 
@@ -22,11 +22,16 @@ class IdManager {
  public:
   [[nodiscard]] T Reserve() {
     std::function<bool(T value)> filter_predicate = std::bind(&IdManager<T>::IsFree, this, std::placeholders::_1);
-    auto generator = ranges::views::ints(0, ranges::unreachable) | ranges::views::filter(filter_predicate) | ranges::views::take(1);
-    const T first_free = generator.front();
-    Ensures(IsFree(first_free));
-    ids_.insert(first_free);
-    return first_free;
+    T potential_id = 0;
+    while (potential_id != std::numeric_limits<T>::max()) {
+      if (IsFree(potential_id)) {
+        Reserve(potential_id);
+        return potential_id;
+      }
+      potential_id++;
+    }
+
+    return std::numeric_limits<T>::max();
   }
 
   void Reserve(T value) {

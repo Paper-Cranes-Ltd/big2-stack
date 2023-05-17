@@ -41,4 +41,11 @@ void FreeViewId(bgfx::ViewId value) {
   view_id_manager.Free(value);
 }
 
+void UpdateFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBufferHandle &outHandle) {
+  if (bgfx::isValid(outHandle)) {
+    bgfx::destroy(outHandle);
+  }
+  outHandle = CreateWindowFramebuffer(window);
+}
+
 }

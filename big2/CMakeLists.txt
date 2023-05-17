@@ -27,7 +27,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/i
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw bx bimg bgfx)
 target_link_libraries(${PROJECT_NAME} PUBLIC Microsoft.GSL::GSL)
-target_link_libraries(${PROJECT_NAME} PRIVATE range-v3)
 
 if("${BIG2_INCLUDE_IMGUI}")
     target_link_libraries(${PROJECT_NAME} PUBLIC imgui)

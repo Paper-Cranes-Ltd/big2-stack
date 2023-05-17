@@ -23,8 +23,7 @@ endif()
 
 option(BIG2_BUILD_EXAMPLES "Whether or not to build examples with this stack" "${PROJECT_IS_TOP_LEVEL}")
 option(BIG2_BUILD_DOCS "Whether or not to generate documentation" "${PROJECT_IS_TOP_LEVEL}")
-option(BIG2_INCLUDE_IMGUI "Whether or not to build examples with this stack" ON)
-option(BIG2_INCLUDE_GLM "Whether or not to build examples with this stack" ON)
+option(BIG2_INCLUDE_IMGUI "Whether or not to add imgui into the mix" ON)
 
 # Dependencies
 include(FetchContent)
@@ -38,16 +37,13 @@ list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_SUBMODULES_RECURSE TRUE)
 
 include(cmake/glfw.cmake)
 include(cmake/bgfx.cmake)
+include(cmake/glm.cmake)
 include(cmake/microsoft-gsl.cmake)
 include(cmake/utils.cmake)
 include(cmake/docs.cmake)
 
 if("${BIG2_INCLUDE_IMGUI}")
     include(cmake/imgui.cmake)
-endif()
-
-if("${BIG2_INCLUDE_GLM}")
-    include(cmake/glm.cmake)
 endif()
 
 add_subdirectory(big2)

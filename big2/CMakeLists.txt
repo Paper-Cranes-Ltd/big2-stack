@@ -14,6 +14,8 @@ list(APPEND BIG2_SOURCES src/glfw_utils.cpp)
 list(APPEND BIG2_SOURCES src/bgfx_utils.cpp)
 list(APPEND BIG2_SOURCES src/native_window.h)
 list(APPEND BIG2_SOURCES src/id_manager.h)
+list(APPEND BIG2_SOURCES src/asserts.h)
+list(APPEND BIG2_SOURCES src/asserts.cpp)
 
 if("${BIG2_INCLUDE_IMGUI}")
     list(APPEND BIG2_SOURCES include/big2/imgui/imgui.h)
@@ -28,6 +30,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw bx bimg bgfx)
 target_link_libraries(${PROJECT_NAME} PUBLIC Microsoft.GSL::GSL)
 target_link_libraries(${PROJECT_NAME} PUBLIC glm)
+target_link_libraries(${PROJECT_NAME} PRIVATE spdlog)
 
 if("${BIG2_INCLUDE_IMGUI}")
     target_link_libraries(${PROJECT_NAME} PUBLIC imgui)

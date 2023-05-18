@@ -39,4 +39,5 @@ This project depends on a few other projects:
 - [bgfx.cmake](https://github.com/bkaradzic/bgfx)
 - [glfw3](https://github.com/glfw/glfw)
 - [glm](https://github.com/g-truc/glm)
+- [spdlog](https://github.com/gabime/spdlog)
 - [Dear ImGui](https://github.com/ocornut/imgui) *(optional)*

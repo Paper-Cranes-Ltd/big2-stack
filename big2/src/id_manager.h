@@ -8,10 +8,10 @@
 
 #include <set>
 #include <type_traits>
-#include <gsl/gsl>
 #include <functional>
 #include <typeinfo>
 #include <numeric>
+#include <asserts.h>
 
 namespace big2 {
 
@@ -21,7 +21,6 @@ class IdManager {
 
  public:
   [[nodiscard]] T Reserve() {
-    std::function<bool(T value)> filter_predicate = std::bind(&IdManager<T>::IsFree, this, std::placeholders::_1);
     T potential_id = 0;
     while (potential_id != std::numeric_limits<T>::max()) {
       if (IsFree(potential_id)) {
@@ -31,11 +30,12 @@ class IdManager {
       potential_id++;
     }
 
+    bigValidate(potential_id != std::numeric_limits<T>::max(), "Cannot reserve a new id since all id's are reserved!");
     return std::numeric_limits<T>::max();
   }
 
   void Reserve(T value) {
-    Expects(IsFree(value));
+    bigSoftValidate(IsFree(value), "Cannot reserve a new id since all id's are reserved!");
     ids_.insert(value);
   }
 

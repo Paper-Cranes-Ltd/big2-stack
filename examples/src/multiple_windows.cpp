@@ -22,13 +22,13 @@ static void glfw_error_callback(int error, const char *description) {
 // Main code
 int main(int, char **) {
   glfwSetErrorCallback(glfw_error_callback);
-  Ensures(glfwInit());
+  bigValidate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
 
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
   bgfx::Init init_object;
   big2::SetNativeData(init_object);
-  Ensures(bgfx::init(init_object));
+  bigValidate(bgfx::init(init_object), "BGFX couldn't be initialized");
 
   std::array<GLFWwindow *, 2> windows{};
   std::array<bgfx::ViewId, 2> views{};
@@ -36,7 +36,7 @@ int main(int, char **) {
   for (std::uint32_t i = 0; i < windows.size(); i++) {
     std::string title = "Window " + std::to_string(i);
     windows[i] = glfwCreateWindow(800, 600, title.c_str(), nullptr, nullptr);
-    Ensures(windows[i] != nullptr);
+    bigValidate(windows[i] != nullptr, "Window handle is nullptr");
 
     views[i] = big2::ReserveViewId();
     frame_buffers[i] = big2::CreateWindowFramebuffer(windows[i]);

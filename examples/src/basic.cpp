@@ -25,12 +25,12 @@ static void glfw_error_callback(int error, const char *description) {
 // Main code
 int main(int, char **) {
   glfwSetErrorCallback(glfw_error_callback);
-  Ensures(glfwInit());
+  bigValidate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
 
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
   GLFWwindow *window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+BGFX example", nullptr, nullptr);
-  Ensures(window != nullptr);
+  bigValidate(window != nullptr, "Window handle is nullptr");
 
   gsl::final_action destroy_window([window]() { glfwDestroyWindow(window); });
 
@@ -42,7 +42,7 @@ int main(int, char **) {
   init_object.resolution.height = window_size.y;
   init_object.resolution.reset = BGFX_RESET_VSYNC;
 
-  Ensures(bgfx::init(init_object));
+  bigValidate(bgfx::init(init_object), "BGFX couldn't be initialized");
   const bgfx::ViewId main_view_id = big2::ReserveViewId();
 
 #if BIG2_IMGUI_ENABLED

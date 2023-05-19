@@ -31,11 +31,11 @@ static void GlfwErrorCallback(int error, const char *description) {
 
 int main(int, char **) {
   glfwSetErrorCallback(GlfwErrorCallback);
-  Ensures(glfwInit());
+  bigValidate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
   GLFWwindow *window = glfwCreateWindow(800, 600, "Hello, BGFX!", nullptr, nullptr);
-  Ensures(window != nullptr);
+  bigValidate(window != nullptr, "Window handle is nullptr");
   gsl::final_action destroy_window([window]() { glfwDestroyWindow(window); });
 
   // Inside main after window is created and before main loop
@@ -47,7 +47,7 @@ int main(int, char **) {
   init_object.resolution.height = window_size.y;
   init_object.resolution.reset = BGFX_RESET_VSYNC;
 
-  Ensures(bgfx::init(init_object));
+  bigValidate(bgfx::init(init_object), "BGFX couldn't be initialized");
 
   // We will use this to reference where we're drawing
   const bgfx::ViewId main_view_id = big2::ReserveViewId();

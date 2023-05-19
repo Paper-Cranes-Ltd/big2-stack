@@ -9,6 +9,7 @@
 #include <bx/bx.h>
 #include <bgfx/bgfx.h>
 
+#include <big2/asserts.h>
 #include <big2/glfw_utils.h>
 #include <big2/bgfx_utils.h>
 

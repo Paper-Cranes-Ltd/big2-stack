@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 #include <bx/bx.h>
 #include <native_window.h>
+#include <spdlog/spdlog.h>
 
 namespace big2 {
 
@@ -48,6 +49,10 @@ void *GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window) {
 #else
   return nullptr;
 #endif
+}
+
+void GlfwErrorCallback(std::int32_t error, gsl::czstring description) {
+  spdlog::error("GLFW error({0}): {1}", error, description);
 }
 
 }

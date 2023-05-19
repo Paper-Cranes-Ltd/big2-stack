@@ -53,6 +53,11 @@ namespace big2 {
  */
 [[nodiscard]] void *GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window);
 
+/**
+ * \brief An error callback that will log the error.
+ */
+void GlfwErrorCallback(std::int32_t error, gsl::czstring description);
+
 }
 
 #endif //BIG2_STACK_BIG2_GLFW_UTILS_H_

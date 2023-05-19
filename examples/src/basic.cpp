@@ -18,13 +18,9 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-static void glfw_error_callback(int error, const char *description) {
-  std::cerr << "GLFW Error " << error << ": " << description << std::endl;
-}
-
 // Main code
 int main(int, char **) {
-  glfwSetErrorCallback(glfw_error_callback);
+  glfwSetErrorCallback(big2::GlfwErrorCallback);
   bigValidate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
 
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });

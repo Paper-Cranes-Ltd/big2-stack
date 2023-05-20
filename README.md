@@ -1,4 +1,4 @@
-![Logo](./press/logo.png)
+![Logo](./press/logo-color.png)
 
 [![CMake](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/cmake.yml/badge.svg)](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/cmake.yml)
 [![License - The Unlicense](https://badgen.net/badge/License/The%20Unlicense/)](https://github.com/Paper-Cranes-Ltd/big2-stack/blob/main/LICENSE)

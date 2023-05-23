@@ -10,7 +10,7 @@
 #include <cstdint>
 
 #include <glm/glm.hpp>
-#include <big2/embedded_shader.h>
+#include <big2/bgfx/embedded_shader.h>
 #include <generated/shaders/examples/all.h>
 
 static const bgfx::EmbeddedShader kEmbeddedShaders[] =

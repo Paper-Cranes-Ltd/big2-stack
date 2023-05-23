@@ -21,7 +21,7 @@
 
 #include <cstdint> // sized integers
 #include <bgfx/bgfx.h>
-#include <big2/embedded_shader.h>
+#include <big2/bgfx/embedded_shader.h>
 #include <bx/math.h>
 #include <cmath>
 #include <algorithm>

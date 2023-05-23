@@ -3,7 +3,7 @@
 // All rights reserved.
 //
 
-#include <big2/glfw_utils.h>
+#include <big2/glfw/glfw_utils.h>
 #include <GLFW/glfw3.h>
 #include <bx/bx.h>
 #include <native_window.h>

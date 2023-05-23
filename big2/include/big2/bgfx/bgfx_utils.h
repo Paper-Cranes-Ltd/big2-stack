@@ -41,9 +41,9 @@ void SetNativeWindowData(bgfx::Init &init_obj, gsl::not_null<GLFWwindow *> windo
 /**
  * Updates an existing framebuffer handle by destroying the current framebuffer and then recreating it.
  * @param window An initialized window handle
- * @param outHandle A handle to the frame buffer.
+ * @param out_handle A handle to the frame buffer.
  */
-void UpdateFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBufferHandle& outHandle);
+void UpdateFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBufferHandle& out_handle);
 
 /**
  * @brief BIG2 will use an IdManager class to reserve and monitor ViewIds

@@ -17,8 +17,10 @@ namespace big2 {
  * @brief Initializes ImGui with the official backend of glfw and a big2 renderer
  * @param window An initialized window handle
  * @param view_id A bgfx view id on which imgui will draw to
+ * @param use_default_callbacks Whether to let imgui install glfw input event callbacks.
+ * They don't work with multiple ImGui contexts so I recommend using the GlfwEventQueue.
  */
-void ImGuiInit(GLFWwindow *window, bgfx::ViewId view_id);
+void ImGuiInit(GLFWwindow *window, bgfx::ViewId view_id, bool use_default_callbacks = false);
 
 /**
  * @brief Terminates the ImGui renderer and backend

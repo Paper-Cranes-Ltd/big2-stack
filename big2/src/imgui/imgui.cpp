@@ -12,8 +12,8 @@
 
 namespace big2 {
 
-void ImGuiInit(GLFWwindow *window, bgfx::ViewId view_id) {
-  ImGui_ImplGlfw_InitForOther(window, true);
+void ImGuiInit(GLFWwindow *window, bgfx::ViewId view_id, bool use_default_callbacks) {
+  ImGui_ImplGlfw_InitForOther(window, use_default_callbacks);
   ImGui_ImplBgfx_Init(view_id);
 }
 

@@ -11,8 +11,6 @@
 
 #include <bgfx/bgfx.h>
 #include <bx/bx.h>
-
-#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 // Main code

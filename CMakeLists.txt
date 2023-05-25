@@ -3,7 +3,6 @@ project(big2-stack VERSION 0.0.3)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
-set(CMAKE_CXX_STANDARD 17)
 set(USE_FOLDERS TRUE)
 set(CMAKE_FOLDER "BIG2")
 

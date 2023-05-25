@@ -34,6 +34,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC glfw bx bimg bgfx)
 target_link_libraries(${PROJECT_NAME} PUBLIC Microsoft.GSL::GSL)
 target_link_libraries(${PROJECT_NAME} PUBLIC glm)
 target_link_libraries(${PROJECT_NAME} PRIVATE spdlog)
+target_link_libraries(${PROJECT_NAME} PUBLIC "${SHADERS_TARGET_NAME}")
 
 if("${BIG2_INCLUDE_IMGUI}")
     target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
@@ -43,5 +44,4 @@ else()
 endif()
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE)
-
-target_link_libraries(${PROJECT_NAME} PUBLIC "${SHADERS_TARGET_NAME}")
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)

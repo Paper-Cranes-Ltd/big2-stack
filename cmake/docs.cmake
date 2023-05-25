@@ -29,6 +29,7 @@ if(BIG2_BUILD_DOCS)
         set(DOXYGEN_HTML_EXTRA_STYLESHEET)
         list(APPEND DOXYGEN_HTML_EXTRA_STYLESHEET "${CMAKE_CURRENT_SOURCE_DIR}/external/doxygen-awesome-css/doxygen-awesome.css")
         list(APPEND DOXYGEN_HTML_EXTRA_STYLESHEET "${CMAKE_CURRENT_SOURCE_DIR}/external/doxygen-awesome-css/doxygen-awesome-sidebar-only.css")
+        list(APPEND DOXYGEN_HTML_EXTRA_STYLESHEET "${CMAKE_CURRENT_SOURCE_DIR}/docs/templates/gh-fork-ribbon.css")
 
         set(DOC_SOURCES)
         list(APPEND DOC_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/big2/include")

@@ -20,6 +20,8 @@ if(BIG2_BUILD_DOCS)
         set(DOXYGEN_SHOW_FILES "YES")
         set(DOXYGEN_PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/press/logo-color.png")
         set(DOXYGEN_HTML_COLORSTYLE "LIGHT")
+        set(DOXYGEN_HTML_EXTRA_FILES)
+        list(APPEND DOXYGEN_HTML_EXTRA_FILES "${CMAKE_CURRENT_SOURCE_DIR}/press/favicon.ico")
 
         set(DOXYGEN_HTML_EXTRA_STYLESHEET)
         list(APPEND DOXYGEN_HTML_EXTRA_STYLESHEET "${CMAKE_CURRENT_SOURCE_DIR}/external/doxygen-awesome-css/doxygen-awesome.css")

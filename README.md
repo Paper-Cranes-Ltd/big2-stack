@@ -2,9 +2,10 @@
 
 [![CMake](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/cmake.yml/badge.svg)](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/cmake.yml)
 [![License - The Unlicense](https://badgen.net/badge/License/The%20Unlicense/blue)](https://github.com/Paper-Cranes-Ltd/big2-stack/blob/main/LICENSE)
-[![Documentation](https://badgen.net/badge/Go%20To/Documentation/pink)](https://paper-cranes-ltd.github.io/big2-stack/)
+[![Documentation](https://badgen.net/badge/icon/Documentation/pink?icon=wiki&label)](https://paper-cranes-ltd.github.io/big2-stack/)
 
-[![Buy me a coffee](https://badgen.net/badge/Buy%20me/a%20coffee/FF6600)](https://www.buymeacoffee.com/object71)
+[![ThatOneGameDev.com](https://badgen.net/badge/@/ThatOneGameDev.com/6633CC/?icon=awesome&label)](https://thatonegamedev.com)
+[![Buy me a coffee](https://badgen.net/badge/icon/Buy%20me%20a%20coffee/FF6600/?icon=buymeacoffee&label)](https://www.buymeacoffee.com/object71)
 
 # The BIG<sup>2</sup> Stack
 

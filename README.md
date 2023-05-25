@@ -1,7 +1,8 @@
 ![Logo](./press/logo-color.png)
 
 [![CMake](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/cmake.yml/badge.svg)](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/cmake.yml)
-[![License - The Unlicense](https://badgen.net/badge/License/The%20Unlicense/)](https://github.com/Paper-Cranes-Ltd/big2-stack/blob/main/LICENSE)
+[![License - The Unlicense](https://badgen.net/badge/License/The%20Unlicense/blue)](https://github.com/Paper-Cranes-Ltd/big2-stack/blob/main/LICENSE)
+[![Documentation](https://badgen.net/badge/Go%20To/Documentation/pink)](https://paper-cranes-ltd.github.io/big2-stack/)
 
 [![Buy me a coffee](https://badgen.net/badge/Buy%20me/a%20coffee/FF6600)](https://www.buymeacoffee.com/object71)
 

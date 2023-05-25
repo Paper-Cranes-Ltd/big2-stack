@@ -35,6 +35,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Install dependencies
         run: sudo apt-get update ; sudo apt-get install -y xorg-dev build-essential cmake doxygen python3
       - name: Install python dependencies
@@ -51,7 +53,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
           path: '${{github.workspace}}/build/html'
       - name: Deploy to GitHub Pages
         id: deployment

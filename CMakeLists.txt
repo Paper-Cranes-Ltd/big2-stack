@@ -41,7 +41,6 @@ include(cmake/glm.cmake)
 include(cmake/spdlog.cmake)
 include(cmake/microsoft-gsl.cmake)
 include(cmake/utils.cmake)
-include(cmake/docs.cmake)
 
 if("${BIG2_INCLUDE_IMGUI}")
     include(cmake/imgui.cmake)
@@ -52,3 +51,5 @@ add_subdirectory(big2)
 if("${BIG2_BUILD_EXAMPLES}")
     add_subdirectory(examples)
 endif()
+
+include(cmake/docs.cmake)

@@ -1,12 +1,30 @@
 if(BIG2_BUILD_DOCS)
     find_package(Doxygen)
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in" "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile" @ONLY)
 
     if(DOXYGEN_FOUND)
-        add_custom_target(big2_generate_documentation
-            COMMAND ${DOXYGEN_EXECUTABLE} "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-            COMMENT "Generating API documentation with Doxygen"
-        )
+        set(DOXYGEN_PROJECT_NAME "BIG2")
+        set(DOXYGEN_OUTPUT_LANGUAGE "English")
+        set(DOXYGEN_GENERATE_TREEVIEW "YES")
+        set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "${CMAKE_CURRENT_SOURCE_DIR}/docs/home.md")
+        set(DOXYGEN_DISABLE_INDEX "NO")
+        set(DOXYGEN_FULL_SIDEBAR "NO")
+        set(DOXYGEN_RECURSIVE "YES")
+        set(DOXYGEN_EXTRACT_ALL "YES")
+        set(DOXYGEN_EXPORT_STATIC "YES")
+        set(DOXYGEN_ENABLE_PREPROCESSING "YES")
+        set(DOXYGEN_MACRO_EXPANSION "YES")
+        set(DOXYGEN_MARKDOWN_SUPPORT "YES")
+        set(DOXYGEN_EXPAND_ONLY_PREDEF "NO")
+        set(DOXYGEN_SKIP_FUNCTION_MACROS "NO")
+        set(DOXYGEN_PREDEFINED "BIG2_IMGUI_ENABLED=1")
+        set(DOXYGEN_SHOW_FILES "YES")
+        set(DOXYGEN_PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/press/logo-color.png")
+        set(DOXYGEN_HTML_COLORSTYLE "LIGHT")
+        set(DOXYGEN_HTML_EXTRA_STYLESHEET
+                "${CMAKE_CURRENT_SOURCE_DIR}/external/doxygen-awesome-css/doxygen-awesome.css"
+                "${CMAKE_CURRENT_SOURCE_DIR}/external/doxygen-awesome-css/doxygen-awesome-sidebar-only.css")
+        doxygen_add_docs(big2-docs
+                "${CMAKE_CURRENT_SOURCE_DIR}/big2/include"
+                "${CMAKE_CURRENT_SOURCE_DIR}/docs/home.md")
     endif()
 endif()

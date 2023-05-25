@@ -24,7 +24,7 @@ struct NormalColorVertex {
   uint32_t color;
 };
 
-int main(int, char **) {
+int main(std::int32_t, gsl::zstring[]) {
   glfwSetErrorCallback(big2::GlfwErrorCallback);
   bigValidate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });

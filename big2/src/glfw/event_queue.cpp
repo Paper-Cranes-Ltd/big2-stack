@@ -12,106 +12,106 @@ namespace big2 {
 
 namespace GlfwEventQueue {
 
-std::vector<GlfwEvent> events;
+static std::vector<GlfwEvent> events;
 
-void OnWindowMoved(GLFWwindow *window, std::int32_t x, std::int32_t y) {
+static void OnWindowMoved(GLFWwindow *window, std::int32_t x, std::int32_t y) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::WindowMoved{glm::ivec2(x, y),};
   events.push_back(event);
 }
 
-void OnWindowResized(GLFWwindow *window, std::int32_t width, std::int32_t height) {
+static void OnWindowResized(GLFWwindow *window, std::int32_t width, std::int32_t height) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::WindowResized{glm::ivec2(width, height),};
   events.push_back(event);
 }
 
-void OnWindowClosed(GLFWwindow *window) {
+static void OnWindowClosed(GLFWwindow *window) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::WindowClosed{};
   events.push_back(event);
 }
 
-void OnWindowRefresh(GLFWwindow *window) {
+static void OnWindowRefresh(GLFWwindow *window) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::WindowRefresh{};
   events.push_back(event);
 }
 
-void OnWindowFocusChange(GLFWwindow *window, std::int32_t focused) {
+static void OnWindowFocusChange(GLFWwindow *window, std::int32_t focused) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::WindowFocusChange{static_cast<bool>(focused),};
   events.push_back(event);
 }
 
-void OnWindowIconifyChange(GLFWwindow *window, std::int32_t iconified) {
+static void OnWindowIconifyChange(GLFWwindow *window, std::int32_t iconified) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::WindowIconifyChange{static_cast<bool>(iconified),};
   events.push_back(event);
 }
 
-void OnFrameBufferResized(GLFWwindow *window, std::int32_t width, std::int32_t height) {
+static void OnFrameBufferResized(GLFWwindow *window, std::int32_t width, std::int32_t height) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::FrameBufferResized{glm::ivec2(width, height),};
   events.push_back(event);
 }
 
-void OnMouseButtonEvent(GLFWwindow *window, std::int32_t button, std::int32_t action, std::int32_t mods) {
+static void OnMouseButtonEvent(GLFWwindow *window, std::int32_t button, std::int32_t action, std::int32_t mods) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::MouseButton{button, mods, static_cast<ButtonPressState>(action),};
   events.push_back(event);
 }
 
-void OnMousePositionEvent(GLFWwindow *window, std::double_t x, std::double_t y) {
+static void OnMousePositionEvent(GLFWwindow *window, std::double_t x, std::double_t y) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::MousePosition{glm::vec2(x, y),};
   events.push_back(event);
 }
 
-void OnMouseEnterChange(GLFWwindow *window, std::int32_t entered) {
+static void OnMouseEnterChange(GLFWwindow *window, std::int32_t entered) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::MouseEnterChange{static_cast<bool>(entered),};
   events.push_back(event);
 }
 
-void OnScroll(GLFWwindow *window, std::double_t x, std::double_t y) {
+static void OnScroll(GLFWwindow *window, std::double_t x, std::double_t y) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::Scroll{glm::vec2(x, y),};
   events.push_back(event);
 }
 
-void OnKeyboardButton(GLFWwindow *window, std::int32_t key, std::int32_t scan_code, std::int32_t action, std::int32_t mods) {
+static void OnKeyboardButton(GLFWwindow *window, std::int32_t key, std::int32_t scan_code, std::int32_t action, std::int32_t mods) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::KeyboardButton{key, scan_code, mods, static_cast<ButtonPressState>(action),};
   events.push_back(event);
 }
 
-void OnCharEntered(GLFWwindow *window, std::uint32_t codepoint) {
+static void OnCharEntered(GLFWwindow *window, std::uint32_t codepoint) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::CharEntered{codepoint};
   events.push_back(event);
 }
 
-void OnMonitorConnectChange(GLFWmonitor *monitor, std::int32_t action) {
+static void OnMonitorConnectChange(GLFWmonitor *monitor, std::int32_t action) {
   GlfwEvent event;
   event.data = GlfwEvent::MonitorConnectChange{monitor, static_cast<bool>(action),};
   events.push_back(event);
 }
 
-void OnFileDrop(GLFWwindow *window, std::int32_t count, gsl::czstring raw_paths[]) {
+static void OnFileDrop(GLFWwindow *window, std::int32_t count, gsl::czstring raw_paths[]) {
   gsl::span<gsl::czstring> paths_span(raw_paths, count);
 
   GlfwEvent event;
@@ -124,21 +124,21 @@ void OnFileDrop(GLFWwindow *window, std::int32_t count, gsl::czstring raw_paths[
   events.push_back(event);
 }
 
-void OnWindowMaximizeChange(GLFWwindow *window, std::int32_t maximized) {
+static void OnWindowMaximizeChange(GLFWwindow *window, std::int32_t maximized) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::WindowMaximizeChange{static_cast<bool>(maximized),};
   events.push_back(event);
 }
 
-void OnWindowContentScaleChange(GLFWwindow *window, std::float_t xscale, std::float_t yscale) {
+static void OnWindowContentScaleChange(GLFWwindow *window, std::float_t xscale, std::float_t yscale) {
   GlfwEvent event;
   event.window = window;
   event.data = GlfwEvent::WindowContentScaleChange{glm::vec2(xscale, yscale),};
   events.push_back(event);
 }
 
-void OnGamepadConnectChange(std::int32_t id, std::int32_t action) {
+static void OnGamepadConnectChange(std::int32_t id, std::int32_t action) {
   GlfwEvent event;
   event.data = GlfwEvent::GamepadConnectChange{id, static_cast<bool>(action),};
   events.push_back(event);
@@ -170,47 +170,46 @@ void ConnectWindow(gsl::not_null<GLFWwindow *> window) {
 
 gsl::span<GlfwEvent> GrabGlobalEvents() {
   auto first_event_it = std::find_if(events.begin(), events.end(),
-                               [](const GlfwEvent& e) { return !e.window.has_value(); });
+                                     [](const GlfwEvent &e) { return !e.window.has_value(); });
 
-  if(first_event_it == events.end())
-  {
+  if (first_event_it == events.end()) {
     return {};
   }
 
   auto last_event_it = std::find_if(first_event_it, events.end(),
-                             [](const GlfwEvent& e) { return e.window.has_value(); });
+                                    [](const GlfwEvent &e) { return e.window.has_value(); });
 
   return {&*first_event_it, static_cast<size_t>(last_event_it - first_event_it)};
 }
 
 gsl::span<GlfwEvent> GrabEvents(gsl::not_null<GLFWwindow *> window) {
   auto first_event_it = std::find_if(events.begin(), events.end(),
-                                     [window](const GlfwEvent& e) { return e.window.has_value() && e.window.value() == window.get(); });
+                                     [window](const GlfwEvent &e) { return e.window.has_value() && e.window.value() == window.get(); });
 
-  if(first_event_it == events.end())
-  {
+  if (first_event_it == events.end()) {
     return {};
   }
 
   auto last_event_it = std::find_if(first_event_it, events.end(),
-                                    [window](const GlfwEvent& e) { return e.window.has_value() && e.window.value() != window.get(); });
+                                    [window](const GlfwEvent &e) { return e.window.has_value() && e.window.value() != window.get(); });
 
   return {&*first_event_it, static_cast<size_t>(last_event_it - first_event_it)};
 }
 
-void SortEventsByWindow() {
-  std::sort(events.begin(), events.end(),
-            [](const GlfwEvent &left, const GlfwEvent &right) {
-              if (!left.window.has_value()) {
-                return false;
-              }
+static bool WindowPointerEventSorter(const GlfwEvent &left, const GlfwEvent &right) {
+  if (!left.window.has_value()) {
+    return false;
+  }
 
-              if (!right.window.has_value()) {
-                return true;
-              }
+  if (!right.window.has_value()) {
+    return true;
+  }
 
-              return left.window.value() > right.window.value();
-            });
+  return left.window.value() > right.window.value();
+}
+
+static void SortEventsByWindow() {
+  std::sort(events.begin(), events.end(), WindowPointerEventSorter);
 }
 
 void PollEvents() {

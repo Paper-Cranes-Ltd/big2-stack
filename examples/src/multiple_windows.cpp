@@ -13,8 +13,7 @@
 #include <bx/bx.h>
 #include <GLFW/glfw3.h>
 
-// Main code
-int main(int, char **) {
+int main(std::int32_t, gsl::zstring[]) {
   glfwSetErrorCallback(big2::GlfwErrorCallback);
   bigValidate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
 

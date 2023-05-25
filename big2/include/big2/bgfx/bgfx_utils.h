@@ -39,7 +39,7 @@ void SetNativeWindowData(bgfx::Init &init_obj, gsl::not_null<GLFWwindow *> windo
 [[nodiscard]] bgfx::FrameBufferHandle CreateWindowFramebuffer(gsl::not_null<GLFWwindow *> window);
 
 /**
- * Updates an existing framebuffer handle by destroying the current framebuffer and then recreating it.
+ * @brief Updates an existing framebuffer handle by destroying the current framebuffer and then recreating it.
  * @param window An initialized window handle
  * @param out_handle A handle to the frame buffer.
  */

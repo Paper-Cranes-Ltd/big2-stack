@@ -7,19 +7,31 @@
 
 namespace big2::detail {
 
-void validate(bool condition, gsl::czstring message, gsl::czstring file, std::uint32_t line) {
+void Validate(bool condition, gsl::czstring message, gsl::czstring file, std::uint32_t line) {
   if (!condition) {
     spdlog::error("'{0}' at '{1}:{2}'", message, file, line);
     throw std::runtime_error(message);
   }
 }
 
-bool soft_validate(bool condition, gsl::czstring message, gsl::czstring file, std::uint32_t line) {
+bool SoftValidate(bool condition, gsl::czstring message, gsl::czstring file, std::uint32_t line) {
   if (!condition) {
     spdlog::error("'{0}' at '{1}:{2}'", message, file, line);
   }
 
   return condition;
+}
+
+void Info(gsl::czstring message, gsl::czstring file, std::uint32_t line) {
+  spdlog::info("'{0}' at '{1}:{2}'", message, file, line);
+}
+
+void Warning(gsl::czstring message, gsl::czstring file, std::uint32_t line) {
+  spdlog::warn("'{0}' at '{1}:{2}'", message, file, line);
+}
+
+void Error(gsl::czstring message, gsl::czstring file, std::uint32_t line) {
+  spdlog::error("'{0}' at '{1}:{2}'", message, file, line);
 }
 
 }

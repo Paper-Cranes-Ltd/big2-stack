@@ -6,6 +6,11 @@
 #ifndef BIG2_STACK_BIG2_H_
 #define BIG2_STACK_BIG2_H_
 
+/// @brief In this namespace you will find all kinds of useful functions to use with the whole stack.
+namespace big2 {}
+/// @private
+namespace big2::detail {}
+
 #include <bx/bx.h>
 #include <bgfx/bgfx.h>
 

@@ -20,11 +20,17 @@ if(BIG2_BUILD_DOCS)
         set(DOXYGEN_SHOW_FILES "YES")
         set(DOXYGEN_PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/press/logo-color.png")
         set(DOXYGEN_HTML_COLORSTYLE "LIGHT")
-        set(DOXYGEN_HTML_EXTRA_STYLESHEET
-                "${CMAKE_CURRENT_SOURCE_DIR}/external/doxygen-awesome-css/doxygen-awesome.css"
-                "${CMAKE_CURRENT_SOURCE_DIR}/external/doxygen-awesome-css/doxygen-awesome-sidebar-only.css")
-        doxygen_add_docs(big2-docs
-                "${CMAKE_CURRENT_SOURCE_DIR}/big2/include"
-                "${CMAKE_CURRENT_SOURCE_DIR}/docs/home.md")
+
+        set(DOXYGEN_HTML_EXTRA_STYLESHEET)
+        list(APPEND DOXYGEN_HTML_EXTRA_STYLESHEET "${CMAKE_CURRENT_SOURCE_DIR}/external/doxygen-awesome-css/doxygen-awesome.css")
+        list(APPEND DOXYGEN_HTML_EXTRA_STYLESHEET "${CMAKE_CURRENT_SOURCE_DIR}/external/doxygen-awesome-css/doxygen-awesome-sidebar-only.css")
+
+        set(DOC_SOURCES)
+        list(APPEND DOC_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/big2/include")
+
+        file(GLOB DOC_PAGES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/docs/*.md")
+        list(APPEND DOC_SOURCES ${DOC_PAGES})
+
+        doxygen_add_docs(big2-docs ${DOC_SOURCES})
     endif()
 endif()

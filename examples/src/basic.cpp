@@ -40,21 +40,16 @@ int main(std::int32_t, gsl::zstring[]) {
   const bgfx::ViewId main_view_id = big2::ReserveViewId();
 
 #if BIG2_IMGUI_ENABLED
-
-  IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
+  big2::ImGuiInit(window, main_view_id, /*use_default_callbacks=*/ true);
   ImGuiIO &io = ImGui::GetIO();
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
-
   ImGui::StyleColorsDark();
-  big2::ImGuiInit(window, main_view_id, /*use_default_callbacks=*/ true);
 
   bool show_demo_window = true;
 
   gsl::final_action terminate_imgui([]() {
     big2::ImGuiTerminate();
-    ImGui::DestroyContext();
   });
 
 #endif // BIG2_IMGUI_ENABLED

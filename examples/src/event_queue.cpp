@@ -51,26 +51,18 @@ int main(std::int32_t, gsl::zstring[]) {
     bgfx::setViewRect(window_data_s[i].view_id, 0, 0, static_cast<std::uint16_t>(window_size.x), static_cast<std::uint16_t>(window_size.y));
 
 #if BIG2_IMGUI_ENABLED
-
-    // Setup Dear ImGui context
-    window_data_s[i].imgui_context = ImGui::CreateContext();
-    ImGui::SetCurrentContext(window_data_s[i].imgui_context);
+    window_data_s[i].imgui_context = big2::ImGuiInit(window_data_s[i].window, window_data_s[i].view_id);
     ImGuiIO &io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
-
     ImGui::StyleColorsDark();
-    big2::ImGuiInit(window_data_s[i].window, window_data_s[i].view_id);
-
 #endif // BIG2_IMGUI_ENABLED
   }
 
   gsl::final_action terminate_windows([&window_data_s]() {
     std::for_each(window_data_s.begin(), window_data_s.end(),
                   [](const WindowData &data) {
-                    ImGui::SetCurrentContext(data.imgui_context);
-                    big2::ImGuiTerminate();
-                    ImGui::DestroyContext();
+                    big2::ImGuiTerminate(data.imgui_context);
                     bgfx::destroy(data.frame_buffer_handle);
                     bgfx::resetView(data.view_id);
                     big2::FreeViewId(data.view_id);

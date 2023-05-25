@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(big2-stack VERSION 0.0.3)
+project(big2-stack VERSION 0.0.4)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 

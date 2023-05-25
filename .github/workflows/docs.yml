@@ -25,11 +25,6 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
-defaults:
-  run:
-    shell: bash
-    working-directory: ${{github.workspace}}
-
 jobs:
   # Single deploy job since we're just deploying
   build-and-deploy:
@@ -46,6 +41,7 @@ jobs:
         run: pip install -r ./scripts/requirements.txt
       - name: Generate changelist
         run: python3 ./scripts/changelist.py
+        working-directory: ${{github.workspace}}
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
       - name: Build Documentation

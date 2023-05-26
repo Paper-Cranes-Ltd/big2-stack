@@ -11,7 +11,7 @@
 #include <functional>
 #include <typeinfo>
 #include <numeric>
-#include <big2/macro_utils.h>
+#include <big2/macros.h>
 
 namespace big2 {
 
@@ -30,12 +30,12 @@ class IdManager {
       potential_id++;
     }
 
-    bigValidate(potential_id != std::numeric_limits<T>::max(), "Cannot reserve a new id since all id's are reserved!");
+    big2::Validate(potential_id != std::numeric_limits<T>::max(), "Cannot reserve a new id since all id's are reserved!");
     return std::numeric_limits<T>::max();
   }
 
   void Reserve(T value) {
-    bigSoftValidate(IsFree(value), "Cannot reserve a new id since all id's are reserved!");
+    big2::SoftValidate(IsFree(value), "Cannot reserve a new id since all id's are reserved!");
     ids_.insert(value);
   }
 

@@ -4,34 +4,34 @@
 //
 #include <big2/asserts.h>
 #include <spdlog/spdlog.h>
+#include <stdexcept>
 
 namespace big2::detail {
-
-void Validate(bool condition, gsl::czstring message, gsl::czstring file, std::uint32_t line) {
+void Validate(bool condition, gsl::czstring message, gsl::czstring file, gsl::czstring function, std::uint32_t line) {
   if (GSL_UNLIKELY(!condition)) {
-    spdlog::error("'{0}' at '{1}:{2}'", message, file, line);
+    spdlog::error("{3}: '{0}' at '{1}:{2}'", message, file, line, function);
     throw std::runtime_error(message);
   }
 }
 
-bool SoftValidate(bool condition, gsl::czstring message, gsl::czstring file, std::uint32_t line) {
+bool SoftValidate(bool condition, gsl::czstring message, gsl::czstring file, gsl::czstring function, std::uint32_t line) {
   if (GSL_UNLIKELY(!condition)) {
-    spdlog::error("'{0}' at '{1}:{2}'", message, file, line);
+    spdlog::error("{3}: '{0}' at '{1}:{2}'", message, file, line, function);
   }
 
   return condition;
 }
 
-void Info(gsl::czstring message, gsl::czstring file, std::uint32_t line) {
-  spdlog::info("'{0}' at '{1}:{2}'", message, file, line);
+void Info(gsl::czstring message, gsl::czstring file, gsl::czstring function, std::uint32_t line) {
+  spdlog::info("{3}: '{0}' at '{1}:{2}'", message, file, line, function);
 }
 
-void Warning(gsl::czstring message, gsl::czstring file, std::uint32_t line) {
-  spdlog::warn("'{0}' at '{1}:{2}'", message, file, line);
+void Warning(gsl::czstring message, gsl::czstring file, gsl::czstring function, std::uint32_t line) {
+  spdlog::warn("{3}: '{0}' at '{1}:{2}'", message, file, line, function);
 }
 
-void Error(gsl::czstring message, gsl::czstring file, std::uint32_t line) {
-  spdlog::error("'{0}' at '{1}:{2}'", message, file, line);
+void Error(gsl::czstring message, gsl::czstring file, gsl::czstring function, std::uint32_t line) {
+  spdlog::error("{3}: '{0}' at '{1}:{2}'", message, file, line, function);
 }
 
 }

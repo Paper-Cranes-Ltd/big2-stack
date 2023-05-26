@@ -26,11 +26,11 @@ struct NormalColorVertex {
 
 int main(std::int32_t, gsl::zstring[]) {
   glfwSetErrorCallback(big2::GlfwErrorCallback);
-  bigValidate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
+  big2::Validate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
   GLFWwindow *window = glfwCreateWindow(800, 600, "Hello, BGFX!", nullptr, nullptr);
-  bigValidate(window != nullptr, "Window handle is nullptr");
+  big2::Validate(window != nullptr, "Window handle is nullptr");
   gsl::final_action destroy_window([window]() { glfwDestroyWindow(window); });
 
   // Inside main after window is created and before main loop
@@ -42,7 +42,7 @@ int main(std::int32_t, gsl::zstring[]) {
   init_object.resolution.height = window_size.y;
   init_object.resolution.reset = BGFX_RESET_VSYNC;
 
-  bigValidate(bgfx::init(init_object), "BGFX couldn't be initialized");
+  big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
 
   // We will use this to reference where we're drawing
   const bgfx::ViewId main_view_id = big2::ReserveViewId();

@@ -24,13 +24,13 @@ struct WindowData {
 
 int main(std::int32_t, gsl::zstring[]) {
   glfwSetErrorCallback(big2::GlfwErrorCallback);
-  bigValidate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
+  big2::Validate(glfwInit() == GLFW_TRUE, "GLFW couldn't be initialized!");
 
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
   bgfx::Init init_object;
   big2::SetNativeData(init_object);
-  bigValidate(bgfx::init(init_object), "BGFX couldn't be initialized");
+  big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
 
   big2::GlfwEventQueue::Initialize();
 
@@ -40,7 +40,7 @@ int main(std::int32_t, gsl::zstring[]) {
   for (std::uint32_t i = 0; i < window_data_s.size(); i++) {
     std::string title = "Window " + std::to_string(i);
     window_data_s[i].window = glfwCreateWindow(800, 600, title.c_str(), nullptr, nullptr);
-    bigValidate(window_data_s[i].window != nullptr, "Window handle is nullptr");
+    big2::Validate(window_data_s[i].window != nullptr, "Window handle is nullptr");
 
     big2::GlfwEventQueue::ConnectWindow(window_data_s[i].window);
     window_data_s[i].view_id = big2::ReserveViewId();

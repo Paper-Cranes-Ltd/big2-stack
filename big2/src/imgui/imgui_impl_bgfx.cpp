@@ -26,7 +26,7 @@
 #include <cmath>
 #include <algorithm>
 #include <gsl/gsl>
-#include <big2/macro_utils.h>
+#include <big2/macros.h>
 #include <glm/glm.hpp>
 
 struct BackendRendererData {
@@ -46,7 +46,7 @@ struct Rgba32TextureData {
 };
 
 static gsl::not_null<BackendRendererData *> ImGui_ImplBgfx_GetBackendData() {
-  bigValidate(ImGui::GetCurrentContext() != nullptr, "Current context must be valid");
+  big2::Validate(ImGui::GetCurrentContext() != nullptr, "Current context must be valid");
   return reinterpret_cast<BackendRendererData *>(ImGui::GetIO().BackendRendererUserData);
 }
 
@@ -61,7 +61,7 @@ static const bgfx::EmbeddedShader EmbeddedShaders[] =
 
 void InitializeImGuiIO() {
   ImGuiIO &io = ImGui::GetIO();
-  bigValidate(io.BackendRendererUserData == nullptr, "Already initialized a renderer backend!");
+  big2::Validate(io.BackendRendererUserData == nullptr, "Already initialized a renderer backend!");
   io.BackendRendererUserData = reinterpret_cast<void *>(IM_NEW(BackendRendererData)());
   io.BackendRendererName = "imgui_impl_bgfx";
 }
@@ -118,8 +118,8 @@ void ImGui_ImplBgfx_RenderDrawData(ImDrawData *draw_data) {
     std::uint32_t requested_vertices_count = static_cast<std::uint32_t>(command_list->VtxBuffer.size());
     std::uint32_t requested_indices_count = static_cast<std::uint32_t>(command_list->IdxBuffer.size());
 
-    bool has_vb_space = bigSoftValidate(bgfx::getAvailTransientVertexBuffer(requested_vertices_count, backend_data->vertex_layout) == requested_vertices_count, "Not enough space in vertex transient buffer.");
-    bool has_ib_space = bigSoftValidate(bgfx::getAvailTransientIndexBuffer(requested_indices_count) == requested_indices_count, "Not enough space in index transient buffer.");
+    bool has_vb_space = big2::SoftValidate(bgfx::getAvailTransientVertexBuffer(requested_vertices_count, backend_data->vertex_layout) == requested_vertices_count, "Not enough space in vertex transient buffer.");
+    bool has_ib_space = big2::SoftValidate(bgfx::getAvailTransientIndexBuffer(requested_indices_count) == requested_indices_count, "Not enough space in index transient buffer.");
 
     if (!has_vb_space || !has_ib_space) {
       break;

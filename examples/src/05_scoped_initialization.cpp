@@ -21,7 +21,7 @@ int main(std::int32_t, gsl::zstring[]) {
   big2::GlfwInitializationScoped _;
 
   GLFWwindow *window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+BGFX example", nullptr, nullptr);
-  bigValidate(window != nullptr, "Window handle is nullptr");
+  big2::Validate(window != nullptr, "Window handle is nullptr");
   gsl::final_action destroy_window([window]() { glfwDestroyWindow(window); });
 
   bgfx::Init init_object;
@@ -32,7 +32,7 @@ int main(std::int32_t, gsl::zstring[]) {
   init_object.resolution.height = window_size.y;
   init_object.resolution.reset = BGFX_RESET_VSYNC;
 
-  bigValidate(bgfx::init(init_object), "BGFX couldn't be initialized");
+  big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
   const bgfx::ViewId main_view_id = big2::ReserveViewId();
 
 #if BIG2_IMGUI_ENABLED
@@ -42,8 +42,6 @@ int main(std::int32_t, gsl::zstring[]) {
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
   ImGui::StyleColorsDark();
-
-  bool show_demo_window = true;
 #endif // BIG2_IMGUI_ENABLED
 
   bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);
@@ -63,11 +61,8 @@ int main(std::int32_t, gsl::zstring[]) {
     bgfx::touch(main_view_id);
 
 #if BIG2_IMGUI_ENABLED
-    bigScopeVar(big2::ImGuiFrameScoped)
-    {
-      if (show_demo_window) {
-        ImGui::ShowDemoWindow(&show_demo_window);
-      }
+    BIG2_SCOPE_VAR(big2::ImGuiFrameScoped) {
+      ImGui::ShowDemoWindow();
     }
 #endif // BIG2_IMGUI_ENABLED
 

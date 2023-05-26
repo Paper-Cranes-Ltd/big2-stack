@@ -9,7 +9,7 @@
 
 #include <backends/imgui_impl_glfw.h>
 #include <big2/imgui/imgui_impl_bgfx.h>
-#include <big2/macro_utils.h>
+#include <big2/macros.h>
 
 namespace big2 {
 
@@ -61,12 +61,12 @@ ImGuiFrameScoped::~ImGuiFrameScoped() {
 }
 
 ImGuiSingleContextScoped::ImGuiSingleContextScoped(gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks) {
-  bigValidate(ImGui::GetCurrentContext() == nullptr, "ImGuiSingleContextScoped should only be used in a single context scenario.");
+  big2::Validate(ImGui::GetCurrentContext() == nullptr, "ImGuiSingleContextScoped should only be used in a single context scenario.");
   context_ = big2::ImGuiInit(window, view_id, use_default_callbacks);
 }
 
 ImGuiSingleContextScoped::~ImGuiSingleContextScoped() {
-  bigSoftValidate(ImGui::GetCurrentContext() == context_, "ImGuiSingleContextScoped should only be used in a single context scenario. Another context detected on termination.");
+  big2::SoftValidate(ImGui::GetCurrentContext() == context_, "ImGuiSingleContextScoped should only be used in a single context scenario. Another context detected on termination.");
   big2::ImGuiTerminate(context_);
 }
 

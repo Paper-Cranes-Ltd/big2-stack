@@ -8,7 +8,7 @@
 #include <bx/bx.h>
 #include <native_window.h>
 #include <spdlog/spdlog.h>
-#include <big2/macro_utils.h>
+#include <big2/macros.h>
 
 namespace big2 {
 
@@ -58,19 +58,19 @@ void GlfwErrorCallback(std::int32_t error, gsl::czstring description) {
 
 GlfwInitializationScoped::GlfwInitializationScoped() {
   if (is_initialized_) {
-    bigWarning("GLFW is initialized twice");
+    big2::Warning("GLFW is initialized twice");
     return;
   }
 
   glfwSetErrorCallback(GlfwErrorCallback);
 
   is_initialized_ = glfwInit() == GLFW_TRUE;
-  bigValidate(is_initialized_, "Couldn't initialize GLFW");
+  big2::Validate(is_initialized_, "Couldn't initialize GLFW");
 }
 
 GlfwInitializationScoped::~GlfwInitializationScoped() {
   if(!is_initialized_) {
-    bigWarning("GLFW is uninitialized twice");
+    big2::Warning("GLFW is uninitialized twice");
     return;
   }
 

@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <backends/imgui_impl_glfw.h>
+#include <execution>
 
 namespace big2 {
 
@@ -169,28 +170,28 @@ void ConnectWindow(gsl::not_null<GLFWwindow *> window) {
 }
 
 gsl::span<GlfwEvent> GrabGlobalEvents() {
-  auto first_event_it = std::find_if(events.begin(), events.end(),
+  auto first_event_it = std::find_if(std::execution::par_unseq, events.begin(), events.end(),
                                      [](const GlfwEvent &e) { return !e.window.has_value(); });
 
   if (first_event_it == events.end()) {
     return {};
   }
 
-  auto last_event_it = std::find_if(first_event_it, events.end(),
+  auto last_event_it = std::find_if(std::execution::par_unseq, first_event_it, events.end(),
                                     [](const GlfwEvent &e) { return e.window.has_value(); });
 
   return {&*first_event_it, static_cast<size_t>(last_event_it - first_event_it)};
 }
 
 gsl::span<GlfwEvent> GrabEvents(gsl::not_null<GLFWwindow *> window) {
-  auto first_event_it = std::find_if(events.begin(), events.end(),
+  auto first_event_it = std::find_if(std::execution::par_unseq, events.begin(), events.end(),
                                      [window](const GlfwEvent &e) { return e.window.has_value() && e.window.value() == window.get(); });
 
   if (first_event_it == events.end()) {
     return {};
   }
 
-  auto last_event_it = std::find_if(first_event_it, events.end(),
+  auto last_event_it = std::find_if(std::execution::par_unseq, first_event_it, events.end(),
                                     [window](const GlfwEvent &e) { return e.window.has_value() && e.window.value() != window.get(); });
 
   return {&*first_event_it, static_cast<size_t>(last_event_it - first_event_it)};
@@ -209,7 +210,7 @@ static bool WindowPointerEventSorter(const GlfwEvent &left, const GlfwEvent &rig
 }
 
 static void SortEventsByWindow() {
-  std::sort(events.begin(), events.end(), WindowPointerEventSorter);
+  std::sort(std::execution::par_unseq, events.begin(), events.end(), WindowPointerEventSorter);
 }
 
 void PollEvents() {

@@ -100,8 +100,9 @@ gsl::span<GlfwEvent> GrabEvents(gsl::not_null<GLFWwindow *> window);
 
 /**
  * @brief Polls the events and stores them in static memory until called again.
- * Upon calling it the previous events will be cleared.
+ * @details Upon calling it the previous events will be cleared.
  * Call each frame to update the event queue.
+ * Make sure that it is always being called by one thread since this allows for parallel optimizations.
  */
 void PollEvents();
 

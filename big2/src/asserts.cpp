@@ -8,14 +8,14 @@
 namespace big2::detail {
 
 void Validate(bool condition, gsl::czstring message, gsl::czstring file, std::uint32_t line) {
-  if (!condition) {
+  if (GSL_UNLIKELY(!condition)) {
     spdlog::error("'{0}' at '{1}:{2}'", message, file, line);
     throw std::runtime_error(message);
   }
 }
 
 bool SoftValidate(bool condition, gsl::czstring message, gsl::czstring file, std::uint32_t line) {
-  if (!condition) {
+  if (GSL_UNLIKELY(!condition)) {
     spdlog::error("'{0}' at '{1}:{2}'", message, file, line);
   }
 

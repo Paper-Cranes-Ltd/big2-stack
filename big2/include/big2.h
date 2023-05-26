@@ -15,6 +15,7 @@ namespace big2::detail {}
 #include <bgfx/bgfx.h>
 
 #include <big2/asserts.h>
+#include <big2/scoped.h>
 #include <big2/glfw/glfw_utils.h>
 #include <big2/glfw/event_queue.h>
 #include <big2/bgfx/bgfx_utils.h>

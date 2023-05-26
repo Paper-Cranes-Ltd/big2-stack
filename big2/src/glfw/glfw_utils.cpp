@@ -54,7 +54,7 @@ void *GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window) {
 }
 
 void GlfwErrorCallback(std::int32_t error, gsl::czstring description) {
-  big2::Error(description);
+  big2::Error(std::format("[{}] {}", error, description).c_str());
 }
 
 GlfwInitializationScoped::GlfwInitializationScoped() {

@@ -2,7 +2,7 @@
 // Copyright (c) 2023 Paper Cranes Ltd.
 // All rights reserved.
 //
-#include <big2/glfw/event_queue.h>
+#include <big2/event_queue.h>
 #include <big2/macros.h>
 #include <GLFW/glfw3.h>
 #include <vector>

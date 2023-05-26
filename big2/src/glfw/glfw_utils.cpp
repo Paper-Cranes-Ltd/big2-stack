@@ -31,7 +31,7 @@ glm::ivec2 GetMonitorPosition(gsl::not_null<GLFWmonitor *> monitor) {
 }
 
 std::int32_t GetMonitorRefreshRate(gsl::not_null<GLFWmonitor *> monitor) {
-  const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+  gsl::not_null<const GLFWvidmode *> mode = glfwGetVideoMode(monitor);
   return mode->refreshRate;
 }
 
@@ -54,7 +54,7 @@ void *GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window) {
 }
 
 void GlfwErrorCallback(std::int32_t error, gsl::czstring description) {
-  spdlog::error("GLFW error({0}): {1}", error, description);
+  big2::Error(description);
 }
 
 GlfwInitializationScoped::GlfwInitializationScoped() {
@@ -70,7 +70,7 @@ GlfwInitializationScoped::GlfwInitializationScoped() {
 }
 
 GlfwInitializationScoped::~GlfwInitializationScoped() {
-  if(!is_initialized_) {
+  if (!is_initialized_) {
     big2::Warning("GLFW is uninitialized twice");
     return;
   }

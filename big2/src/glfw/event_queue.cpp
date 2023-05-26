@@ -3,6 +3,7 @@
 // All rights reserved.
 //
 #include <big2/glfw/event_queue.h>
+#include <big2/macros.h>
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <algorithm>
@@ -222,35 +223,36 @@ void PollEvents() {
 void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window, gsl::span<GlfwEvent> relevant_events) {
   for (const GlfwEvent &event : relevant_events) {
     switch (event.GetDataType()) {
-      case GlfwEvent::EventDataEnum::WindowFocusChange: {
+      using enum GlfwEvent::EventDataEnum;
+      case WindowFocusChange: {
         ImGui_ImplGlfw_WindowFocusCallback(window, event.Get<GlfwEvent::WindowFocusChange>().focused);
         break;
       }
-      case GlfwEvent::EventDataEnum::MouseEnterChange: {
+      case MouseEnterChange: {
         ImGui_ImplGlfw_CursorEnterCallback(window, event.Get<GlfwEvent::MouseEnterChange>().entered);
         break;
       }
-      case GlfwEvent::EventDataEnum::MousePosition: {
+      case MousePosition: {
         glm::vec2 position = event.Get<GlfwEvent::MousePosition>().position;
         ImGui_ImplGlfw_CursorPosCallback(window, position.x, position.y);
         break;
       }
-      case GlfwEvent::EventDataEnum::MouseButton: {
+      case MouseButton: {
         const auto &button_data = event.Get<GlfwEvent::MouseButton>();
         ImGui_ImplGlfw_MouseButtonCallback(window, button_data.button, static_cast<std::int32_t>(button_data.state), button_data.mods);
         break;
       }
-      case GlfwEvent::EventDataEnum::Scroll: {
+      case Scroll: {
         glm::vec2 scroll = event.Get<GlfwEvent::Scroll>().scroll;
         ImGui_ImplGlfw_ScrollCallback(window, scroll.x, scroll.y);
         break;
       }
-      case GlfwEvent::EventDataEnum::KeyboardButton: {
+      case KeyboardButton: {
         const auto &button_data = event.Get<GlfwEvent::KeyboardButton>();
         ImGui_ImplGlfw_KeyCallback(window, button_data.key, button_data.scan_code, static_cast<std::int32_t>(button_data.state), button_data.mods);
         break;
       }
-      case GlfwEvent::EventDataEnum::CharEntered: {
+      case CharEntered: {
         ImGui_ImplGlfw_CharCallback(window, event.Get<GlfwEvent::CharEntered>().character);
         break;
       }

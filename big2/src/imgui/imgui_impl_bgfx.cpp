@@ -26,6 +26,7 @@
 #include <cmath>
 #include <algorithm>
 #include <gsl/gsl>
+#include <big2/asserts.h>
 #include <big2/macros.h>
 #include <glm/glm.hpp>
 

@@ -9,6 +9,7 @@
 
 #include <backends/imgui_impl_glfw.h>
 #include <big2/imgui/imgui_impl_bgfx.h>
+#include <big2/asserts.h>
 #include <big2/macros.h>
 
 namespace big2 {

@@ -11,6 +11,7 @@
 #include <functional>
 #include <typeinfo>
 #include <numeric>
+#include <big2/asserts.h>
 #include <big2/macros.h>
 
 namespace big2 {

@@ -9,6 +9,7 @@
 #include <native_window.h>
 #include <spdlog/spdlog.h>
 #include <big2/macros.h>
+#include <big2/asserts.h>
 
 namespace big2 {
 

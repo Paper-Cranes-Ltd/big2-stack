@@ -9,6 +9,7 @@
 #if BIG2_IMGUI_ENABLED
 #include <bgfx/bgfx.h>
 #include <imgui_internal.h>
+#include <gsl/gsl>
 
 struct GLFWwindow;
 
@@ -23,7 +24,7 @@ namespace big2 {
  * @param use_default_callbacks Whether to let imgui install glfw input event callbacks.
  * They don't work with multiple ImGui contexts so I recommend using the GlfwEventQueue.
  */
-ImGuiContext * ImGuiInit(GLFWwindow *window, bgfx::ViewId view_id, bool use_default_callbacks = false);
+ImGuiContext *ImGuiInit(gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks = false);
 
 /**
  * @brief Terminates the ImGui renderer and backend
@@ -42,6 +43,25 @@ void ImGuiBeginFrame();
  * @brief Finalizes the frame draw data ending the ImGui frame and rendering it
  */
 void ImGuiEndFrame();
+
+class ImGuiFrameScoped final {
+ public:
+  ImGuiFrameScoped();
+  ~ImGuiFrameScoped();
+};
+
+class ImGuiSingleContextScoped final {
+ public:
+  ImGuiSingleContextScoped(gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks = true);
+  ImGuiSingleContextScoped(ImGuiSingleContextScoped&&) = default;
+  ImGuiSingleContextScoped& operator=(ImGuiSingleContextScoped&&) = default;
+  ImGuiSingleContextScoped(const ImGuiSingleContextScoped&) = delete;
+  ImGuiSingleContextScoped& operator=(const ImGuiSingleContextScoped&) = delete;
+  ~ImGuiSingleContextScoped();
+ private:
+  ImGuiContext *context_ = nullptr;
+};
+
 }
 #endif // BIG2_IMGUI_ENABLED
 

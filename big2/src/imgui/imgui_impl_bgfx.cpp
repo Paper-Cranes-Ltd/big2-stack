@@ -26,7 +26,7 @@
 #include <cmath>
 #include <algorithm>
 #include <gsl/gsl>
-#include <big2/asserts.h>
+#include <big2/macro_utils.h>
 #include <glm/glm.hpp>
 
 struct BackendRendererData {

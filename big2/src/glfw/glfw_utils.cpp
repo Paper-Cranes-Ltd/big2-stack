@@ -8,6 +8,7 @@
 #include <bx/bx.h>
 #include <native_window.h>
 #include <spdlog/spdlog.h>
+#include <big2/macro_utils.h>
 
 namespace big2 {
 
@@ -53,6 +54,28 @@ void *GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window) {
 
 void GlfwErrorCallback(std::int32_t error, gsl::czstring description) {
   spdlog::error("GLFW error({0}): {1}", error, description);
+}
+
+GlfwInitializationScoped::GlfwInitializationScoped() {
+  if (is_initialized_) {
+    bigWarning("GLFW is initialized twice");
+    return;
+  }
+
+  glfwSetErrorCallback(GlfwErrorCallback);
+
+  is_initialized_ = glfwInit() == GLFW_TRUE;
+  bigValidate(is_initialized_, "Couldn't initialize GLFW");
+}
+
+GlfwInitializationScoped::~GlfwInitializationScoped() {
+  if(!is_initialized_) {
+    bigWarning("GLFW is uninitialized twice");
+    return;
+  }
+
+  glfwTerminate();
+  is_initialized_ = false;
 }
 
 }

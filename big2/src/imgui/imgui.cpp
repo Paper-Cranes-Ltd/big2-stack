@@ -9,10 +9,11 @@
 
 #include <backends/imgui_impl_glfw.h>
 #include <big2/imgui/imgui_impl_bgfx.h>
+#include <big2/macro_utils.h>
 
 namespace big2 {
 
-ImGuiContext * ImGuiInit(GLFWwindow *window, bgfx::ViewId view_id, bool use_default_callbacks) {
+ImGuiContext * ImGuiInit(gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks) {
   IMGUI_CHECKVERSION();
 
   ImGuiContext* context = ImGui::CreateContext();
@@ -49,6 +50,24 @@ void ImGuiEndFrame() {
   ImGui::EndFrame();
   ImGui::Render();
   ImGui_ImplBgfx_RenderDrawData(ImGui::GetDrawData());
+}
+
+ImGuiFrameScoped::ImGuiFrameScoped() {
+  big2::ImGuiBeginFrame();
+}
+
+ImGuiFrameScoped::~ImGuiFrameScoped() {
+  big2::ImGuiEndFrame();
+}
+
+ImGuiSingleContextScoped::ImGuiSingleContextScoped(gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks) {
+  bigValidate(ImGui::GetCurrentContext() == nullptr, "ImGuiSingleContextScoped should only be used in a single context scenario.");
+  context_ = big2::ImGuiInit(window, view_id, use_default_callbacks);
+}
+
+ImGuiSingleContextScoped::~ImGuiSingleContextScoped() {
+  bigSoftValidate(ImGui::GetCurrentContext() == context_, "ImGuiSingleContextScoped should only be used in a single context scenario. Another context detected on termination.");
+  big2::ImGuiTerminate(context_);
 }
 
 }

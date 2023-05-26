@@ -13,26 +13,22 @@
 #include <numeric>
 #include <big2/asserts.h>
 #include <big2/macros.h>
+#include <ranges>
+#include <concepts>
+#include <execution>
 
 namespace big2 {
 
-template<typename T>
+template<std::integral T, T max_value = std::numeric_limits<T>::max()>
 class IdManager {
-  static_assert(std::is_integral_v<T>, "IdManager<T> can only be constructed with numeric types");
-
  public:
   [[nodiscard]] T Reserve() {
-    T potential_id = 0;
-    while (potential_id != std::numeric_limits<T>::max()) {
-      if (IsFree(potential_id)) {
-        Reserve(potential_id);
-        return potential_id;
-      }
-      potential_id++;
-    }
-
-    big2::Validate(potential_id != std::numeric_limits<T>::max(), "Cannot reserve a new id since all id's are reserved!");
-    return std::numeric_limits<T>::max();
+    auto is_free = std::bind(&IdManager::IsFree, this, std::placeholders::_1);
+    std::ranges::view auto free_ids = std::views::iota(static_cast<T>(0), max_value) | std::views::filter(is_free) | std::views::take(1);
+    big2::Validate(!free_ids.empty(), "Cannot reserve and ID since all IDs are taken");
+    T id = free_ids.front();
+    Reserve(id);
+    return id;
   }
 
   void Reserve(T value) {
@@ -45,7 +41,7 @@ class IdManager {
   }
 
   [[nodiscard]] bool IsFree(T value) const {
-    return ids_.find(value) == ids_.end();
+    return !ids_.contains(value);
   }
 
   [[nodiscard]] bool IsReserved(T value) const {

@@ -10,7 +10,10 @@
 #include <spdlog/spdlog.h>
 #include <big2/macros.h>
 #include <big2/asserts.h>
+
+#if __has_include(<format>)
 #include <format>
+#endif
 
 namespace big2 {
 
@@ -55,7 +58,12 @@ void *GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window) {
 }
 
 void GlfwErrorCallback(std::int32_t error, gsl::czstring description) {
-  big2::Error(std::format("[{}] {}", error, description).c_str());
+#if __has_include(<format>)
+  const std::string message = std::format("[{}] {}", error, description);
+#else
+  const std::string message(description);
+#endif
+  big2::Error(message.c_str());
 }
 
 GlfwInitializationScoped::GlfwInitializationScoped() {

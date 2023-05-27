@@ -12,6 +12,7 @@
 #include <vector>
 #include <optional>
 #include <GLFW/glfw3.h>
+#include <variant>
 
 namespace big2 {
 

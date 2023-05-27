@@ -29,7 +29,7 @@ if __name__ == "__main__":
     versions[current_tag_name] = commits
 
     lines = []
-    lines.append("# Changelist")
+    lines.append("# Changelist {#changelist}")
     lines.append("")
     lines.append("*This changelist is generated thanks to [Conventional Commits](https://www.conventionalcommits.org/)*")
     lines.append("[TOC]")

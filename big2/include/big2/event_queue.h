@@ -22,9 +22,15 @@ enum class ButtonPressState : std::int32_t {
   Repeated = GLFW_REPEAT
 };
 
-struct GlfwEvent {
+struct GlfwGlobalEvent {
+  struct MonitorConnectChange { GLFWmonitor *monitor; bool connected; };
+  struct GamepadConnectChange { std::int32_t id; bool connected; };
 
-  struct Invalid {};
+  using EventData = std::variant<MonitorConnectChange, GamepadConnectChange>;
+  EventData data;
+};
+
+struct GlfwEvent {
   struct WindowMoved { glm::ivec2 position; };
   struct WindowResized { glm::ivec2 new_size; };
   struct WindowClosed {};
@@ -40,14 +46,28 @@ struct GlfwEvent {
   struct Scroll { glm::vec2 scroll; };
   struct KeyboardButton { std::int32_t key; std::int32_t scan_code; std::int32_t mods; ButtonPressState state; };
   struct CharEntered { std::uint32_t character; };
-  struct MonitorConnectChange { GLFWmonitor *monitor; bool connected; };
   struct FileDrop { std::vector<std::string> files; };
-  struct GamepadConnectChange { std::int32_t id; bool connected; };
 
-  bigDefineVariantEnum(EventData, Invalid, WindowMoved, WindowResized, WindowClosed,
-                       WindowRefresh, WindowFocusChange, WindowIconifyChange, WindowMaximizeChange,
-                       WindowContentScaleChange, FrameBufferResized, MouseButton, MousePosition, MouseEnterChange,
-                       Scroll, KeyboardButton, CharEntered, MonitorConnectChange, FileDrop, GamepadConnectChange);
+  using EventData = std::variant<
+      WindowMoved,
+      WindowResized,
+      WindowClosed,
+      WindowRefresh,
+      WindowFocusChange,
+      WindowIconifyChange,
+      WindowMaximizeChange,
+      WindowContentScaleChange,
+      FrameBufferResized,
+      MouseButton,
+      MousePosition,
+      MouseEnterChange,
+      Scroll,
+      KeyboardButton,
+      CharEntered,
+      FileDrop
+  >;
+
+  explicit GlfwEvent(gsl::not_null<GLFWwindow*> window);
 
   template<typename T>
   [[nodiscard]] bool Is() const {
@@ -64,12 +84,8 @@ struct GlfwEvent {
     return const_cast<T &>(const_cast<const GlfwEvent *>(this)->Get<T>());
   }
 
-  [[nodiscard]] EventDataEnum GetDataType() const {
-    return static_cast<EventDataEnum>(data.index());
-  }
-
-  std::optional<GLFWwindow *> window = std::nullopt;
-  EventData data = GlfwEvent::Invalid{};
+  EventData data;
+  gsl::not_null<GLFWwindow *> window;
 };
 
 namespace GlfwEventQueue {
@@ -89,7 +105,7 @@ void ConnectWindow(gsl::not_null<GLFWwindow *> window);
  * These are events like monitor or gamepad being connected or disconnected.
  * Use GlfwEventQueue::PollEvents() to update the list each frame.
  */
-gsl::span<GlfwEvent> GrabGlobalEvents();
+gsl::span<GlfwGlobalEvent> GrabGlobalEvents();
 
 /**
  * @brief Gives back a reference to the events that happened for a given window in the current frame.
@@ -110,10 +126,10 @@ void PollEvents();
 /**
  * @brief Updates ImGui with the events for a given window only.
  * Make sure the ImGui has the correct ImGuiContext set before calling this function.
- * @param window An initialized window handle
- * @param relevant_events The events connected with the current window
+ * @param data An initialized window handle
+ * @param window_events The events connected with the current window
  */
-void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window, gsl::span<GlfwEvent> relevant_events);
+void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> data, gsl::span<GlfwEvent> window_events);
 #endif
 }
 

@@ -9,7 +9,7 @@
 #include <variant>
 #include <cstdint>
 
-#define bigDefineVariantEnum(TypeName, ...) \
+#define BIG2_DEFINE_VARIANT_AND_ENUM(TypeName, ...) \
   using TypeName = std::variant<__VA_ARGS__>; \
   enum class TypeName##Enum : std::size_t { __VA_ARGS__ }
 

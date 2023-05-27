@@ -10,6 +10,7 @@
 #include <spdlog/spdlog.h>
 #include <big2/macros.h>
 #include <big2/asserts.h>
+#include <format>
 
 namespace big2 {
 

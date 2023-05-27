@@ -185,6 +185,7 @@ static void SortEventsByWindow() {
 
 void PollEvents() {
   events.clear();
+  global_events.clear();
   glfwPollEvents();
   SortEventsByWindow();
 }

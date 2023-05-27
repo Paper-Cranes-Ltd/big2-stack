@@ -126,10 +126,17 @@ void PollEvents();
 /**
  * @brief Updates ImGui with the events for a given window only.
  * Make sure the ImGui has the correct ImGuiContext set before calling this function.
- * @param data An initialized window handle
+ * @param window An initialized window handle
  * @param window_events The events connected with the current window
  */
-void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> data, gsl::span<GlfwEvent> window_events);
+void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window, gsl::span<GlfwEvent> window_events);
+
+/**
+ * @brief Same as UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window, gsl::span<GlfwEvent> window_events).
+ * Will call GrabEvents() for the window that is passed.
+ * @param window An initialized window handle
+ */
+inline void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window) { UpdateImGuiEvents(window, GrabEvents(window)); }
 #endif
 }
 

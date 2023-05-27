@@ -65,14 +65,33 @@ void GlfwErrorCallback(std::int32_t error, gsl::czstring description);
 class GlfwInitializationScoped final {
  public:
   GlfwInitializationScoped();
-  GlfwInitializationScoped(GlfwInitializationScoped&&) = default;
-  GlfwInitializationScoped& operator=(GlfwInitializationScoped&&) = default;
-  GlfwInitializationScoped(const GlfwInitializationScoped&) = delete;
-  GlfwInitializationScoped& operator=(const GlfwInitializationScoped&) = delete;
+  GlfwInitializationScoped(GlfwInitializationScoped &&) = default;
+  GlfwInitializationScoped &operator=(GlfwInitializationScoped &&) = default;
+  GlfwInitializationScoped(const GlfwInitializationScoped &) = delete;
+  GlfwInitializationScoped &operator=(const GlfwInitializationScoped &) = delete;
   ~GlfwInitializationScoped();
 
  private:
   static inline bool is_initialized_ = false;
+};
+
+class GlfwWindowScoped final {
+ public:
+  GlfwWindowScoped(gsl::not_null<GLFWwindow *> window);
+  GlfwWindowScoped(gsl::czstring title, glm::ivec2 size, GLFWmonitor *monitor = nullptr);
+  GlfwWindowScoped(GlfwWindowScoped &&) = default;
+  GlfwWindowScoped &operator=(GlfwWindowScoped &&) = default;
+  GlfwWindowScoped(const GlfwWindowScoped &) = delete;
+  GlfwWindowScoped &operator=(const GlfwWindowScoped &) = delete;
+  ~GlfwWindowScoped();
+
+  operator GLFWwindow *() { return window_; }
+  operator gsl::not_null<GLFWwindow *>() { return window_; }
+
+  [[nodiscard]] gsl::not_null<GLFWwindow *> GetWindow() const { return window_; }
+
+ private:
+  gsl::owner<GLFWwindow *> window_ = nullptr;
 };
 
 }

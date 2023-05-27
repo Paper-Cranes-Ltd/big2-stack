@@ -19,10 +19,7 @@
 
 int main(std::int32_t, gsl::zstring[]) {
   big2::GlfwInitializationScoped _;
-
-  GLFWwindow *window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+BGFX example", nullptr, nullptr);
-  big2::Validate(window != nullptr, "Window handle is nullptr");
-  gsl::final_action destroy_window([window]() { glfwDestroyWindow(window); });
+  big2::GlfwWindowScoped window("Dear ImGui GLFW+BGFX example", {1280, 720});
 
   bgfx::Init init_object;
   big2::SetNativeWindowData(init_object, window);
@@ -47,10 +44,9 @@ int main(std::int32_t, gsl::zstring[]) {
   bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);
   bgfx::setViewRect(main_view_id, 0, 0, window_size.x, window_size.y);
 
-  // Main loop
+  big2::GlfwEventQueue::Initialize();
   while (!glfwWindowShouldClose(window)) {
-    glfwPollEvents();
-
+    big2::GlfwEventQueue::PollEvents();
     const glm::ivec2 new_window_size = big2::GetWindowSize(window);
     if (new_window_size != window_size) {
       bgfx::reset(new_window_size.x, new_window_size.y, BGFX_RESET_VSYNC);
@@ -61,6 +57,7 @@ int main(std::int32_t, gsl::zstring[]) {
     bgfx::touch(main_view_id);
 
 #if BIG2_IMGUI_ENABLED
+    big2::GlfwEventQueue::UpdateImGuiEvents(window);
     BIG2_SCOPE_VAR(big2::ImGuiFrameScoped) {
       ImGui::ShowDemoWindow();
     }

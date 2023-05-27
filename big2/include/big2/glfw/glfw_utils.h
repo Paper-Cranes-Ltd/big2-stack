@@ -60,7 +60,9 @@ void GlfwErrorCallback(std::int32_t error, gsl::czstring description);
 
 /**
  * @brief A scoped initialization class for GLFW that will also terminate it.
- * @details This class will warn if terminated or initialized twice and will also set a default error callback that will log any errors.
+ * @details This class will warn if terminated or initialized twice and will also set
+ * a default error callback that will log any errors.
+ * @see BIG2_SCOPE(assignment)
  */
 class GlfwInitializationScoped final {
  public:
@@ -75,6 +77,12 @@ class GlfwInitializationScoped final {
   static inline bool is_initialized_ = false;
 };
 
+/**
+ * @brief This class will wrap a GLFWwindow pointer and dispose it upon destruction.
+ * @details You could put this in an unique_ptr to have it for longer and pass it on to be owned and disposed properly.
+ * Otherwise you could use it with BIG2_SCOPE or just a normal scope.
+ * @see BIG2_SCOPE(assignment)
+ */
 class GlfwWindowScoped final {
  public:
   GlfwWindowScoped(gsl::not_null<GLFWwindow *> window);

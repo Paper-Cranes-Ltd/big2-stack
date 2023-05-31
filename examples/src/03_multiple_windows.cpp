@@ -34,9 +34,9 @@ int main(std::int32_t, gsl::zstring[]) {
     views[i] = big2::ReserveViewId();
     frame_buffers[i] = big2::CreateWindowFramebuffer(windows[i]);
     bgfx::setViewFrameBuffer(views[i], frame_buffers[i]);
-    glm::ivec2 window_size = big2::GetWindowSize(windows[i]);
+    glm::ivec2 window_resolution = big2::GetWindowResolution(windows[i]);
 
-    bgfx::setViewRect(views[i], 0, 0, static_cast<std::uint16_t>(window_size.x), static_cast<std::uint16_t>(window_size.y));
+    bgfx::setViewRect(views[i], 0, 0, static_cast<std::uint16_t>(window_resolution.x), static_cast<std::uint16_t>(window_resolution.y));
   }
 
   gsl::final_action terminate_windows([&frame_buffers, &windows, &views]() {

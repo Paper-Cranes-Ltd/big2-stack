@@ -37,9 +37,9 @@ int main(std::int32_t, gsl::zstring[]) {
   bgfx::Init init_object;
   big2::SetNativeWindowData(init_object, window);
 
-  glm::ivec2 window_size = big2::GetWindowSize(window);
-  init_object.resolution.width = window_size.x;
-  init_object.resolution.height = window_size.y;
+  glm::ivec2 window_resolution = big2::GetWindowResolution(window);
+  init_object.resolution.width = window_resolution.x;
+  init_object.resolution.height = window_resolution.y;
   init_object.resolution.reset = BGFX_RESET_VSYNC;
 
   big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
@@ -51,7 +51,7 @@ int main(std::int32_t, gsl::zstring[]) {
   bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);
 
   // This is set to determine the size of the drawable surface
-  bgfx::setViewRect(main_view_id, 0, 0, window_size.x, window_size.y);
+  bgfx::setViewRect(main_view_id, 0, 0, window_resolution.x, window_resolution.y);
 
   NormalColorVertex kTriangleVertices[] =
       {
@@ -94,10 +94,10 @@ int main(std::int32_t, gsl::zstring[]) {
     // Inside the main loop after glfwPollEvents
     // Check if window size changed and update the view respectively
     const glm::ivec2 new_window_size = big2::GetWindowSize(window);
-    if (new_window_size != window_size) {
+    if (new_window_size != window_resolution) {
       bgfx::reset(new_window_size.x, new_window_size.y, BGFX_RESET_VSYNC);
       bgfx::setViewRect(main_view_id, 0, 0, bgfx::BackbufferRatio::Equal);
-      window_size = new_window_size;
+      window_resolution = new_window_size;
     }
 
     // Ensure the view is redrawn even if no graphic commands are called

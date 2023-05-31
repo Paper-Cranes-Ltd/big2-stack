@@ -25,8 +25,8 @@ void SetNativeWindowData(bgfx::Init &init_obj, gsl::not_null<GLFWwindow *> windo
 }
 
 bgfx::FrameBufferHandle CreateWindowFramebuffer(gsl::not_null<GLFWwindow *> window) {
-  glm::ivec2 window_size = GetWindowSize(window);
-  return bgfx::createFrameBuffer(GetNativeWindowHandle(window), window_size.x, window_size.y);
+  glm::ivec2 window_resolution = GetWindowResolution(window);
+  return bgfx::createFrameBuffer(GetNativeWindowHandle(window), window_resolution.x, window_resolution.y);
 }
 
 bgfx::ViewId ReserveViewId() {

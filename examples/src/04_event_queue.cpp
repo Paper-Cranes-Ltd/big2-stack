@@ -46,9 +46,9 @@ int main(std::int32_t, gsl::zstring[]) {
     window_data_s[i].view_id = big2::ReserveViewId();
     window_data_s[i].frame_buffer_handle = big2::CreateWindowFramebuffer(window_data_s[i].window);
     bgfx::setViewFrameBuffer(window_data_s[i].view_id, window_data_s[i].frame_buffer_handle);
-    glm::ivec2 window_size = big2::GetWindowSize(window_data_s[i].window);
+    glm::ivec2 window_resolution = big2::GetWindowResolution(window_data_s[i].window);
 
-    bgfx::setViewRect(window_data_s[i].view_id, 0, 0, static_cast<std::uint16_t>(window_size.x), static_cast<std::uint16_t>(window_size.y));
+    bgfx::setViewRect(window_data_s[i].view_id, 0, 0, static_cast<std::uint16_t>(window_resolution.x), static_cast<std::uint16_t>(window_resolution.y));
 
 #if BIG2_IMGUI_ENABLED
     window_data_s[i].imgui_context = big2::ImGuiInit(window_data_s[i].window, window_data_s[i].view_id);

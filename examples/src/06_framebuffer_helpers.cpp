@@ -16,21 +16,22 @@
 #include <bx/bx.h>
 
 #include <GLFW/glfw3.h>
+#include <ranges>
 
 int main(std::int32_t, gsl::zstring[]) {
   big2::GlfwInitializationScoped _;
   big2::GlfwWindowScoped window("Dear ImGui GLFW+BGFX example", {1280, 720});
 
   bgfx::Init init_object;
-  big2::SetNativeWindowData(init_object, window);
-
-  glm::ivec2 window_resolution = big2::GetWindowResolution(window);
-  init_object.resolution.width = window_resolution.x;
-  init_object.resolution.height = window_resolution.y;
-  init_object.resolution.reset = BGFX_RESET_VSYNC;
-
+  big2::SetNativeData(init_object);
   big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
+
   const bgfx::ViewId main_view_id = big2::ReserveViewId();
+  bgfx::FrameBufferHandle frame_buffer_handle = big2::CreateWindowFramebuffer(window);
+  bgfx::setViewFrameBuffer(main_view_id, frame_buffer_handle);
+  glm::ivec2 window_resolution = big2::GetWindowResolution(window);
+  bgfx::setViewRect(main_view_id, 0, 0, window_resolution.x, window_resolution.y);
+  bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);
 
 #if BIG2_IMGUI_ENABLED
   big2::ImGuiSingleContextScoped _context(window, main_view_id, /*use_default_callbacks=*/ true);
@@ -41,17 +42,18 @@ int main(std::int32_t, gsl::zstring[]) {
   ImGui::StyleColorsDark();
 #endif // BIG2_IMGUI_ENABLED
 
-  bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);
-  bgfx::setViewRect(main_view_id, 0, 0, window_resolution.x, window_resolution.y);
-
   big2::GlfwEventQueue::Initialize();
   while (!glfwWindowShouldClose(window)) {
     big2::GlfwEventQueue::PollEvents();
-    const glm::ivec2 new_window_size = big2::GetWindowSize(window);
-    if (new_window_size != window_resolution) {
-      bgfx::reset(new_window_size.x, new_window_size.y, BGFX_RESET_VSYNC);
-      bgfx::setViewRect(main_view_id, 0, 0, bgfx::BackbufferRatio::Equal);
-      window_resolution = new_window_size;
+
+    gsl::span<big2::GlfwEvent> events = big2::GlfwEventQueue::GrabEvents(window);
+    auto frame_buffer_updated_event = [](big2::GlfwEvent& event) { return event.Is<big2::GlfwEvent::FrameBufferResized>(); };
+    if(std::find_if(events.begin(), events.end(), frame_buffer_updated_event) != events.end())
+    {
+      window_resolution = big2::GetWindowResolution(window);
+      big2::UpdateFrameBuffer(window, frame_buffer_handle);
+      bgfx::setViewFrameBuffer(main_view_id, frame_buffer_handle);
+      bgfx::setViewRect(main_view_id, 0, 0, window_resolution.x, window_resolution.y);
     }
 
     bgfx::touch(main_view_id);

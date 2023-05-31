@@ -66,6 +66,12 @@ void GlfwErrorCallback(std::int32_t error, gsl::czstring description) {
   big2::Error(message.c_str());
 }
 
+glm::ivec2 GetWindowResolution(gsl::not_null<GLFWwindow *> window) {
+  glm::ivec2 window_resolution;
+  glfwGetFramebufferSize(window, &window_resolution.x, &window_resolution.y);
+  return window_resolution;
+}
+
 GlfwInitializationScoped::GlfwInitializationScoped() {
   if (is_initialized_) {
     big2::Warning("GLFW is initialized twice");

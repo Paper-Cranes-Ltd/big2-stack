@@ -48,6 +48,12 @@ namespace big2 {
 [[nodiscard]] glm::ivec2 GetWindowSize(gsl::not_null<GLFWwindow *> window);
 
 /**
+ * @brief Returns the window resolution (framebuffer size)
+ * @return  A 2D vector where x is the width and y is the height of the window
+ */
+[[nodiscard]] glm::ivec2 GetWindowResolution(gsl::not_null<GLFWwindow *> window);
+
+/**
  * @brief Gets the platform native window handle.
  * @param window An initialized window handle
  */
@@ -85,7 +91,7 @@ class GlfwInitializationScoped final {
  */
 class GlfwWindowScoped final {
  public:
-  GlfwWindowScoped(gsl::not_null<GLFWwindow *> window);
+  explicit(false) GlfwWindowScoped(gsl::not_null<GLFWwindow *> window);
   GlfwWindowScoped(gsl::czstring title, glm::ivec2 size, GLFWmonitor *monitor = nullptr);
   GlfwWindowScoped(GlfwWindowScoped &&) = default;
   GlfwWindowScoped &operator=(GlfwWindowScoped &&) = default;
@@ -93,8 +99,8 @@ class GlfwWindowScoped final {
   GlfwWindowScoped &operator=(const GlfwWindowScoped &) = delete;
   ~GlfwWindowScoped();
 
-  operator GLFWwindow *() { return window_; }
-  operator gsl::not_null<GLFWwindow *>() { return window_; }
+  explicit(false) operator GLFWwindow *() { return window_; }
+  explicit(false) operator gsl::not_null<GLFWwindow *>() { return window_; }
 
   [[nodiscard]] gsl::not_null<GLFWwindow *> GetWindow() const { return window_; }
 

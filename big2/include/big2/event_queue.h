@@ -13,6 +13,7 @@
 #include <optional>
 #include <GLFW/glfw3.h>
 #include <variant>
+#include <execution>
 
 namespace big2 {
 
@@ -121,6 +122,23 @@ gsl::span<GlfwEvent> GrabEvents(gsl::not_null<GLFWwindow *> window);
  * Make sure that it is always being called by one thread since this allows for parallel optimizations.
  */
 void PollEvents();
+
+/**
+ * @brief Checks that the array of events has a certain event type.
+ */
+template<typename TEventType>
+bool HasEventType(const gsl::span<GlfwEvent> window_events) {
+  auto predicate = [](const big2::GlfwEvent& event) { return event.Is<TEventType>(); };
+  return std::any_of(std::execution::par_unseq, window_events.begin(), window_events.end(), predicate);
+}
+
+/**
+ * @brief Checks that the array of events has a certain event type.
+ */
+template<typename TEventType>
+bool HasEventType(gsl::not_null<GLFWwindow *> window) {
+  return HasEventType<TEventType>(GrabEvents(window));
+}
 
 #if BIG2_IMGUI_ENABLED
 /**

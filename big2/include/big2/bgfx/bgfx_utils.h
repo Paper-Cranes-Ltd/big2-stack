@@ -36,14 +36,14 @@ void SetNativeWindowData(bgfx::Init &init_obj, gsl::not_null<GLFWwindow *> windo
  * @param window An initialized window handle
  * @return A handle to the frame buffer. You would likely need to link this to a bgfx::ViewId through bgfx::setViewFrameBuffer
  */
-[[nodiscard]] bgfx::FrameBufferHandle CreateWindowFramebuffer(gsl::not_null<GLFWwindow *> window);
+[[nodiscard]] bgfx::FrameBufferHandle CreateWindowFrameBuffer(gsl::not_null<GLFWwindow *> window);
 
 /**
  * @brief Updates an existing framebuffer handle by destroying the current framebuffer and then recreating it.
  * @param window An initialized window handle
  * @param out_handle A handle to the frame buffer.
  */
-void UpdateFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBufferHandle& out_handle);
+void ResetWindowFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBufferHandle &out_handle);
 
 /**
  * @brief BIG2 will use an IdManager class to reserve and monitor ViewIds
@@ -62,6 +62,51 @@ void UpdateFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBufferHand
  * @param The ViewId that will be freed
  */
 void FreeViewId(bgfx::ViewId value);
+
+/**
+ * @brief A scoped wrapper to free and reset the view after it is finished.
+ * @details You could put this in an unique_ptr to have it for longer and pass it on to be owned and disposed properly.
+ * Otherwise you could use it with BIG2_SCOPE or just a normal scope.
+ * @see BIG2_SCOPE(assignment)
+ */
+class BgfxViewScoped final {
+ public:
+  BgfxViewScoped();
+  explicit(false) BgfxViewScoped(bgfx::ViewId view_id);
+  BgfxViewScoped(BgfxViewScoped &&) = default;
+  BgfxViewScoped &operator=(BgfxViewScoped &&) = default;
+  BgfxViewScoped(const BgfxViewScoped &) = delete;
+  BgfxViewScoped &operator=(const BgfxViewScoped &) = delete;
+  ~BgfxViewScoped();
+
+  explicit(false) operator bgfx::ViewId() const;
+
+ private:
+  bgfx::ViewId view_id_ = BGFX_INVALID_HANDLE;
+};
+
+/**
+ * @brief A scoped wrapper to dispose of the frame buffer after it is finished.
+ * @details You could put this in an unique_ptr to have it for longer and pass it on to be owned and disposed properly.
+ * Otherwise you could use it with BIG2_SCOPE or just a normal scope.
+ * @see BIG2_SCOPE(assignment)
+ */
+class BgfxFrameBufferScoped final {
+ public:
+  explicit BgfxFrameBufferScoped(gsl::not_null<GLFWwindow *> window);
+  explicit(false) BgfxFrameBufferScoped(bgfx::FrameBufferHandle handle);
+  BgfxFrameBufferScoped(BgfxFrameBufferScoped &&) = default;
+  BgfxFrameBufferScoped &operator=(BgfxFrameBufferScoped &&) = default;
+  BgfxFrameBufferScoped(const BgfxFrameBufferScoped &) = delete;
+  BgfxFrameBufferScoped &operator=(const BgfxFrameBufferScoped &) = delete;
+  ~BgfxFrameBufferScoped();
+
+  explicit(false) operator bgfx::FrameBufferHandle() const;
+  explicit(false) operator bgfx::FrameBufferHandle&();
+
+ private:
+  bgfx::FrameBufferHandle handle_ = BGFX_INVALID_HANDLE;
+};
 
 }
 

@@ -30,10 +30,11 @@ int main(std::int32_t, gsl::zstring[]) {
   init_object.resolution.reset = BGFX_RESET_VSYNC;
 
   big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
-  const bgfx::ViewId main_view_id = big2::ReserveViewId();
+
+  const big2::BgfxViewScoped main_view;
 
 #if BIG2_IMGUI_ENABLED
-  big2::ImGuiSingleContextScoped _context(window, main_view_id, /*use_default_callbacks=*/ true);
+  big2::ImGuiSingleContextScoped _context(window, main_view, /*use_default_callbacks=*/ true);
 
   ImGuiIO &io = ImGui::GetIO();
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
@@ -41,8 +42,8 @@ int main(std::int32_t, gsl::zstring[]) {
   ImGui::StyleColorsDark();
 #endif // BIG2_IMGUI_ENABLED
 
-  bgfx::setViewClear(main_view_id, BGFX_CLEAR_COLOR, 0x000000FF);
-  bgfx::setViewRect(main_view_id, 0, 0, window_resolution.x, window_resolution.y);
+  bgfx::setViewClear(main_view, BGFX_CLEAR_COLOR, 0x000000FF);
+  bgfx::setViewRect(main_view, 0, 0, window_resolution.x, window_resolution.y);
 
   big2::GlfwEventQueue::Initialize();
   while (!glfwWindowShouldClose(window)) {
@@ -50,11 +51,11 @@ int main(std::int32_t, gsl::zstring[]) {
     const glm::ivec2 new_window_size = big2::GetWindowSize(window);
     if (new_window_size != window_resolution) {
       bgfx::reset(new_window_size.x, new_window_size.y, BGFX_RESET_VSYNC);
-      bgfx::setViewRect(main_view_id, 0, 0, bgfx::BackbufferRatio::Equal);
+      bgfx::setViewRect(main_view, 0, 0, bgfx::BackbufferRatio::Equal);
       window_resolution = new_window_size;
     }
 
-    bgfx::touch(main_view_id);
+    bgfx::touch(main_view);
 
 #if BIG2_IMGUI_ENABLED
     big2::GlfwEventQueue::UpdateImGuiEvents(window);

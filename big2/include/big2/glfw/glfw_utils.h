@@ -99,8 +99,8 @@ class GlfwWindowScoped final {
   GlfwWindowScoped &operator=(const GlfwWindowScoped &) = delete;
   ~GlfwWindowScoped();
 
-  explicit(false) operator GLFWwindow *() { return window_; }
-  explicit(false) operator gsl::not_null<GLFWwindow *>() { return window_; }
+  explicit(false) operator GLFWwindow *() const { return window_; }
+  explicit(false) operator gsl::not_null<GLFWwindow *>() const { return window_; }
 
   [[nodiscard]] gsl::not_null<GLFWwindow *> GetWindow() const { return window_; }
 

@@ -3,8 +3,8 @@
 // All rights reserved.
 //
 
-#ifndef BIG2_STACK_BIG2_ID_MANAGER_H_
-#define BIG2_STACK_BIG2_ID_MANAGER_H_
+#ifndef BIG2_STACK_ID_MANAGER_H_
+#define BIG2_STACK_ID_MANAGER_H_
 
 #include <set>
 #include <type_traits>
@@ -58,4 +58,4 @@ class IdManager {
 
 }
 
-#endif //BIG2_STACK_BIG2_ID_MANAGER_H_
+#endif //BIG2_STACK_ID_MANAGER_H_

@@ -3,8 +3,8 @@
 // All rights reserved.
 //
 
-#ifndef BIG2_STACK_PRIVATE_NATIVE_WINDOW_H_
-#define BIG2_STACK_PRIVATE_NATIVE_WINDOW_H_
+#ifndef BIG2_STACK_NATIVE_WINDOW_H_
+#define BIG2_STACK_NATIVE_WINDOW_H_
 
 #include <bx/bx.h>
 #if BX_PLATFORM_LINUX
@@ -16,4 +16,4 @@
 #endif
 #include <GLFW/glfw3native.h>
 
-#endif //BIG2_STACK_PRIVATE_NATIVE_WINDOW_H_
+#endif //BIG2_STACK_NATIVE_WINDOW_H_

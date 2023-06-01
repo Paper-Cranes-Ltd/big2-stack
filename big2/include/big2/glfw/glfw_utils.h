@@ -3,8 +3,8 @@
 // All rights reserved.
 //
 
-#ifndef BIG2_STACK_BIG2_GLFW_UTILS_H_
-#define BIG2_STACK_BIG2_GLFW_UTILS_H_
+#ifndef BIG2_STACK_GLFW_UTILS_H_
+#define BIG2_STACK_GLFW_UTILS_H_
 
 #include <glm/glm.hpp>
 #include <gsl/gsl>
@@ -110,4 +110,4 @@ class GlfwWindowScoped final {
 
 }
 
-#endif //BIG2_STACK_BIG2_GLFW_UTILS_H_
+#endif //BIG2_STACK_GLFW_UTILS_H_

@@ -3,8 +3,8 @@
 // All rights reserved.
 //
 
-#ifndef BIG2_STACK_BIG2_BGFX_UTILS_H_
-#define BIG2_STACK_BIG2_BGFX_UTILS_H_
+#ifndef BIG2_STACK_BGFX_UTILS_H_
+#define BIG2_STACK_BGFX_UTILS_H_
 
 #include <bgfx/bgfx.h>
 #include <glm/glm.hpp>
@@ -110,4 +110,4 @@ class BgfxFrameBufferScoped final {
 
 }
 
-#endif //BIG2_STACK_BIG2_BGFX_UTILS_H_
+#endif //BIG2_STACK_BGFX_UTILS_H_

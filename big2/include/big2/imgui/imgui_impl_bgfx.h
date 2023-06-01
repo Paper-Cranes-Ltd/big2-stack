@@ -13,8 +13,8 @@
 // If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
-#ifndef BIG2_STACK_BIG2_IMGUI_IMGUI_IMPL_BGFX_H_
-#define BIG2_STACK_BIG2_IMGUI_IMGUI_IMPL_BGFX_H_
+#ifndef BIG2_STACK_IMGUI_IMPL_BGFX_H_
+#define BIG2_STACK_IMGUI_IMPL_BGFX_H_
 
 #include <imgui.h>
 #include <bgfx/bgfx.h>
@@ -31,4 +31,4 @@ IMGUI_IMPL_API void ImGui_ImplBgfx_DestroyFontsTexture();
 IMGUI_IMPL_API bool ImGui_ImplBgfx_CreateDeviceObjects();
 IMGUI_IMPL_API void ImGui_ImplBgfx_DestroyDeviceObjects();
 
-#endif //BIG2_STACK_BIG2_IMGUI_IMGUI_IMPL_BGFX_H_
+#endif //BIG2_STACK_IMGUI_IMPL_BGFX_H_

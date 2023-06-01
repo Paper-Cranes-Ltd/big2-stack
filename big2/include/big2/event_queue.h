@@ -3,8 +3,8 @@
 // All rights reserved.
 //
 
-#ifndef BIG2_STACK_BIG2_GLFW_EVENT_QUEUE_H_
-#define BIG2_STACK_BIG2_GLFW_EVENT_QUEUE_H_
+#ifndef BIG2_STACK_GLFW_EVENT_QUEUE_H_
+#define BIG2_STACK_GLFW_EVENT_QUEUE_H_
 
 #include <gsl/gsl>
 #include <glm/glm.hpp>
@@ -160,4 +160,4 @@ inline void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window) { UpdateImGuiE
 
 }
 
-#endif //BIG2_STACK_BIG2_GLFW_EVENT_QUEUE_H_
+#endif //BIG2_STACK_GLFW_EVENT_QUEUE_H_

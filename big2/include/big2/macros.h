@@ -3,8 +3,8 @@
 // All rights reserved.
 //
 
-#ifndef BIG2_STACK_BIG2_SCOPED_H_
-#define BIG2_STACK_BIG2_SCOPED_H_
+#ifndef BIG2_STACK_MACROS_H_
+#define BIG2_STACK_MACROS_H_
 
 #include <gsl/gsl>
 
@@ -36,4 +36,4 @@
 #define BIG2_UNLIKELY_IF(condition) if(GSL_UNLIKELY(condition)) [[unlikely]]
 
 
-#endif //BIG2_STACK_BIG2_SCOPED_H_
+#endif //BIG2_STACK_MACROS_H_

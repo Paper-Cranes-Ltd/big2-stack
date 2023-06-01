@@ -3,8 +3,8 @@
 // All rights reserved.
 //
 
-#ifndef BIG2_STACK_BIG2_IMGUI_IMGUI_H_
-#define BIG2_STACK_BIG2_IMGUI_IMGUI_H_
+#ifndef BIG2_STACK_IMGUI_IMGUI_H_
+#define BIG2_STACK_IMGUI_IMGUI_H_
 
 #if BIG2_IMGUI_ENABLED
 #include <bgfx/bgfx.h>
@@ -76,4 +76,4 @@ class ImGuiSingleContextScoped final {
 }
 #endif // BIG2_IMGUI_ENABLED
 
-#endif //BIG2_STACK_BIG2_IMGUI_IMGUI_H_
+#endif //BIG2_STACK_IMGUI_IMGUI_H_

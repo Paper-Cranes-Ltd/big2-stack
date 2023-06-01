@@ -3,8 +3,8 @@
 // All rights reserved.
 //
 
-#ifndef BIG2_STACK_BIG2_ASSERTS_H_
-#define BIG2_STACK_BIG2_ASSERTS_H_
+#ifndef BIG2_STACK_ASSERTS_H_
+#define BIG2_STACK_ASSERTS_H_
 
 #include <gsl/gsl>
 #include <cstdint>
@@ -57,4 +57,4 @@ inline void Info(gsl::czstring message, const std::source_location location = st
 }
 
 }
-#endif //BIG2_STACK_BIG2_ASSERTS_H_
+#endif //BIG2_STACK_ASSERTS_H_

@@ -48,38 +48,4 @@ void ResetWindowFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBuffe
   out_handle = CreateWindowFrameBuffer(window);
 }
 
-BgfxViewScoped::BgfxViewScoped() {
-  view_id_ = ReserveViewId();
-}
-
-BgfxViewScoped::~BgfxViewScoped() {
-  bgfx::resetView(view_id_);
-  FreeViewId(view_id_);
-}
-
-BgfxViewScoped::BgfxViewScoped(bgfx::ViewId view_id) : view_id_(view_id) {
-
-}
-BgfxViewScoped::operator bgfx::ViewId() const {
-  return view_id_;
-}
-
-BgfxFrameBufferScoped::BgfxFrameBufferScoped(gsl::not_null<GLFWwindow *> window) {
-  handle_ = big2::CreateWindowFrameBuffer(window);
-}
-
-BgfxFrameBufferScoped::BgfxFrameBufferScoped(bgfx::FrameBufferHandle handle) : handle_(handle) {
-
-}
-
-BgfxFrameBufferScoped::~BgfxFrameBufferScoped() {
-  bgfx::destroy(handle_);
-}
-BgfxFrameBufferScoped::operator bgfx::FrameBufferHandle() const {
-  return handle_;
-}
-BgfxFrameBufferScoped::operator bgfx::FrameBufferHandle &() {
-  return handle_;
-}
-
 }

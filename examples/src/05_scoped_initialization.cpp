@@ -34,11 +34,13 @@ int main(std::int32_t, gsl::zstring[]) {
   const big2::BgfxViewScoped main_view;
 
 #if BIG2_IMGUI_ENABLED
-  big2::ImGuiSingleContextScoped _context(window, main_view, /*use_default_callbacks=*/ true);
+  big2::ImGuiSingleContextScoped context;
 
   ImGuiIO &io = ImGui::GetIO();
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
+  context.Initialize(window, main_view, /*use_default_callbacks=*/ true);
+
   ImGui::StyleColorsDark();
 #endif // BIG2_IMGUI_ENABLED
 

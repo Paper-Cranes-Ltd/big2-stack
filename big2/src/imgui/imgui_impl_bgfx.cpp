@@ -75,7 +75,19 @@ bool ImGui_ImplBgfx_Init(bgfx::ViewId view_id) {
 }
 
 void ImGui_ImplBgfx_Shutdown() {
+  BackendRendererData *backend_data = ImGui_ImplBgfx_GetBackendData();
+  big2::Validate(backend_data != nullptr, "No backend data (or renderer already shutdown)");
+  ImGuiIO &io = ImGui::GetIO();
+
   ImGui_ImplBgfx_DestroyDeviceObjects();
+  io.BackendRendererName = nullptr;
+  io.BackendRendererUserData = nullptr;
+#if defined(IMGUI_HAS_VIEWPORT)
+  io.BackendFlags &= ~(ImGuiBackendFlags_RendererHasVtxOffset | ImGuiBackendFlags_RendererHasViewports);
+#else
+  io.BackendFlags &= ~(ImGuiBackendFlags_RendererHasVtxOffset);
+#endif // defined(IMGUI_HAS_VIEWPORT)
+  IM_DELETE(backend_data);
 }
 
 void ImGui_ImplBgfx_NewFrame() {
@@ -178,8 +190,7 @@ bool ImGui_ImplBgfx_CreateFontsTexture() {
   constexpr std::uint64_t kFlags = 0;
 
   const bgfx::Memory *data = bgfx::copy(texture_data.bytes, texture_data.GetBytesCount());
-  backend_data->font_texture_handle
-      = bgfx::createTexture2D(texture_data.size.x, texture_data.size.y, kHasMips, kLayersCount, bgfx::TextureFormat::BGRA8, kFlags, data);
+  backend_data->font_texture_handle = bgfx::createTexture2D(texture_data.size.x, texture_data.size.y, kHasMips, kLayersCount, bgfx::TextureFormat::BGRA8, kFlags, data);
 
   ImGuiIO &io = ImGui::GetIO();
   io.Fonts->SetTexID(reinterpret_cast<ImTextureID>(static_cast<std::intptr_t>(backend_data->font_texture_handle.idx)));
@@ -208,10 +219,10 @@ bool ImGui_ImplBgfx_CreateDeviceObjects() {
   );
 
   backend_data->vertex_layout.begin()
-              .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
-              .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-              .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-              .end();
+      .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
+      .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+      .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+      .end();
 
   backend_data->texture_location_handle = bgfx::createUniform("g_AttribLocationTex", bgfx::UniformType::Sampler);
 

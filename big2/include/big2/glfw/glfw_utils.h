@@ -8,6 +8,8 @@
 
 #include <glm/glm.hpp>
 #include <gsl/gsl>
+#include <big2/glfw/glfw_initialization_scoped.h>
+#include <big2/glfw/glfw_window_scoped.h>
 
 struct GLFWwindow;
 struct GLFWmonitor;
@@ -63,50 +65,6 @@ namespace big2 {
  * @brief An error callback that will log the error.
  */
 void GlfwErrorCallback(std::int32_t error, gsl::czstring description);
-
-/**
- * @brief A scoped initialization class for GLFW that will also terminate it.
- * @details This class will warn if terminated or initialized twice and will also set
- * a default error callback that will log any errors.
- * @see BIG2_SCOPE(assignment)
- */
-class GlfwInitializationScoped final {
- public:
-  GlfwInitializationScoped();
-  GlfwInitializationScoped(GlfwInitializationScoped &&) = default;
-  GlfwInitializationScoped &operator=(GlfwInitializationScoped &&) = default;
-  GlfwInitializationScoped(const GlfwInitializationScoped &) = delete;
-  GlfwInitializationScoped &operator=(const GlfwInitializationScoped &) = delete;
-  ~GlfwInitializationScoped();
-
- private:
-  static inline bool is_initialized_ = false;
-};
-
-/**
- * @brief This class will wrap a GLFWwindow pointer and dispose it upon destruction.
- * @details You could put this in an unique_ptr to have it for longer and pass it on to be owned and disposed properly.
- * Otherwise you could use it with BIG2_SCOPE or just a normal scope.
- * @see BIG2_SCOPE(assignment)
- */
-class GlfwWindowScoped final {
- public:
-  explicit(false) GlfwWindowScoped(gsl::not_null<GLFWwindow *> window);
-  GlfwWindowScoped(gsl::czstring title, glm::ivec2 size, GLFWmonitor *monitor = nullptr);
-  GlfwWindowScoped(GlfwWindowScoped &&) = default;
-  GlfwWindowScoped &operator=(GlfwWindowScoped &&) = default;
-  GlfwWindowScoped(const GlfwWindowScoped &) = delete;
-  GlfwWindowScoped &operator=(const GlfwWindowScoped &) = delete;
-  ~GlfwWindowScoped();
-
-  explicit(false) operator GLFWwindow *() const { return window_; }
-  explicit(false) operator gsl::not_null<GLFWwindow *>() const { return window_; }
-
-  [[nodiscard]] gsl::not_null<GLFWwindow *> GetWindow() const { return window_; }
-
- private:
-  gsl::owner<GLFWwindow *> window_ = nullptr;
-};
 
 }
 

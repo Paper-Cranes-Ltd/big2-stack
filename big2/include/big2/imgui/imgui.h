@@ -10,6 +10,8 @@
 #include <bgfx/bgfx.h>
 #include <imgui_internal.h>
 #include <gsl/gsl>
+#include <big2/imgui/imgui_frame_scoped.h>
+#include <big2/imgui/imgui_single_context_scoped.h>
 
 struct GLFWwindow;
 
@@ -25,6 +27,7 @@ namespace big2 {
  * They don't work with multiple ImGui contexts so I recommend using the GlfwEventQueue.
  */
 ImGuiContext *ImGuiInit(gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks = false);
+void ImGuiInit(gsl::not_null<ImGuiContext *> context, gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks = false);
 
 /**
  * @brief Terminates the ImGui renderer and backend
@@ -43,35 +46,6 @@ void ImGuiBeginFrame();
  * @brief Finalizes the frame draw data ending the ImGui frame and rendering it
  */
 void ImGuiEndFrame();
-
-/**
- * @brief Will call ImGuiStartFrame() and ImGuiEndFrame() in a scope
- * @details Could be used with some helper macros in this project.
- * @see BIG2_SCOPE(assignment)
- */
-class ImGuiFrameScoped final {
- public:
-  ImGuiFrameScoped();
-  ~ImGuiFrameScoped();
-};
-
-/**
- * @brief Helps when having a single-window single-context scenario.
- * @details Will handle creation and disposal of the single ImGuiContext pointer
- * as well as initializing GLFW and BGFX with ImGui.
- * @see BIG2_SCOPE(assignment)
- */
-class ImGuiSingleContextScoped final {
- public:
-  ImGuiSingleContextScoped(gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks = true);
-  ImGuiSingleContextScoped(ImGuiSingleContextScoped&&) = default;
-  ImGuiSingleContextScoped& operator=(ImGuiSingleContextScoped&&) = default;
-  ImGuiSingleContextScoped(const ImGuiSingleContextScoped&) = delete;
-  ImGuiSingleContextScoped& operator=(const ImGuiSingleContextScoped&) = delete;
-  ~ImGuiSingleContextScoped();
- private:
-  ImGuiContext *context_ = nullptr;
-};
 
 }
 #endif // BIG2_IMGUI_ENABLED

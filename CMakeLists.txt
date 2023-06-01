@@ -19,10 +19,12 @@ else()
 endif()
 
 # Options
+include(CMakeDependentOption)
 
 option(BIG2_BUILD_EXAMPLES "Whether or not to build examples with this stack" "${PROJECT_IS_TOP_LEVEL}")
 option(BIG2_BUILD_DOCS "Whether or not to generate documentation" "${PROJECT_IS_TOP_LEVEL}")
 option(BIG2_INCLUDE_IMGUI "Whether or not to add imgui into the mix" ON)
+cmake_dependent_option(BIG2_USE_IMGUI_DOCKING "Will use the docking branch of ImGui" OFF "BIG2_INCLUDE_IMGUI" OFF)
 
 # Dependencies
 include(FetchContent)

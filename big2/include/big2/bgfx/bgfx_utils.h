@@ -10,6 +10,8 @@
 #include <glm/glm.hpp>
 #include <gsl/gsl>
 #include <vector>
+#include <big2/bgfx/bgfx_frame_buffer_scoped.h>
+#include <big2/bgfx/bgfx_view_scoped.h>
 
 struct GLFWwindow;
 
@@ -63,50 +65,8 @@ void ResetWindowFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBuffe
  */
 void FreeViewId(bgfx::ViewId value);
 
-/**
- * @brief A scoped wrapper to free and reset the view after it is finished.
- * @details You could put this in an unique_ptr to have it for longer and pass it on to be owned and disposed properly.
- * Otherwise you could use it with BIG2_SCOPE or just a normal scope.
- * @see BIG2_SCOPE(assignment)
- */
-class BgfxViewScoped final {
- public:
-  BgfxViewScoped();
-  explicit(false) BgfxViewScoped(bgfx::ViewId view_id);
-  BgfxViewScoped(BgfxViewScoped &&) = default;
-  BgfxViewScoped &operator=(BgfxViewScoped &&) = default;
-  BgfxViewScoped(const BgfxViewScoped &) = delete;
-  BgfxViewScoped &operator=(const BgfxViewScoped &) = delete;
-  ~BgfxViewScoped();
 
-  explicit(false) operator bgfx::ViewId() const;
 
- private:
-  bgfx::ViewId view_id_ = BGFX_INVALID_HANDLE;
-};
-
-/**
- * @brief A scoped wrapper to dispose of the frame buffer after it is finished.
- * @details You could put this in an unique_ptr to have it for longer and pass it on to be owned and disposed properly.
- * Otherwise you could use it with BIG2_SCOPE or just a normal scope.
- * @see BIG2_SCOPE(assignment)
- */
-class BgfxFrameBufferScoped final {
- public:
-  explicit BgfxFrameBufferScoped(gsl::not_null<GLFWwindow *> window);
-  explicit(false) BgfxFrameBufferScoped(bgfx::FrameBufferHandle handle);
-  BgfxFrameBufferScoped(BgfxFrameBufferScoped &&) = default;
-  BgfxFrameBufferScoped &operator=(BgfxFrameBufferScoped &&) = default;
-  BgfxFrameBufferScoped(const BgfxFrameBufferScoped &) = delete;
-  BgfxFrameBufferScoped &operator=(const BgfxFrameBufferScoped &) = delete;
-  ~BgfxFrameBufferScoped();
-
-  explicit(false) operator bgfx::FrameBufferHandle() const;
-  explicit(false) operator bgfx::FrameBufferHandle&();
-
- private:
-  bgfx::FrameBufferHandle handle_ = BGFX_INVALID_HANDLE;
-};
 
 }
 

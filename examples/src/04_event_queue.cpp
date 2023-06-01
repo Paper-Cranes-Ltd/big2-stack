@@ -44,7 +44,7 @@ int main(std::int32_t, gsl::zstring[]) {
 
     big2::GlfwEventQueue::ConnectWindow(window_data_s[i].window);
     window_data_s[i].view_id = big2::ReserveViewId();
-    window_data_s[i].frame_buffer_handle = big2::CreateWindowFramebuffer(window_data_s[i].window);
+    window_data_s[i].frame_buffer_handle = big2::CreateWindowFrameBuffer(window_data_s[i].window);
     bgfx::setViewFrameBuffer(window_data_s[i].view_id, window_data_s[i].frame_buffer_handle);
     glm::ivec2 window_resolution = big2::GetWindowResolution(window_data_s[i].window);
 

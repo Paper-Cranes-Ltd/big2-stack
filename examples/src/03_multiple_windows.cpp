@@ -32,7 +32,7 @@ int main(std::int32_t, gsl::zstring[]) {
     big2::Validate(windows[i] != nullptr, "Window handle is nullptr");
 
     views[i] = big2::ReserveViewId();
-    frame_buffers[i] = big2::CreateWindowFramebuffer(windows[i]);
+    frame_buffers[i] = big2::CreateWindowFrameBuffer(windows[i]);
     bgfx::setViewFrameBuffer(views[i], frame_buffers[i]);
     glm::ivec2 window_resolution = big2::GetWindowResolution(windows[i]);
 

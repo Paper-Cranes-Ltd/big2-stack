@@ -1,7 +1,12 @@
+set(IMGUI_VERSION_TO_USE "v1.89.4")
+if(${BIG2_USE_IMGUI_DOCKING})
+    set(IMGUI_VERSION_TO_USE "docking")
+endif()
+
 fetchcontent_declare(
         imgui
         GIT_REPOSITORY "https://github.com/ocornut/imgui.git"
-        GIT_TAG "v1.89.4"
+        GIT_TAG "${IMGUI_VERSION_TO_USE}"
         ${BIG2_COMMON_DEPS_OPTIONS}
 )
 

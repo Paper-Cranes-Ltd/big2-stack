@@ -72,40 +72,4 @@ glm::ivec2 GetWindowResolution(gsl::not_null<GLFWwindow *> window) {
   return window_resolution;
 }
 
-GlfwInitializationScoped::GlfwInitializationScoped() {
-  if (is_initialized_) {
-    big2::Warning("GLFW is initialized twice");
-    return;
-  }
-
-  glfwSetErrorCallback(GlfwErrorCallback);
-
-  is_initialized_ = glfwInit() == GLFW_TRUE;
-  big2::Validate(is_initialized_, "Couldn't initialize GLFW");
-}
-
-GlfwInitializationScoped::~GlfwInitializationScoped() {
-  if (!is_initialized_) {
-    big2::Warning("GLFW is uninitialized twice");
-    return;
-  }
-
-  glfwTerminate();
-  is_initialized_ = false;
-}
-
-GlfwWindowScoped::GlfwWindowScoped(gsl::czstring title, glm::ivec2 size, GLFWmonitor *monitor) {
-  constexpr GLFWwindow* shared_window = nullptr;
-  window_ = glfwCreateWindow(size.x, size.y, title, monitor, shared_window);
-  big2::Validate(window_ != nullptr, "Window couldn't be created!");
-}
-
-GlfwWindowScoped::~GlfwWindowScoped() {
-  glfwDestroyWindow(window_);
-}
-
-GlfwWindowScoped::GlfwWindowScoped(gsl::not_null<GLFWwindow *> window) : window_(window) {
-
-}
-
 }

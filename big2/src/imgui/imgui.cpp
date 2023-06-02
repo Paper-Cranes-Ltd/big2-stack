@@ -25,7 +25,7 @@ ImGuiContext *ImGuiInit(gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id
   return context;
 }
 
-void big2::ImGuiInit(gsl::not_null<ImGuiContext *> context, gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks) {
+void ImGuiInit(gsl::not_null<ImGuiContext *> context, gsl::not_null<GLFWwindow *> window, bgfx::ViewId view_id, bool use_default_callbacks) {
   ImGui::SetCurrentContext(context);
   ImGui_ImplGlfw_InitForOther(window, use_default_callbacks);
   ImGui_ImplBgfx_Init(view_id);

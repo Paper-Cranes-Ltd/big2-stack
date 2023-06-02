@@ -12,7 +12,6 @@ BgfxFrameBufferScoped::BgfxFrameBufferScoped(gsl::not_null<GLFWwindow *> window)
 }
 
 BgfxFrameBufferScoped::BgfxFrameBufferScoped(bgfx::FrameBufferHandle handle) : handle_(handle) {
-
 }
 
 BgfxFrameBufferScoped::~BgfxFrameBufferScoped() {

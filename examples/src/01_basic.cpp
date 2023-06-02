@@ -64,7 +64,7 @@ int main(std::int32_t, gsl::zstring[]) {
     const glm::ivec2 new_window_resolution = big2::GetWindowResolution(window);
     if (new_window_resolution != window_resolution) {
       bgfx::reset(new_window_resolution.x, new_window_resolution.y, BGFX_RESET_VSYNC);
-      bgfx::setViewRect(main_view_id, 0, 0, bgfx::BackbufferRatio::Equal);
+      bgfx::setViewRect(main_view_id, 0, 0, new_window_resolution.x, new_window_resolution.y);
       window_resolution = new_window_resolution;
     }
 

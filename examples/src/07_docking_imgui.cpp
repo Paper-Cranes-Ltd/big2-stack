@@ -17,11 +17,27 @@
 
 #include <GLFW/glfw3.h>
 #include <ranges>
+#include <big2/bgfx/embedded_shader.h>
+#include <generated/shaders/examples/all.h>
+
+static const bgfx::EmbeddedShader kEmbeddedShaders[] =
+    {
+        BGFX_EMBEDDED_SHADER(vs_basic),
+        BGFX_EMBEDDED_SHADER(fs_basic),
+        BGFX_EMBEDDED_SHADER_END()
+    };
+
+struct NormalColorVertex {
+  glm::vec2 position;
+  uint32_t color;
+};
 
 int main(std::int32_t, gsl::zstring[]) {
   big2::GlfwInitializationScoped _;
+
+//  glfwWindowHint(GLFW_DECORATED, false);
+  glfwWindowHint(GLFW_FLOATING, false);
   big2::GlfwWindowScoped window("Dear ImGui GLFW+BGFX example", {1280, 720});
-  big2::GlfwEventQueue::ConnectWindow(window);
 
   bgfx::Init init_object;
   big2::SetNativeData(init_object);
@@ -40,13 +56,56 @@ int main(std::int32_t, gsl::zstring[]) {
   ImGuiIO &io = ImGui::GetIO();
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
-  imgui_context.Initialize(window, main_view, true);
+
+#if defined(IMGUI_HAS_DOCK)
+  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;  // Enable docking
+#endif // defined(IMGUI_HAS_DOCK)
+
+#if defined(IMGUI_HAS_VIEWPORT)
+  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // Enable viewports
+#endif // defined(IMGUI_HAS_VIEWPORT)
+  imgui_context.Initialize(window, main_view, false);
 
   ImGui::StyleColorsDark();
 #endif // BIG2_IMGUI_ENABLED
 
-  big2::GlfwEventQueue::Initialize();
+  NormalColorVertex kTriangleVertices[] =
+      {
+          {{-0.5f, -0.5f}, 0x339933FF},
+          {{0.5f, -0.5f}, 0x993333FF},
+          {{0.0f, 0.5f}, 0x333399FF},
+      };
 
+  const uint16_t kTriangleIndices[] =
+      {
+          0, 1, 2,
+      };
+
+  bgfx::VertexLayout color_vertex_layout;
+  color_vertex_layout.begin()
+      .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
+      .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+      .end();
+
+  bgfx::VertexBufferHandle vertex_buffer = bgfx::createVertexBuffer(bgfx::makeRef(kTriangleVertices, sizeof(kTriangleVertices)), color_vertex_layout);
+  bgfx::IndexBufferHandle index_buffer = bgfx::createIndexBuffer(bgfx::makeRef(kTriangleIndices, sizeof(kTriangleIndices)));
+
+  gsl::final_action destroy_buffers([&vertex_buffer, &index_buffer]() {
+    bgfx::destroy(index_buffer);
+    bgfx::destroy(vertex_buffer);
+  });
+
+  bgfx::RendererType::Enum renderer_type = bgfx::getRendererType();
+  bgfx::ProgramHandle program = bgfx::createProgram(
+      bgfx::createEmbeddedShader(kEmbeddedShaders, renderer_type, "vs_basic"),
+      bgfx::createEmbeddedShader(kEmbeddedShaders, renderer_type, "fs_basic"),
+      true
+  );
+
+  gsl::final_action destroy_program([&program]() { bgfx::destroy(program); });
+
+  big2::GlfwEventQueue::Initialize();
+  big2::GlfwEventQueue::ConnectWindow(window);
   while (!glfwWindowShouldClose(window)) {
     big2::GlfwEventQueue::PollEvents();
 
@@ -65,6 +124,17 @@ int main(std::int32_t, gsl::zstring[]) {
       ImGui::ShowDemoWindow();
     }
 #endif // BIG2_IMGUI_ENABLED
+
+    bgfx::setState(
+        BGFX_STATE_WRITE_R
+            | BGFX_STATE_WRITE_G
+            | BGFX_STATE_WRITE_B
+            | BGFX_STATE_WRITE_A
+    );
+
+    bgfx::setVertexBuffer(0, vertex_buffer);
+    bgfx::setIndexBuffer(index_buffer);
+    bgfx::submit(main_view, program);
 
     bgfx::frame();
   }

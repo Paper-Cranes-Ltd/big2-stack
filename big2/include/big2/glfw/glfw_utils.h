@@ -10,6 +10,7 @@
 #include <gsl/gsl>
 #include <big2/glfw/glfw_initialization_scoped.h>
 #include <big2/glfw/glfw_window_scoped.h>
+#include <big2/void_ptr.h>
 
 struct GLFWwindow;
 struct GLFWmonitor;
@@ -59,7 +60,7 @@ namespace big2 {
  * @brief Gets the platform native window handle.
  * @param window An initialized window handle
  */
-[[nodiscard]] void *GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window);
+[[nodiscard]] VoidPtr GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window);
 
 /**
  * @brief An error callback that will log the error.

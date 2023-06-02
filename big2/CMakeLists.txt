@@ -15,7 +15,7 @@ list(APPEND BIG2_SOURCES include/big2/event_queue.h)
 list(APPEND BIG2_SOURCES include/big2/glfw/glfw_utils.h)
 list(APPEND BIG2_SOURCES include/big2/glfw/glfw_initialization_scoped.h)
 list(APPEND BIG2_SOURCES include/big2/macros.h)
-list(APPEND BIG2_SOURCES include/big2/void.h)
+list(APPEND BIG2_SOURCES include/big2/void_ptr.h)
 list(APPEND BIG2_SOURCES include/big2/asserts.h)
 list(APPEND BIG2_SOURCES include/big2.h)
 

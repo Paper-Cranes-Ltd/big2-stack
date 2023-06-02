@@ -18,7 +18,7 @@
 #include <glm/glm.hpp>
 #include <big2/bgfx/bgfx_utils.h>
 #include <big2/glfw/glfw_utils.h>
-#include <big2/void.h>
+#include <big2/void_ptr.h>
 
 constexpr const std::uint64_t kState =
     BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_MSAA | BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_INV_SRC_ALPHA);
@@ -208,7 +208,7 @@ void ShutdownViewportInterface() {
 void InitializeImGuiIO() {
   ImGuiIO &io = ImGui::GetIO();
   big2::Validate(io.BackendRendererUserData == nullptr, "Already initialized a renderer backend!");
-  io.BackendRendererUserData = reinterpret_cast<void *>(IM_NEW(BackendRendererData)());
+  io.BackendRendererUserData = big2::VoidPtr(IM_NEW(BackendRendererData)());
   io.BackendRendererName = "imgui_impl_bgfx";
 
 #if defined(IMGUI_HAS_VIEWPORT)

@@ -20,8 +20,13 @@ struct VoidPtr final {
   explicit(false) VoidPtr() : pointer(nullptr) {}
   explicit(false) VoidPtr(void *p) : pointer(p) {}
   explicit(false) VoidPtr(auto *p) : pointer(reinterpret_cast<void*>(p)) {}
+
   template<typename T> requires std::is_pointer_v<T>
   explicit(false) VoidPtr(gsl::not_null<T> p) : pointer(reinterpret_cast<void*>(p.get())) {}
+
+  template<std::integral T>
+  explicit VoidPtr(T value) : pointer(reinterpret_cast<void*>(static_cast<std::uintptr_t>(value))) {}
+
   explicit(false) operator void *() const { return pointer; }
 
   [[nodiscard]] bool IsValid() const { return pointer != nullptr; }

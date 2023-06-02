@@ -47,7 +47,7 @@ glm::ivec2 GetWindowSize(gsl::not_null<GLFWwindow *> window) {
 
 VoidPtr GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window) {
 #if BX_PLATFORM_LINUX
-  return glfwGetX11Window(window);
+  return VoidPtr(glfwGetX11Window(window));
 #elif BX_PLATFORM_OSX
   return glfwGetCocoaWindow(window);
 #elif BX_PLATFORM_WINDOWS

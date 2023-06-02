@@ -47,7 +47,8 @@ if __name__ == "__main__":
                 if fix_match['feature']:
                     intro += f"[{fix_match['feature']}]"
 
-                lines.append(f"- {intro}: **{fix_match['summary']}**")
+                summary = fix_match['summary'].replace("*", "\\*")
+                lines.append(f"- {intro}: **{summary}**")
 
             feat_match = match(r'feat(?P<feature>\(.*\))?!?: (?P<summary>.*)', commit.summary)
             if feat_match:
@@ -55,7 +56,8 @@ if __name__ == "__main__":
                 if feat_match['feature']:
                     intro += f"[{feat_match['feature']}]"
 
-                lines.append(f"- {intro}: **{feat_match['summary']}**")
+                summary = feat_match['summary'].replace("*", "\\*")
+                lines.append(f"- {intro}: **{summary}**")
 
         if lines[-1] == "":
             lines.append("- *No Major Changes*")

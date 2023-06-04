@@ -47,11 +47,11 @@ function(json_config_dependencies)
             math(EXPR OPTIONS_RANGE_END "${OPTIONS_COUNT} - 1")
 
             foreach (OPTION_INDEX RANGE 0 ${OPTIONS_RANGE_END})
-                string(JSON OPTION_INFO GET "${DEPENDENCY_OPTIONS}" "${INDEX}")
+                string(JSON OPTION_INFO GET "${DEPENDENCY_OPTIONS}" "${OPTION_INDEX}")
                 string(JSON OPTION_NAME GET "${OPTION_INFO}" "name")
                 string(JSON OPTION_VALUE GET "${OPTION_INFO}" "value")
 
-                set(${OPTION_NAME}  ${OPTION_VALUE} CACHE INTERNAL "")
+                set("${OPTION_NAME}" "${OPTION_VALUE}" CACHE INTERNAL "")
             endforeach ()
         endif()
 

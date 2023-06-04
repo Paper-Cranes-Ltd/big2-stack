@@ -42,8 +42,10 @@ endif()
 
 add_subdirectory(big2)
 
-if("${BIG2_BUILD_EXAMPLES}")
+if(BIG2_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
-include(cmake/docs.cmake)
+if(BIG2_BUILD_DOCS)
+    include(cmake/docs.cmake)
+endif ()

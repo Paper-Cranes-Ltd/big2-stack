@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 project(big2-stack VERSION 0.0.6)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
-
 set(USE_FOLDERS TRUE)
 set(CMAKE_FOLDER "BIG2")
 
@@ -32,8 +30,10 @@ else()
     set(IMGUI_VERSION "v1.89.4")
 endif ()
 
-# Dependencies
 include(cmake/utils.cmake)
+
+# Dependencies
+include(external/cmake-snippets/JsonDependency.cmake)
 json_config_dependencies(FILE "${CMAKE_CURRENT_SOURCE_DIR}/cmake-config.json" MEMBER_SELECTOR "dependencies")
 
 if("${BIG2_INCLUDE_IMGUI}")

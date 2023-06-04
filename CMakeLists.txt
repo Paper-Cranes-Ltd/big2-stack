@@ -26,22 +26,15 @@ option(BIG2_BUILD_DOCS "Whether or not to generate documentation" "${PROJECT_IS_
 option(BIG2_INCLUDE_IMGUI "Whether or not to add imgui into the mix" ON)
 cmake_dependent_option(BIG2_USE_IMGUI_DOCKING "Will use the docking branch of ImGui" OFF "BIG2_INCLUDE_IMGUI" OFF)
 
+if(BIG2_USE_IMGUI_DOCKING)
+    set(IMGUI_VERSION "docking")
+else()
+    set(IMGUI_VERSION "v1.89.4")
+endif ()
+
 # Dependencies
-include(FetchContent)
-
-set(BIG2_COMMON_DEPS_OPTIONS)
-list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_SHALLOW TRUE)
-list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_PROGRESS TRUE)
-list(APPEND BIG2_COMMON_DEPS_OPTIONS USES_TERMINAL_DOWNLOAD TRUE)
-list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_REMOTE_UPDATE_STRATEGY CHECKOUT)
-list(APPEND BIG2_COMMON_DEPS_OPTIONS GIT_SUBMODULES_RECURSE TRUE)
-
-include(cmake/glfw.cmake)
-include(cmake/bgfx.cmake)
-include(cmake/glm.cmake)
-include(cmake/spdlog.cmake)
-include(cmake/microsoft-gsl.cmake)
 include(cmake/utils.cmake)
+json_config_dependencies(FILE "${CMAKE_CURRENT_SOURCE_DIR}/cmake-config.json" MEMBER_SELECTOR "dependencies")
 
 if("${BIG2_INCLUDE_IMGUI}")
     include(cmake/imgui.cmake)

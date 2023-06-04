@@ -1,0 +1,66 @@
+{
+  "dependencies": [
+    {
+      "name": "glfw",
+      "url": "https://github.com/glfw/glfw.git",
+      "version": "3.3.8",
+      "options": [
+        {
+          "name": "GLFW_BUILD_EXAMPLES",
+          "value": false
+        },
+        {
+          "name": "GLFW_BUILD_TESTS",
+          "value": false
+        },
+        {
+          "name": "GLFW_BUILD_DOCS",
+          "value": false
+        },
+        {
+          "name": "GLFW_INSTALL",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "glm",
+      "url": "https://github.com/g-truc/glm.git",
+      "version": "0.9.9.8"
+    },
+    {
+      "name": "bgfx",
+      "url": "https://github.com/bkaradzic/bgfx.cmake.git",
+      "version": "v1.118.8455-425",
+      "options": [
+        {
+          "name": "BGFX_BUILD_TOOLS",
+          "value": true
+        },
+        {
+          "name": "BGFX_BUILD_EXAMPLES",
+          "value": false
+        },
+        {
+          "name": "BGFX_CUSTOM_TARGETS",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "imgui",
+      "url": "https://github.com/ocornut/imgui.git",
+      "version": "${IMGUI_VERSION}"
+    },
+    {
+      "name": "microsoft-gsl",
+      "url": "https://github.com/microsoft/GSL",
+      "version": "v4.0.0"
+    },
+    {
+      "name": "spdlog",
+      "url": "https://github.com/gabime/spdlog.git",
+      "version": "v1.11.0"
+    }
+  ]
+}

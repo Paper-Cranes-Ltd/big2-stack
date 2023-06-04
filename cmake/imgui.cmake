@@ -1,27 +1,18 @@
-set(IMGUI_VERSION_TO_USE "v1.89.4")
-if(${BIG2_USE_IMGUI_DOCKING})
-    set(IMGUI_VERSION_TO_USE "docking")
-endif()
-
-fetchcontent_declare(
+fetchcontent_getproperties(
         imgui
-        GIT_REPOSITORY "https://github.com/ocornut/imgui.git"
-        GIT_TAG "${IMGUI_VERSION_TO_USE}"
-        ${BIG2_COMMON_DEPS_OPTIONS}
+        SOURCE_DIR IMGUI_SOURCE_DIR
 )
 
-fetchcontent_populate(imgui)
-
 set(IMGUI_SOURCES)
-list(APPEND IMGUI_SOURCES "${imgui_SOURCE_DIR}/imgui.cpp")
-list(APPEND IMGUI_SOURCES "${imgui_SOURCE_DIR}/imgui_demo.cpp")
-list(APPEND IMGUI_SOURCES "${imgui_SOURCE_DIR}/imgui_draw.cpp")
-list(APPEND IMGUI_SOURCES "${imgui_SOURCE_DIR}/imgui_tables.cpp")
-list(APPEND IMGUI_SOURCES "${imgui_SOURCE_DIR}/imgui_widgets.cpp")
-list(APPEND IMGUI_SOURCES "${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.h")
-list(APPEND IMGUI_SOURCES "${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp")
+list(APPEND IMGUI_SOURCES "${IMGUI_SOURCE_DIR}/imgui.cpp")
+list(APPEND IMGUI_SOURCES "${IMGUI_SOURCE_DIR}/imgui_demo.cpp")
+list(APPEND IMGUI_SOURCES "${IMGUI_SOURCE_DIR}/imgui_draw.cpp")
+list(APPEND IMGUI_SOURCES "${IMGUI_SOURCE_DIR}/imgui_tables.cpp")
+list(APPEND IMGUI_SOURCES "${IMGUI_SOURCE_DIR}/imgui_widgets.cpp")
+list(APPEND IMGUI_SOURCES "${IMGUI_SOURCE_DIR}/backends/imgui_impl_glfw.h")
+list(APPEND IMGUI_SOURCES "${IMGUI_SOURCE_DIR}/backends/imgui_impl_glfw.cpp")
 
 add_library(imgui ${IMGUI_SOURCES})
 target_link_libraries(imgui PUBLIC glfw bx bimg bgfx)
-target_include_directories(imgui PUBLIC "${imgui_SOURCE_DIR}")
-set_target_properties( imgui PROPERTIES FOLDER "ImGui")
+target_include_directories(imgui PUBLIC "${IMGUI_SOURCE_DIR}")
+set_target_properties(imgui PROPERTIES FOLDER "ImGui")

@@ -33,25 +33,15 @@ struct NormalColorVertex {
 };
 
 int main(std::int32_t, gsl::zstring[]) {
-  big2::GlfwInitializationScoped _;
+  big2::GlfwInitializationScoped _glfw;
+  big2::BgfxInitializationScoped _bgfx;
 
 //  glfwWindowHint(GLFW_DECORATED, false);
   glfwWindowHint(GLFW_FLOATING, false);
-  big2::GlfwWindowScoped window("Dear ImGui GLFW+BGFX example", {1280, 720});
-
-  bgfx::Init init_object;
-  big2::SetNativeData(init_object);
-  big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
-
-  const big2::BgfxViewScoped main_view;
-  big2::BgfxFrameBufferScoped frame_buffer(window);
-  bgfx::setViewFrameBuffer(main_view, frame_buffer);
-  const glm::ivec2 initial_window_resolution = big2::GetWindowResolution(window);
-  bgfx::setViewRect(main_view, 0, 0, initial_window_resolution.x, initial_window_resolution.y);
-  bgfx::setViewClear(main_view, BGFX_CLEAR_COLOR, 0x000000FF);
+  big2::Window window("Dear ImGui GLFW+BGFX example", {1280, 720});
 
 #if BIG2_IMGUI_ENABLED
-  big2::ImGuiSingleContextScoped imgui_context;
+  big2::ImGuiContextWrapper imgui_context;
 
   ImGuiIO &io = ImGui::GetIO();
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
@@ -64,7 +54,7 @@ int main(std::int32_t, gsl::zstring[]) {
 #if defined(IMGUI_HAS_VIEWPORT)
   io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // Enable viewports
 #endif // defined(IMGUI_HAS_VIEWPORT)
-  imgui_context.Initialize(window, main_view, false);
+  imgui_context.Initialize(window, window.GetView(), false);
 
   ImGui::StyleColorsDark();
 #endif // BIG2_IMGUI_ENABLED
@@ -110,13 +100,11 @@ int main(std::int32_t, gsl::zstring[]) {
     big2::GlfwEventQueue::PollEvents();
 
     if (big2::GlfwEventQueue::HasEventType<big2::GlfwEvent::FrameBufferResized>(window)) {
-      const glm::ivec2 window_resolution = big2::GetWindowResolution(window);
-      big2::ResetWindowFrameBuffer(window, frame_buffer);
-      bgfx::setViewFrameBuffer(main_view, frame_buffer);
-      bgfx::setViewRect(main_view, 0, 0, window_resolution.x, window_resolution.y);
+      const glm::ivec2 window_resolution = window.GetResolution();
+      window.SetFrameSize(window_resolution);
     }
 
-    bgfx::touch(main_view);
+    bgfx::touch(window.GetView());
 
 #if BIG2_IMGUI_ENABLED
     big2::GlfwEventQueue::UpdateImGuiEvents(window);
@@ -134,7 +122,7 @@ int main(std::int32_t, gsl::zstring[]) {
 
     bgfx::setVertexBuffer(0, vertex_buffer);
     bgfx::setIndexBuffer(index_buffer);
-    bgfx::submit(main_view, program);
+    bgfx::submit(window.GetView(), program);
 
     bgfx::frame();
   }

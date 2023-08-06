@@ -11,7 +11,7 @@
 #include <imgui_internal.h>
 #include <gsl/gsl>
 #include <big2/imgui/imgui_frame_scoped.h>
-#include <big2/imgui/imgui_single_context_scoped.h>
+#include <big2/imgui/imgui_context_wrapper.h>
 
 struct GLFWwindow;
 

@@ -18,46 +18,34 @@
 #include <GLFW/glfw3.h>
 
 int main(std::int32_t, gsl::zstring[]) {
-  big2::GlfwInitializationScoped _;
-  big2::GlfwWindowScoped window("Dear ImGui GLFW+BGFX example", {1280, 720});
+  big2::GlfwInitializationScoped _glfw;
+  big2::BgfxInitializationScoped _bgfx;
 
-  bgfx::Init init_object;
-  big2::SetNativeWindowData(init_object, window);
+  big2::Window window("Dear ImGui GLFW+BGFX example", {1280, 720});
 
   glm::ivec2 window_resolution = big2::GetWindowResolution(window);
-  init_object.resolution.width = window_resolution.x;
-  init_object.resolution.height = window_resolution.y;
-  init_object.resolution.reset = BGFX_RESET_VSYNC;
-
-  big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
-
-  const big2::BgfxViewScoped main_view;
 
 #if BIG2_IMGUI_ENABLED
-  big2::ImGuiSingleContextScoped context;
+  big2::ImGuiContextWrapper context;
 
   ImGuiIO &io = ImGui::GetIO();
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
-  context.Initialize(window, main_view, /*use_default_callbacks=*/ true);
+  context.Initialize(window, window.GetView(), /*use_default_callbacks=*/ true);
 
   ImGui::StyleColorsDark();
 #endif // BIG2_IMGUI_ENABLED
 
-  bgfx::setViewClear(main_view, BGFX_CLEAR_COLOR, 0x000000FF);
-  bgfx::setViewRect(main_view, 0, 0, window_resolution.x, window_resolution.y);
-
   big2::GlfwEventQueue::Initialize();
   while (!glfwWindowShouldClose(window)) {
     big2::GlfwEventQueue::PollEvents();
-    const glm::ivec2 new_window_size = big2::GetWindowSize(window);
+    const glm::ivec2 new_window_size = window.GetResolution();
     if (new_window_size != window_resolution) {
-      bgfx::reset(new_window_size.x, new_window_size.y, BGFX_RESET_VSYNC);
-      bgfx::setViewRect(main_view, 0, 0, bgfx::BackbufferRatio::Equal);
+      window.SetFrameSize(new_window_size);
       window_resolution = new_window_size;
     }
 
-    bgfx::touch(main_view);
+    bgfx::touch(window.GetView());
 
 #if BIG2_IMGUI_ENABLED
     big2::GlfwEventQueue::UpdateImGuiEvents(window);

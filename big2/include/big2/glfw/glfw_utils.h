@@ -9,7 +9,7 @@
 #include <glm/glm.hpp>
 #include <gsl/gsl>
 #include <big2/glfw/glfw_initialization_scoped.h>
-#include <big2/glfw/glfw_window_scoped.h>
+#include <big2/window.h>
 #include <big2/void_ptr.h>
 
 struct GLFWwindow;

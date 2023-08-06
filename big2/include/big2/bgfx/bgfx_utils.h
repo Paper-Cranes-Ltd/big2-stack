@@ -12,6 +12,7 @@
 #include <vector>
 #include <big2/bgfx/bgfx_frame_buffer_scoped.h>
 #include <big2/bgfx/bgfx_view_scoped.h>
+#include <big2/bgfx/bgfx_initialization_scoped.h>
 
 struct GLFWwindow;
 

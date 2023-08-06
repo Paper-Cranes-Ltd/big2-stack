@@ -15,6 +15,9 @@ namespace big2::detail {}
 #include <bgfx/bgfx.h>
 
 #include <big2/asserts.h>
+#include <big2/app.h>
+#include <big2/app_extension_base.h>
+#include <big2/app_default_quit_condition_extension.h>
 #include <big2/macros.h>
 #include <big2/void_ptr.h>
 #include <big2/glfw/glfw_utils.h>
@@ -23,6 +26,7 @@ namespace big2::detail {}
 
 #if BIG2_IMGUI_ENABLED
 #include <big2/imgui/imgui.h>
+#include <big2/imgui/imgui_app_extension.h>
 #endif //BIG2_IMGUI_ENABLED
 
 #endif //BIG2_STACK_BIG2_H_

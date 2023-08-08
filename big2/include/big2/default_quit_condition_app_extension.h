@@ -3,8 +3,8 @@
 // All rights reserved.
 //
 
-#ifndef BIG2_STACK_APP_DEFAULT_QUIT_CONDITION_EXTENSION_H_
-#define BIG2_STACK_APP_DEFAULT_QUIT_CONDITION_EXTENSION_H_
+#ifndef BIG2_STACK_DEFAULT_QUIT_CONDITION_APP_EXTENSION_H_
+#define BIG2_STACK_DEFAULT_QUIT_CONDITION_APP_EXTENSION_H_
 
 #include <vector>
 #include <big2/app_extension_base.h>
@@ -12,7 +12,7 @@
 
 namespace big2 {
 
-class AppDefaultQuitConditionExtension final : public AppExtensionBase {
+class DefaultQuitConditionAppExtension final : public AppExtensionBase {
 
  protected:
   void OnWindowCreated(Window &window) override;
@@ -23,4 +23,4 @@ class AppDefaultQuitConditionExtension final : public AppExtensionBase {
 
 }
 
-#endif //BIG2_STACK_APP_DEFAULT_QUIT_CONDITION_EXTENSION_H_
+#endif //BIG2_STACK_DEFAULT_QUIT_CONDITION_APP_EXTENSION_H_

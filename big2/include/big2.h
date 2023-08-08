@@ -17,7 +17,7 @@ namespace big2::detail {}
 #include <big2/asserts.h>
 #include <big2/app.h>
 #include <big2/app_extension_base.h>
-#include <big2/app_default_quit_condition_extension.h>
+#include <big2/default_quit_condition_app_extension.h>
 #include <big2/macros.h>
 #include <big2/void_ptr.h>
 #include <big2/glfw/glfw_utils.h>

@@ -40,7 +40,7 @@ const uint16_t kTriangleIndices[] =
         0, 1, 2,
     };
 
-class TriangleRenderExtension final : public big2::AppExtensionBase {
+class TriangleRenderAppExtension final : public big2::AppExtensionBase {
  protected:
   void OnFrameBegin() override {
     AppExtensionBase::OnFrameBegin();
@@ -108,11 +108,11 @@ class TriangleRenderExtension final : public big2::AppExtensionBase {
 int main(std::int32_t, gsl::zstring[]) {
   big2::App app;
 
-  app.AddExtension<big2::AppDefaultQuitConditionExtension>();
+  app.AddExtension<big2::DefaultQuitConditionAppExtension>();
 #if BIG2_IMGUI_ENABLED
   app.AddExtension<big2::ImGuiAppExtension>();
 #endif // BIG2_IMGUI_ENABLED
-  app.AddExtension<TriangleRenderExtension>();
+  app.AddExtension<TriangleRenderAppExtension>();
 
   app.CreateWindow("My App", {800, 600});
   app.Run();

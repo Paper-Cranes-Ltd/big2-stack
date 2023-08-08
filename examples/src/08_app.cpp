@@ -57,6 +57,13 @@ class TriangleRenderExtension final : public big2::AppExtensionBase {
     bgfx::setVertexBuffer(0, vertex_buffer_);
     bgfx::setIndexBuffer(index_buffer_);
     bgfx::submit(window.GetView(), program_);
+
+#if BIG2_IMGUI_ENABLED
+    BIG2_SCOPE_VAR(big2::ImGuiFrameScoped) {
+      ImGui::ShowDemoWindow();
+    }
+#endif // BIG2_IMGUI_ENABLED
+
   }
   void OnFrameEnd() override {
     AppExtensionBase::OnFrameEnd();

@@ -69,10 +69,6 @@ void ImGuiAppExtension::OnWindowUpdate(Window& window) {
 
   ImGui::SetCurrentContext(maybe_context.value().GetContext());
   big2::GlfwEventQueue::UpdateImGuiEvents(window.GetWindowHandle());
-
-  BIG2_SCOPE_VAR(big2::ImGuiFrameScoped) {
-    ImGui::ShowDemoWindow();
-  }
 }
 
 }

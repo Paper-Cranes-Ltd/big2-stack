@@ -45,8 +45,8 @@ class TriangleRenderAppExtension final : public big2::AppExtensionBase {
   void OnFrameBegin() override {
     AppExtensionBase::OnFrameBegin();
   }
-  void OnWindowUpdate(big2::Window &window) override {
-    AppExtensionBase::OnWindowUpdate(window);
+  void OnRender(big2::Window &window) override {
+    AppExtensionBase::OnRender(window);
     bgfx::setState(
         BGFX_STATE_WRITE_R
             | BGFX_STATE_WRITE_G

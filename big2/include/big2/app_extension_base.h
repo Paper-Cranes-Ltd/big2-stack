@@ -8,6 +8,7 @@
 
 #include <bgfx/bgfx.h>
 #include <gsl/pointers>
+#include <cmath>
 
 namespace big2 {
 
@@ -23,7 +24,8 @@ class AppExtensionBase {
   virtual void OnWindowCreated(Window& window) {};
   virtual void OnWindowDestroyed(Window& window) {};
   virtual void OnFrameBegin() {};
-  virtual void OnWindowUpdate(Window& window) {};
+  virtual void OnUpdate(std::float_t dt) {};
+  virtual void OnRender(Window& window) {};
   virtual void OnFrameEnd() {};
 
   App *app_ = nullptr;

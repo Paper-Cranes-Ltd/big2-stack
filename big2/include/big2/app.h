@@ -9,6 +9,8 @@
 #include <gsl/gsl>
 #include <cstdint>
 #include <vector>
+#include <chrono>
+#include <cmath>
 #include <big2/window.h>
 #include <big2/glfw/glfw_initialization_scoped.h>
 #include <big2/bgfx/bgfx_view_scoped.h>
@@ -40,16 +42,25 @@ class App final {
 
   bool GetIsRunning() const { return is_running_; }
   void SetIsRunning(bool value) { is_running_ = value; }
+  [[nodiscard]] std::float_t GetDeltaTime() const { return delta_time_; }
 
  private:
 
-  std::vector<std::unique_ptr<AppExtensionBase>> extensions_;
-  std::vector<Window> windows_;
-  GlfwInitializationScoped glfw_initialization_scoped_;
-  BgfxInitializationScoped bgfx_initialization_scoped_;
-  bool is_running_ = false;
+  using time_point = std::chrono::steady_clock::time_point;
+
+  void UpdateClock();
   void ProcessClosedWindows();
   void MandatoryBeginFrame();
+
+  std::vector<std::unique_ptr<AppExtensionBase>> extensions_;
+  std::vector<Window> windows_;
+
+  time_point previous_frame_time_;
+  std::float_t delta_time_;
+  bool is_running_ = false;
+
+  GlfwInitializationScoped glfw_initialization_scoped_;
+  BgfxInitializationScoped bgfx_initialization_scoped_;
 };
 
 }

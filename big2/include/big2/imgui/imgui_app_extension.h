@@ -19,7 +19,7 @@ class ImGuiAppExtension final : public AppExtensionBase {
  protected:
   void OnWindowCreated(Window& window) override;
   void OnWindowDestroyed(Window& window) override;
-  void OnWindowUpdate(Window& window) override;
+  void OnRender(Window& window) override;
 
  private:
   std::vector<ImGuiContextWrapper> contexts_;

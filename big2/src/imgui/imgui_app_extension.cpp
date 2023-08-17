@@ -55,8 +55,8 @@ void ImGuiAppExtension::OnWindowDestroyed(Window& window) {
                 });
 }
 
-void ImGuiAppExtension::OnWindowUpdate(Window& window) {
-  AppExtensionBase::OnWindowUpdate(window);
+void ImGuiAppExtension::OnRender(Window& window) {
+  AppExtensionBase::OnRender(window);
 
   std::optional<ImGuiContextWrapper> maybe_context = big2::FirstIf<ImGuiContextWrapper>(contexts_.begin(), contexts_.end(), [&window](ImGuiContextWrapper& context) {
     return context.GetWindow() == window.GetWindowHandle();

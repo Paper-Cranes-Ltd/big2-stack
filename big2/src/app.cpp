@@ -9,6 +9,7 @@
 #include <big2/glfw/glfw_utils.h>
 #include <big2/event_queue.h>
 #include <big2/bgfx/bgfx_utils.h>
+#include <chrono>
 
 namespace big2 {
 
@@ -42,10 +43,14 @@ void App::Run() {
     extension->OnFrameEnd();
   };
 
-  auto call_extensions_window_update = [this](std::unique_ptr<AppExtensionBase> &extension) {
+  auto call_extensions_update = [this](std::unique_ptr<AppExtensionBase> &extension) {
+    extension->OnUpdate(delta_time_);
+  };
+
+  auto call_extensions_window_render = [this](std::unique_ptr<AppExtensionBase> &extension) {
     for (Window &window : windows_) {
       bgfx::touch(window.GetView());
-      extension->OnWindowUpdate(window);
+      extension->OnRender(window);
     }
   };
 
@@ -53,7 +58,8 @@ void App::Run() {
     MandatoryBeginFrame();
 
     std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), call_extensions_frame_begin);
-    std::for_each(extensions_.begin(), extensions_.end(), call_extensions_window_update);
+    std::for_each(std::execution::seq, extensions_.begin(), extensions_.end(), call_extensions_update);
+    std::for_each(std::execution::seq, extensions_.begin(), extensions_.end(), call_extensions_window_render);
     std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), call_extensions_frame_end);
 
     bgfx::frame();
@@ -67,6 +73,7 @@ void App::Run() {
 }
 
 void App::MandatoryBeginFrame() {
+  UpdateClock();
   GlfwEventQueue::PollEvents();
 
   for (Window &window : windows_) {
@@ -79,8 +86,7 @@ void App::MandatoryBeginFrame() {
 
 void App::ProcessClosedWindows() {
   for (Window &window : windows_) {
-    if(!window.GetShouldClose())
-    {
+    if (!window.GetShouldClose()) {
       continue;
     }
 
@@ -97,6 +103,14 @@ void App::ProcessClosedWindows() {
 
 App::App() {
   big2::GlfwEventQueue::Initialize();
+}
+
+void App::UpdateClock() {
+  using float_duration_seconds = std::chrono::duration<float, std::chrono::seconds::period>;
+
+  time_point current_time = std::chrono::steady_clock::now();
+  delta_time_ = float_duration_seconds(current_time - previous_frame_time_).count();
+  previous_frame_time_ = current_time;
 }
 
 }

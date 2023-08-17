@@ -29,7 +29,7 @@ Window &App::CreateWindow(const std::string &title, glm::ivec2 size) {
 }
 
 void App::Run() {
-  is_running_ = true;
+  state_ = ActiveState::Run;
 
   std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), [this](std::unique_ptr<AppExtensionBase> &extension) {
     extension->Initialize(this);
@@ -54,11 +54,16 @@ void App::Run() {
     }
   };
 
-  while (is_running_) {
+  while (state_ != ActiveState::Stop) {
     MandatoryBeginFrame();
 
     std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), call_extensions_frame_begin);
-    std::for_each(std::execution::seq, extensions_.begin(), extensions_.end(), call_extensions_update);
+
+    if(state_ != ActiveState::Pause)
+    {
+      std::for_each(std::execution::seq, extensions_.begin(), extensions_.end(), call_extensions_update);
+    }
+
     std::for_each(std::execution::seq, extensions_.begin(), extensions_.end(), call_extensions_window_render);
     std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), call_extensions_frame_end);
 
@@ -73,7 +78,7 @@ void App::Run() {
 }
 
 void App::MandatoryBeginFrame() {
-  UpdateClock();
+  UpdateDeltaTime();
   GlfwEventQueue::PollEvents();
 
   for (Window &window : windows_) {
@@ -105,7 +110,7 @@ App::App() {
   big2::GlfwEventQueue::Initialize();
 }
 
-void App::UpdateClock() {
+void App::UpdateDeltaTime() {
   using float_duration_seconds = std::chrono::duration<float, std::chrono::seconds::period>;
 
   time_point current_time = std::chrono::steady_clock::now();

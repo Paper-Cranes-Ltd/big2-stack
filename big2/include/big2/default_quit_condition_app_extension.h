@@ -12,13 +12,12 @@
 
 namespace big2 {
 
+/**
+ * @brief Stops the app when there are no open windows.
+ */
 class DefaultQuitConditionAppExtension final : public AppExtensionBase {
-
  protected:
-  void OnWindowCreated(Window &window) override;
-  void OnWindowDestroyed(Window &window) override;
- private:
-  std::uint32_t windows_count_ = 0;
+  void OnUpdate(std::float_t dt) override;
 };
 
 }

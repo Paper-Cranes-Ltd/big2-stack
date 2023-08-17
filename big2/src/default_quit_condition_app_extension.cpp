@@ -7,16 +7,10 @@
 
 namespace big2 {
 
-void DefaultQuitConditionAppExtension::OnWindowCreated(Window &window) {
-  AppExtensionBase::OnWindowCreated(window);
-  windows_count_++;
-}
-
-void DefaultQuitConditionAppExtension::OnWindowDestroyed(Window &window) {
-  AppExtensionBase::OnWindowDestroyed(window);
-  windows_count_--;
-  if(windows_count_ == 0) {
-    app_->SetIsRunning(false);
+void DefaultQuitConditionAppExtension::OnUpdate(std::float_t dt) {
+  AppExtensionBase::OnUpdate(dt);
+  if (app_->GetWindows().empty()) {
+    app_->Stop();
   }
 }
 

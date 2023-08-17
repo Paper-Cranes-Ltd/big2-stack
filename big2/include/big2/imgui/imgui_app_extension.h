@@ -14,6 +14,11 @@
 
 namespace big2 {
 
+/**
+ * @brief Adds ImGui default implementation to the application.
+ * @details This should be added before any extensions that render with ImGui on the windows.
+ * @note This extension doesn't work well with multiple windows assigned on the app if viewports are also used.
+ */
 class ImGuiAppExtension final : public AppExtensionBase {
 
  protected:

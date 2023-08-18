@@ -106,7 +106,7 @@ void App::ProcessClosedWindows() {
   std::erase_if(windows_, [](Window &window) { return window.GetShouldClose(); });
 }
 
-App::App() {
+App::App(bgfx::RendererType::Enum renderer_type) : bgfx_initialization_scoped_(renderer_type) {
   big2::GlfwEventQueue::Initialize();
 }
 

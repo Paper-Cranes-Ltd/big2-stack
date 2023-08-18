@@ -6,6 +6,8 @@
 #ifndef BIG2_STACK_BGFX_INITIALIZATION_SCOPED_H_
 #define BIG2_STACK_BGFX_INITIALIZATION_SCOPED_H_
 
+#include <bgfx/bgfx.h>
+
 namespace big2 {
 
 /**
@@ -16,7 +18,7 @@ namespace big2 {
  */
 class BgfxInitializationScoped final {
  public:
-  BgfxInitializationScoped();
+  BgfxInitializationScoped(bgfx::RendererType::Enum renderer_type = bgfx::RendererType::Count);
 
   BgfxInitializationScoped(BgfxInitializationScoped &&) = default;
 

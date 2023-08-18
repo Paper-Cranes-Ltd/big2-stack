@@ -34,7 +34,7 @@ class App final {
     Stop,
   };
 
-  App();
+  App(bgfx::RendererType::Enum renderer_type = bgfx::RendererType::Count);
 
   /**
    * @brief Creates an extension in the app.

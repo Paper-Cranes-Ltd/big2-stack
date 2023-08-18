@@ -10,8 +10,9 @@
 
 namespace big2 {
 
-BgfxInitializationScoped::BgfxInitializationScoped() {
+BgfxInitializationScoped::BgfxInitializationScoped(bgfx::RendererType::Enum renderer_type) {
   bgfx::Init init_object;
+  init_object.type = renderer_type;
   big2::SetNativeData(init_object);
   big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
 }

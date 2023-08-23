@@ -8,7 +8,6 @@
 
 #include <bgfx/bgfx.h>
 #include <big2/asserts.h>
-#include <format>
 
 namespace big2 {
 

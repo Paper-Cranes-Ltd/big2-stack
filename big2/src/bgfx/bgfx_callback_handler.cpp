@@ -3,12 +3,13 @@
 // All rights reserved.
 //
 #include <big2/bgfx/bgfx_callback_handler.h>
+#include <spdlog/spdlog.h>
 
 void big2::BgfxCallbackHandler::fatal(const char *file_path, uint16_t line, bgfx::Fatal::Enum code, const char *message) {
   if (bgfx::Fatal::DebugCheck == code) {
-    big2::Info(std::format("BGFX Error '{}:{}': {}", file_path, line, message).c_str());
+    big2::Info(spdlog::fmt_lib::format("BGFX Error '{}:{}': {}", file_path, line, message).c_str());
   } else {
-    big2::Error(std::format("BGFX Error '{}:{}': {}", file_path, line, message).c_str());
+    big2::Error(spdlog::fmt_lib::format("BGFX Error '{}:{}': {}", file_path, line, message).c_str());
   }
 }
 

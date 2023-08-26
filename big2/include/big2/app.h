@@ -34,7 +34,7 @@ class App final {
     Stop,
   };
 
-  App(bgfx::RendererType::Enum renderer_type = bgfx::RendererType::Count);
+  explicit App(bgfx::RendererType::Enum renderer_type = bgfx::RendererType::Count);
 
   /**
    * @brief Creates an extension in the app.
@@ -104,11 +104,11 @@ class App final {
   std::vector<Window> windows_;
 
   time_point previous_frame_time_;
-  std::float_t delta_time_;
+  std::float_t delta_time_ = 0.0f;
   ActiveState state_ = ActiveState::Unset;
 
-  GlfwInitializationScoped glfw_initialization_scoped_;
-  BgfxInitializationScoped bgfx_initialization_scoped_;
+  std::unique_ptr<GlfwInitializationScoped> glfw_initialization_scoped_ = nullptr;
+  std::unique_ptr<BgfxInitializationScoped> bgfx_initialization_scoped_ = nullptr;
 };
 
 }

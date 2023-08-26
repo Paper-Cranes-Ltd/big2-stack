@@ -106,7 +106,9 @@ void App::ProcessClosedWindows() {
   std::erase_if(windows_, [](Window &window) { return window.GetShouldClose(); });
 }
 
-App::App(bgfx::RendererType::Enum renderer_type) : bgfx_initialization_scoped_(renderer_type) {
+App::App(bgfx::RendererType::Enum renderer_type) {
+  glfw_initialization_scoped_ = std::make_unique<GlfwInitializationScoped>();
+  bgfx_initialization_scoped_ = std::make_unique<BgfxInitializationScoped>(renderer_type);
   big2::GlfwEventQueue::Initialize();
 }
 

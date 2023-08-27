@@ -20,6 +20,9 @@ GlfwInitializationScoped::GlfwInitializationScoped() {
 
   is_initialized_ = glfwInit() == GLFW_TRUE;
   big2::Validate(is_initialized_, "Couldn't initialize GLFW");
+
+  glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 }
 
 GlfwInitializationScoped::~GlfwInitializationScoped() {

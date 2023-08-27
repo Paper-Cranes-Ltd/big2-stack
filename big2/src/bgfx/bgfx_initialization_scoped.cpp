@@ -19,7 +19,11 @@ BgfxInitializationScoped::BgfxInitializationScoped(bgfx::RendererType::Enum rend
   init_object.type = renderer_type;
   init_object.resolution.width = 0;
   init_object.resolution.height = 0;
-  init_object.capabilities = BGFX_CAPS_SWAP_CHAIN | BGFX_CAPS_DRAW_INDIRECT | BGFX_CAPS_FRAGMENT_DEPTH;
+  init_object.capabilities = BGFX_CAPS_SWAP_CHAIN | BGFX_CAPS_INDEX32;
+
+  if(renderer_type == bgfx::RendererType::Vulkan) {
+    big2::Validate(glfwVulkanSupported(), "Vulkan is not supported by GLFW");
+  }
 
   big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
 }

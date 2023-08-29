@@ -44,6 +44,8 @@ void Window::Dispose() {
 
 void Window::Initialize() {
   const glm::ivec2 initial_window_resolution = GetResolution();
+
+  bgfx::createFrameBuffer(GetNativeWindowHandle(window_), initial_window_resolution.x, initial_window_resolution.y, bgfx::TextureFormat::RGBA8, bgfx::TextureFormat::D24S8);
   frame_buffer_ = bgfx::createFrameBuffer(GetNativeWindowHandle(window_), initial_window_resolution.x, initial_window_resolution.y);
   view_id_ = ReserveViewId();
   bgfx::setViewFrameBuffer(view_id_, frame_buffer_);

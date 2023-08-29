@@ -8,12 +8,17 @@
 #include <bgfx/bgfx.h>
 #include <big2/bgfx/bgfx_utils.h>
 #include <big2/bgfx/bgfx_callback_handler.h>
+#include <bgfx/platform.h>
 
 namespace big2 {
 
 static BgfxCallbackHandler global_bgfx_callback_handler;
 
 BgfxInitializationScoped::BgfxInitializationScoped(bgfx::RendererType::Enum renderer_type) {
+
+  // Use single-threaded rendering!
+  bgfx::renderFrame();
+
   bgfx::Init init_object = bgfx::Init();
   init_object.callback = &global_bgfx_callback_handler;
   init_object.type = renderer_type;

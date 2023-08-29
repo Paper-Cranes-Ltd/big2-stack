@@ -28,7 +28,7 @@ class BgfxInitializationScoped final {
 
   BgfxInitializationScoped &operator=(const BgfxInitializationScoped &) = delete;
 
-  ~BgfxInitializationScoped() = default;
+  ~BgfxInitializationScoped();
 };
 
 }

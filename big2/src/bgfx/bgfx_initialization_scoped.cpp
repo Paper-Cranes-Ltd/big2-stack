@@ -33,4 +33,8 @@ BgfxInitializationScoped::BgfxInitializationScoped(bgfx::RendererType::Enum rend
   big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
 }
 
+BgfxInitializationScoped::~BgfxInitializationScoped() {
+  bgfx::shutdown();
+}
+
 }

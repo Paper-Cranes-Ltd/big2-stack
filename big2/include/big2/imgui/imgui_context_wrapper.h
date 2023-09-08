@@ -6,9 +6,7 @@
 #ifndef BIG2_STACK_IMGUI_CONTEXT_WRAPPER_H_
 #define BIG2_STACK_IMGUI_CONTEXT_WRAPPER_H_
 
-#include <imgui.h>
-#include <gsl/gsl>
-#include <bgfx/bgfx.h>
+#include <big2/imgui/imgui.h>
 
 struct GLFWwindow;
 

@@ -11,6 +11,11 @@ namespace big2 {}
 /// @private
 namespace big2::detail {}
 
+#if BIG2_IMGUI_ENABLED
+#include <big2/imgui/imgui.h>
+#include <big2/imgui/imgui_app_extension.h>
+#endif //BIG2_IMGUI_ENABLED
+
 #include <bx/bx.h>
 #include <bgfx/bgfx.h>
 
@@ -24,9 +29,6 @@ namespace big2::detail {}
 #include <big2/event_queue.h>
 #include <big2/bgfx/bgfx_utils.h>
 
-#if BIG2_IMGUI_ENABLED
-#include <big2/imgui/imgui.h>
-#include <big2/imgui/imgui_app_extension.h>
-#endif //BIG2_IMGUI_ENABLED
+
 
 #endif //BIG2_STACK_BIG2_H_

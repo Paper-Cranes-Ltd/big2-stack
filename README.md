@@ -1,6 +1,8 @@
 ![Logo](./press/logo-color.png)
 
-[![CMake](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/cmake.yml/badge.svg)](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/cmake.yml)
+[![Linux](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/linux.yml/badge.svg)](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/linux.yml)
+[![MacOS](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/macos.yml/badge.svg)](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/macos.yml)
+[![Windows](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/windows.yml/badge.svg)](https://github.com/Paper-Cranes-Ltd/big2-stack/actions/workflows/windows.yml)
 [![License - The Unlicense](https://badgen.net/badge/License/The%20Unlicense/blue)](https://github.com/Paper-Cranes-Ltd/big2-stack/blob/main/LICENSE)
 [![Documentation](https://badgen.net/badge/icon/Documentation/pink?icon=wiki&label)](https://paper-cranes-ltd.github.io/big2-stack/)
 

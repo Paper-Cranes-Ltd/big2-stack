@@ -16,6 +16,7 @@
 
 namespace std {
 class source_location {
+ public:
   [[nodiscard]] static constexpr source_location current() noexcept {
     return {};
   };

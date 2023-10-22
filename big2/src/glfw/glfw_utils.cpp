@@ -11,10 +11,6 @@
 #include <big2/macros.h>
 #include <big2/asserts.h>
 
-#if __has_include(<format>)
-#include <format>
-#endif
-
 namespace big2 {
 
 gsl::span<GLFWmonitor *> GetMonitors() {
@@ -58,12 +54,7 @@ VoidPtr GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window) {
 }
 
 void GlfwErrorCallback(std::int32_t error, gsl::czstring description) {
-#if __has_include(<format>)
-  const std::string message = std::format("[{}] {}", error, description);
-#else
-  const std::string message(description);
-#endif
-  big2::Error(message.c_str());
+  big2::Error(description);
 }
 
 glm::ivec2 GetWindowResolution(gsl::not_null<GLFWwindow *> window) {

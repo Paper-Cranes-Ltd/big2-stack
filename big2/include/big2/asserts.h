@@ -9,7 +9,41 @@
 #include <gsl/gsl>
 #include <cstdint>
 #include <string>
+
+#if __has_include(<source_location>)
 #include <source_location>
+#else
+
+namespace std {
+class source_location {
+  [[nodiscard]] static constexpr source_location current() noexcept {
+    return {};
+  };
+
+  [[nodiscard]] constexpr source_location() noexcept = default;
+
+  [[nodiscard]] constexpr uint_least32_t line() const noexcept {
+    return line_;
+  }
+  [[nodiscard]] constexpr uint_least32_t column() const noexcept {
+    return column_;
+  }
+  [[nodiscard]] constexpr const char *file_name() const noexcept {
+    return file_;
+  }
+  [[nodiscard]] constexpr const char *function_name() const noexcept {
+    return function_;
+  }
+
+ private:
+  uint_least32_t line_{};
+  uint_least32_t column_{};
+  const char *file_ = "";
+  const char *function_ = "";
+};
+}
+
+#endif
 
 namespace big2 {
 
@@ -30,30 +64,24 @@ void Info(gsl::czstring message, gsl::czstring file, gsl::czstring function, std
 }
 #pragma endregion
 
-
-inline void Validate(const bool condition, gsl::czstring message, const std::source_location location = std::source_location::current())
-{
+inline void Validate(const bool condition, gsl::czstring message, const std::source_location location = std::source_location::current()) {
   big2::detail::Validate(condition, message, location.file_name(), location.function_name(), location.line());
 }
 
-inline bool SoftValidate(const bool condition, gsl::czstring message, const std::source_location location = std::source_location::current())
-{
+inline bool SoftValidate(const bool condition, gsl::czstring message, const std::source_location location = std::source_location::current()) {
   return big2::detail::SoftValidate(condition, message, location.file_name(), location.function_name(), location.line());
 }
 
-inline void Error(gsl::czstring message, const std::source_location location = std::source_location::current())
-{
-  big2::detail::Error( message, location.file_name(), location.function_name(), location.line());
+inline void Error(gsl::czstring message, const std::source_location location = std::source_location::current()) {
+  big2::detail::Error(message, location.file_name(), location.function_name(), location.line());
 }
 
-inline void Warning(gsl::czstring message, const std::source_location location = std::source_location::current())
-{
-  big2::detail::Warning( message, location.file_name(), location.function_name(), location.line());
+inline void Warning(gsl::czstring message, const std::source_location location = std::source_location::current()) {
+  big2::detail::Warning(message, location.file_name(), location.function_name(), location.line());
 }
 
-inline void Info(gsl::czstring message, const std::source_location location = std::source_location::current())
-{
-  big2::detail::Info( message, location.file_name(), location.function_name(), location.line());
+inline void Info(gsl::czstring message, const std::source_location location = std::source_location::current()) {
+  big2::detail::Info(message, location.file_name(), location.function_name(), location.line());
 }
 
 }

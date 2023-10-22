@@ -19,14 +19,6 @@ struct GLFWwindow;
 namespace big2 {
 
 /**
- * @brief Adds native display data to the initialization object.
- * @details Use this in case you have a multi-window project
- * and you would like to initialize separate frame buffers for each window.
- * @param init_obj Uninitialized bgfx init object
- */
-void SetNativeData(bgfx::Init &init_obj);
-
-/**
  * @brief Adds native display and window data to the initialization object.
  * @details Use this in case you have a single-window project.
  * @param init_obj Uninitialized bgfx init object

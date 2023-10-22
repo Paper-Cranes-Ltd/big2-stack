@@ -13,14 +13,10 @@ namespace big2 {
 
 static IdManager<bgfx::ViewId> view_id_manager;
 
-void SetNativeData(bgfx::Init &init_obj) {
+void SetNativeWindowData(bgfx::Init &init_obj, gsl::not_null<GLFWwindow *> window) {
 #if BX_PLATFORM_LINUX
   init_obj.platformData.ndt = glfwGetX11Display();
 #endif
-}
-
-void SetNativeWindowData(bgfx::Init &init_obj, gsl::not_null<GLFWwindow *> window) {
-  SetNativeData(init_obj);
   init_obj.platformData.nwh = GetNativeWindowHandle(window);
 }
 

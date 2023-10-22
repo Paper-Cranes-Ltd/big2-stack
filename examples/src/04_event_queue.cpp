@@ -29,7 +29,6 @@ int main(std::int32_t, gsl::zstring[]) {
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
   bgfx::Init init_object;
-  big2::SetNativeData(init_object);
   big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
 
   big2::GlfwEventQueue::Initialize();

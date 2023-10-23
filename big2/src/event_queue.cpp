@@ -11,7 +11,6 @@
 #include <execution>
 #include <functional>
 #include <concepts>
-#include <ranges>
 
 namespace big2 {
 
@@ -190,19 +189,22 @@ void PollEvents() {
   SortEventsByWindow();
 }
 
-void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window, gsl::span<GlfwEvent> window_events) {
-  using TRef = typename decltype(events)::reference;
-  const std::invocable<TRef> auto &&is_relevant = [](TRef event) {
-    return event.Is<GlfwEvent::WindowFocusChange>()
-        || event.Is<GlfwEvent::MouseEnterChange>()
-        || event.Is<GlfwEvent::MousePosition>()
-        || event.Is<GlfwEvent::MouseButton>()
-        || event.Is<GlfwEvent::Scroll>()
-        || event.Is<GlfwEvent::KeyboardButton>()
-        || event.Is<GlfwEvent::CharEntered>();
-  };
+bool IsImGuiRelevantEvent(const GlfwEvent& event) {
+  return event.Is<GlfwEvent::WindowFocusChange>()
+      || event.Is<GlfwEvent::MouseEnterChange>()
+      || event.Is<GlfwEvent::MousePosition>()
+      || event.Is<GlfwEvent::MouseButton>()
+      || event.Is<GlfwEvent::Scroll>()
+      || event.Is<GlfwEvent::KeyboardButton>()
+      || event.Is<GlfwEvent::CharEntered>();
+}
 
-  auto relevant_event_processor = [window](TRef event) {
+void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window, gsl::span<GlfwEvent> window_events) {
+  for(GlfwEvent& event : window_events) {
+    if(!IsImGuiRelevantEvent(event)) {
+      continue;
+    }
+
     std::visit([window](auto &data) {
       using T = std::decay_t<decltype(data)>;
 
@@ -229,11 +231,8 @@ void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window, gsl::span<GlfwEvent> 
       if constexpr (std::is_same_v<T, GlfwEvent::CharEntered>) {
         ImGui_ImplGlfw_CharCallback(window, data.character);
       }
-
     }, event.data);
-  };
-
-  std::ranges::for_each(window_events | std::views::filter(is_relevant), relevant_event_processor);
+  }
 }
 
 }

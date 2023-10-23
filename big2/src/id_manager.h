@@ -13,7 +13,6 @@
 #include <numeric>
 #include <big2/asserts.h>
 #include <big2/macros.h>
-#include <ranges>
 #include <concepts>
 #include <execution>
 
@@ -23,12 +22,15 @@ template<std::integral T, T max_value = std::numeric_limits<T>::max()>
 class IdManager {
  public:
   [[nodiscard]] T Reserve() {
-    auto is_free = std::bind(&IdManager::IsFree, this, std::placeholders::_1);
-    std::ranges::view auto free_ids = std::views::iota(static_cast<T>(0), max_value) | std::views::filter(is_free) | std::views::take(1);
-    big2::Validate(!free_ids.empty(), "Cannot reserve and ID since all IDs are taken");
-    T id = free_ids.front();
-    Reserve(id);
-    return id;
+    for(T current_id = 0; current_id < max_value; current_id++) {
+      if(IsFree(current_id)) {
+        Reserve(current_id);
+        return current_id;
+      }
+    }
+
+    big2::Validate(false, "Cannot reserve an ID since all IDs are taken");
+    return max_value;
   }
 
   void Reserve(T value) {

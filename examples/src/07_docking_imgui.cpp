@@ -16,7 +16,6 @@
 #include <bx/bx.h>
 
 #include <GLFW/glfw3.h>
-#include <ranges>
 #include <big2/bgfx/embedded_shader.h>
 #include <generated/shaders/examples/all.h>
 

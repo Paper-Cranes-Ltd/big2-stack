@@ -16,7 +16,6 @@
 #include <bx/bx.h>
 
 #include <GLFW/glfw3.h>
-#include <ranges>
 
 int main(std::int32_t, gsl::zstring[]) {
   big2::GlfwInitializationScoped _glfw;

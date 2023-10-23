@@ -179,7 +179,7 @@ gsl::span<GlfwEvent> GrabEvents(gsl::not_null<GLFWwindow *> window) {
 static void SortEventsByWindow() {
   using TRef = typename decltype(events)::reference;
   const std::invocable<TRef, TRef> auto &&sorter = [](TRef left, TRef right) noexcept { return left.window > right.window; };
-  std::sort(std::execution::par_unseq, events.begin(), events.end(), sorter);
+  std::sort(EXECUTION_POLICY(std::execution::par_unseq) events.begin(), events.end(), sorter);
 }
 
 void PollEvents() {

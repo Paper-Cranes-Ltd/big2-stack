@@ -9,6 +9,7 @@
 #include <big2/glfw/glfw_utils.h>
 #include <big2/event_queue.h>
 #include <big2/bgfx/bgfx_utils.h>
+#include <big2/execution.h>
 #include <chrono>
 
 namespace big2 {
@@ -23,15 +24,14 @@ Window &App::CreateWindow(const std::string &title, glm::ivec2 size) {
     extension->OnWindowCreated(window);
   };
 
-  std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), call_extensions_window_created);
-
+  std::for_each(EXECUTION_POLICY(std::execution::par_unseq) extensions_.begin(), extensions_.end(), call_extensions_window_created);
   return windows_.emplace_back(window);
 }
 
 void App::Run() {
   state_ = ActiveState::Run;
 
-  std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), [this](std::unique_ptr<AppExtensionBase> &extension) {
+  std::for_each(EXECUTION_POLICY(std::execution::par_unseq) extensions_.begin(), extensions_.end(), [this](std::unique_ptr<AppExtensionBase> &extension) {
     extension->Initialize(this);
   });
 
@@ -57,22 +57,22 @@ void App::Run() {
   while (state_ != ActiveState::Stop) {
     MandatoryBeginFrame();
 
-    std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), call_extensions_frame_begin);
+    std::for_each(EXECUTION_POLICY(std::execution::par_unseq) extensions_.begin(), extensions_.end(), call_extensions_frame_begin);
 
     if(state_ != ActiveState::Pause)
     {
-      std::for_each(std::execution::seq, extensions_.begin(), extensions_.end(), call_extensions_update);
+      std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_update);
     }
 
-    std::for_each(std::execution::seq, extensions_.begin(), extensions_.end(), call_extensions_window_render);
-    std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), call_extensions_frame_end);
+    std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_window_render);
+    std::for_each(EXECUTION_POLICY(std::execution::par_unseq) extensions_.begin(), extensions_.end(), call_extensions_frame_end);
 
     bgfx::frame();
     ProcessClosedWindows();
   }
 
   // Terminate
-  std::for_each(std::execution::par_unseq, extensions_.begin(), extensions_.end(), [](std::unique_ptr<AppExtensionBase> &extension) {
+  std::for_each(EXECUTION_POLICY(std::execution::par_unseq) extensions_.begin(), extensions_.end(), [](std::unique_ptr<AppExtensionBase> &extension) {
     extension->OnTerminate();
   });
 }

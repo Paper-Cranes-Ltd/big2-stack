@@ -13,7 +13,7 @@
 #include <optional>
 #include <GLFW/glfw3.h>
 #include <variant>
-#include <execution>
+#include <big2/execution.h>
 
 namespace big2 {
 
@@ -129,7 +129,7 @@ void PollEvents();
 template<typename TEventType>
 bool HasEventType(const gsl::span<GlfwEvent> window_events) {
   auto predicate = [](const big2::GlfwEvent& event) { return event.Is<TEventType>(); };
-  return std::any_of(std::execution::par_unseq, window_events.begin(), window_events.end(), predicate);
+  return std::any_of(EXECUTION_POLICY(std::execution::par_unseq) window_events.begin(), window_events.end(), predicate);
 }
 
 /**

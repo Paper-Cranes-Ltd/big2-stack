@@ -1,7 +1,5 @@
 project(BIG2)
 
-set(CMAKE_CXX_STANDARD 17)
-
 add_shaders_directory(shaders SHADERS_TARGET_NAME)
 
 set(BIG2_SOURCES)

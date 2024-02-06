@@ -26,7 +26,7 @@
     {
       "name": "glm",
       "url": "https://github.com/g-truc/glm.git",
-      "version": "0.9.9.8"
+      "version": "1.0.0"
     },
     {
       "name": "bgfx",

@@ -7,6 +7,7 @@
 #define BIG2_STACK_BGFX_VIEW_SCOPED_H_
 
 #include <bgfx/bgfx.h>
+#include <big2/bgfx/bgfx_scoped_handle.h>
 
 namespace big2 {
 

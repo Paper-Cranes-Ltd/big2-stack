@@ -90,19 +90,15 @@ class TriangleRenderAppExtension final : public big2::AppExtensionBase {
 
   void OnTerminate() override {
     AppExtensionBase::OnTerminate();
-    bgfx::destroy(index_buffer_);
-    bgfx::destroy(vertex_buffer_);
-    bgfx::destroy(program_);
-
-    vertex_buffer_ = BGFX_INVALID_HANDLE;
-    index_buffer_ = BGFX_INVALID_HANDLE;
-    program_ = BGFX_INVALID_HANDLE;
+    vertex_buffer_.Destroy();
+    index_buffer_.Destroy();
+    program_.Destroy();
   }
 
  private:
-  bgfx::VertexBufferHandle vertex_buffer_ = BGFX_INVALID_HANDLE;
-  bgfx::IndexBufferHandle index_buffer_ = BGFX_INVALID_HANDLE;
-  bgfx::ProgramHandle program_ = BGFX_INVALID_HANDLE;
+  big2::VertexBufferScopedHandle vertex_buffer_;
+  big2::IndexBufferScopedHandle index_buffer_;
+  big2::ProgramScopedHandle program_;
 };
 
 int main(std::int32_t, gsl::zstring[]) {

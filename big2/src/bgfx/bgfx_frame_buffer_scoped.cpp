@@ -15,7 +15,6 @@ BgfxFrameBufferScoped::BgfxFrameBufferScoped(bgfx::FrameBufferHandle handle) : h
 }
 
 BgfxFrameBufferScoped::~BgfxFrameBufferScoped() {
-  bgfx::destroy(handle_);
 }
 
 BgfxFrameBufferScoped::operator bgfx::FrameBufferHandle() const {

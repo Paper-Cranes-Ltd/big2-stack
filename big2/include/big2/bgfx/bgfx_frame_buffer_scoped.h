@@ -10,6 +10,8 @@
 #include <bgfx/bgfx.h>
 #include <GLFW/glfw3.h>
 
+#include "bgfx_scoped_handle.h"
+
 namespace big2 {
 
 /**
@@ -32,7 +34,7 @@ class BgfxFrameBufferScoped final {
   explicit(false) operator bgfx::FrameBufferHandle &();
 
  private:
-  bgfx::FrameBufferHandle handle_ = BGFX_INVALID_HANDLE;
+  BgfxScopedHandle<bgfx::FrameBufferHandle> handle_;
 };
 
 }

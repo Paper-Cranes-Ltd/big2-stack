@@ -36,7 +36,7 @@ fetchcontent_makeavailable(big2)
 # ...
 
 add_executable(Main main.cpp)
-target_link_libraries(Main PUBLIC big2)
+target_link_libraries(Main PUBLIC BIG2)
 ```
 
 ## Dependencies

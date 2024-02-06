@@ -15,6 +15,8 @@
 namespace big2 {
 
 Window &App::CreateWindow(const std::string &title, glm::ivec2 size) {
+  Expects(windows_.empty() || BgfxInitializationScoped::SupportsMultipleWindows());
+
   glfwWindowHint(GLFW_FLOATING, false);
   Window window(title.c_str(), size);
   window.SetIsScoped(false);

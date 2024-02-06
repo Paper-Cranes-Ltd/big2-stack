@@ -51,7 +51,9 @@ int main(std::int32_t, gsl::zstring[]) {
 #endif // defined(IMGUI_HAS_DOCK)
 
 #if defined(IMGUI_HAS_VIEWPORT)
-  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // Enable viewports
+  if (big2::BgfxInitializationScoped::SupportsMultipleWindows()) {
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // Enable viewports
+  }
 #endif // defined(IMGUI_HAS_VIEWPORT)
   imgui_context.Initialize(window, window.GetView(), false);
 

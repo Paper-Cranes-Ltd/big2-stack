@@ -9,7 +9,6 @@
 #include <big2/glfw/glfw_utils.h>
 
 namespace big2 {
-
 Window::Window(gsl::czstring title, glm::ivec2 size, GLFWmonitor *monitor) {
   constexpr GLFWwindow *shared_window = nullptr;
   window_ = glfwCreateWindow(size.x, size.y, title, monitor, shared_window);
@@ -23,7 +22,8 @@ Window::~Window() {
   }
 }
 
-Window::Window(gsl::not_null<GLFWwindow *> window) : window_(window) {
+Window::Window(gsl::not_null<GLFWwindow *> window)
+  : window_(window) {
   Initialize();
 }
 
@@ -35,20 +35,29 @@ Window &Window::SetIsScoped(bool scoped) {
 void Window::Dispose() {
   glfwDestroyWindow(window_);
   bgfx::resetView(view_id_);
-  bgfx::destroy(frame_buffer_);
+
+  if(isValid(frame_buffer_)) {
+    bgfx::destroy(frame_buffer_);
+    frame_buffer_ = BGFX_INVALID_HANDLE;
+  }
+
   FreeViewId(view_id_);
 
   view_id_ = BGFX_INVALID_HANDLE;
-  frame_buffer_ = BGFX_INVALID_HANDLE;
 }
 
 void Window::Initialize() {
   const glm::ivec2 initial_window_resolution = GetResolution();
-
-  bgfx::createFrameBuffer(GetNativeWindowHandle(window_), initial_window_resolution.x, initial_window_resolution.y, bgfx::TextureFormat::RGBA8, bgfx::TextureFormat::D24S8);
-  frame_buffer_ = bgfx::createFrameBuffer(GetNativeWindowHandle(window_), initial_window_resolution.x, initial_window_resolution.y);
   view_id_ = ReserveViewId();
-  bgfx::setViewFrameBuffer(view_id_, frame_buffer_);
+
+  if (BgfxInitializationScoped::SupportsMultipleWindows()) {
+    bgfx::createFrameBuffer(GetNativeWindowHandle(window_), initial_window_resolution.x, initial_window_resolution.y, bgfx::TextureFormat::RGBA8, bgfx::TextureFormat::D24S8);
+    frame_buffer_ = bgfx::createFrameBuffer(GetNativeWindowHandle(window_), initial_window_resolution.x, initial_window_resolution.y);
+    bgfx::setViewFrameBuffer(view_id_, frame_buffer_);
+  } else {
+    BgfxInitializationScoped::GetInstance()->ReInitialize(window_, initial_window_resolution);
+  }
+
   bgfx::setViewRect(view_id_, 0, 0, initial_window_resolution.x, initial_window_resolution.y);
   bgfx::setViewClear(view_id_, BGFX_CLEAR_COLOR, 0x000000FF);
 }
@@ -66,13 +75,17 @@ glm::ivec2 Window::GetResolution() const {
 }
 
 void Window::SetFrameSize(glm::ivec2 size) {
-  bgfx::destroy(frame_buffer_);
-  frame_buffer_ = bgfx::createFrameBuffer(GetNativeWindowHandle(window_), size.x, size.y);
-  bgfx::setViewFrameBuffer(view_id_, frame_buffer_);
+  if (BgfxInitializationScoped::SupportsMultipleWindows()) {
+    bgfx::destroy(frame_buffer_);
+    frame_buffer_ = bgfx::createFrameBuffer(GetNativeWindowHandle(window_), size.x, size.y);
+    bgfx::setViewFrameBuffer(view_id_, frame_buffer_);
+  } else {
+    bgfx::reset(size.x, size.y);
+  }
+
   bgfx::setViewRect(view_id_, 0, 0, size.x, size.y);
 }
 bool Window::GetShouldClose() const {
   return glfwWindowShouldClose(window_);
 }
-
 }

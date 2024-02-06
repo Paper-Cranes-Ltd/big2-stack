@@ -17,8 +17,9 @@
 #include <big2/bgfx/bgfx_frame_buffer_scoped.h>
 #include <big2/bgfx/bgfx_initialization_scoped.h>
 
-namespace big2 {
+#include "app_extension_base.h"
 
+namespace big2 {
 class AppExtensionBase;
 
 template<class TExtension>
@@ -26,12 +27,11 @@ concept AppExtensionDerived = std::is_base_of_v<AppExtensionBase, TExtension>;
 
 class App final {
  public:
-
   enum class ActiveState : std::uint8_t {
-    Unset,
-    Run,
-    Pause,
-    Stop,
+   Unset,
+   Run,
+   Pause,
+   Stop,
   };
 
   explicit App(bgfx::RendererType::Enum renderer_type = bgfx::RendererType::Count);
@@ -44,8 +44,13 @@ class App final {
    */
   template<AppExtensionDerived TExtension>
   App &AddExtension() {
-    extensions_.push_back(std::make_unique<TExtension>());
-    return *this;
+   extensions_.push_back(std::make_unique<TExtension>());
+
+   if (state_ == ActiveState::Run || state_ == ActiveState::Pause) {
+    extensions_.back()->Initialize(this);
+   }
+
+   return *this;
   }
 
   /**
@@ -100,7 +105,7 @@ class App final {
   [[nodiscard]] ActiveState GetActiveState() const { return state_; }
   void SetActiveState(ActiveState value) { state_ = value; }
 
-  std::vector<std::unique_ptr<AppExtensionBase>> extensions_;
+  std::vector<std::unique_ptr<AppExtensionBase> > extensions_;
   std::vector<Window> windows_;
 
   time_point previous_frame_time_;
@@ -110,6 +115,5 @@ class App final {
   std::unique_ptr<GlfwInitializationScoped> glfw_initialization_scoped_ = nullptr;
   std::unique_ptr<BgfxInitializationScoped> bgfx_initialization_scoped_ = nullptr;
 };
-
 }
 #endif //BIG2_STACK_APP_H_

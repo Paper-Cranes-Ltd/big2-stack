@@ -17,11 +17,11 @@
 #include <generated/shaders/examples/all.h>
 
 static const bgfx::EmbeddedShader kEmbeddedShaders[] =
-    {
-        BGFX_EMBEDDED_SHADER(vs_basic),
-        BGFX_EMBEDDED_SHADER(fs_basic),
-        BGFX_EMBEDDED_SHADER_END()
-    };
+{
+  BGFX_EMBEDDED_SHADER(vs_basic),
+  BGFX_EMBEDDED_SHADER(fs_basic),
+  BGFX_EMBEDDED_SHADER_END()
+};
 
 struct NormalColorVertex {
   glm::vec2 position;
@@ -29,79 +29,78 @@ struct NormalColorVertex {
 };
 
 NormalColorVertex kTriangleVertices[] =
-    {
-        {{-0.5f, -0.5f}, 0x339933FF},
-        {{0.5f, -0.5f}, 0x993333FF},
-        {{0.0f, 0.5f}, 0x333399FF},
-    };
+{
+  {{-0.5f, -0.5f}, 0x339933FF},
+  {{0.5f, -0.5f}, 0x993333FF},
+  {{0.0f, 0.5f}, 0x333399FF},
+};
 
 const uint16_t kTriangleIndices[] =
-    {
-        0, 1, 2,
-    };
+{
+  0, 1, 2,
+};
 
 class TriangleRenderAppExtension final : public big2::AppExtensionBase {
- protected:
-  void OnFrameBegin() override {
-    AppExtensionBase::OnFrameBegin();
-  }
-  void OnRender(big2::Window &window) override {
-    AppExtensionBase::OnRender(window);
-    bgfx::setState(
+  protected:
+    void OnFrameBegin() override {
+      AppExtensionBase::OnFrameBegin();
+    }
+    void OnRender(big2::Window &window) override {
+      AppExtensionBase::OnRender(window);
+      bgfx::setState(
         BGFX_STATE_WRITE_R
-            | BGFX_STATE_WRITE_G
-            | BGFX_STATE_WRITE_B
-            | BGFX_STATE_WRITE_A
-    );
+        | BGFX_STATE_WRITE_G
+        | BGFX_STATE_WRITE_B
+        | BGFX_STATE_WRITE_A
+      );
 
-    bgfx::setVertexBuffer(0, vertex_buffer_);
-    bgfx::setIndexBuffer(index_buffer_);
-    bgfx::submit(window.GetView(), program_);
+      bgfx::setVertexBuffer(0, vertex_buffer_);
+      bgfx::setIndexBuffer(index_buffer_);
+      bgfx::submit(window.GetView(), program_);
 
 #if BIG2_IMGUI_ENABLED
-    BIG2_SCOPE_VAR(big2::ImGuiFrameScoped) {
-      ImGui::ShowDemoWindow();
-    }
+      BIG2_SCOPE_VAR(big2::ImGuiFrameScoped) {
+        ImGui::ShowDemoWindow();
+      }
 #endif // BIG2_IMGUI_ENABLED
+    }
+    void OnFrameEnd() override {
+      AppExtensionBase::OnFrameEnd();
+    }
+    void OnInitialize() override {
+      AppExtensionBase::OnInitialize();
 
-  }
-  void OnFrameEnd() override {
-    AppExtensionBase::OnFrameEnd();
-  }
-  void OnInitialize() override {
-    AppExtensionBase::OnInitialize();
+      bgfx::VertexLayout color_vertex_layout;
+      color_vertex_layout.begin()
+          .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
+          .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+          .end();
 
-    bgfx::VertexLayout color_vertex_layout;
-    color_vertex_layout.begin()
-        .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-        .end();
+      vertex_buffer_ = bgfx::createVertexBuffer(bgfx::makeRef(kTriangleVertices, sizeof(kTriangleVertices)), color_vertex_layout);
+      index_buffer_ = bgfx::createIndexBuffer(bgfx::makeRef(kTriangleIndices, sizeof(kTriangleIndices)));
 
-    vertex_buffer_ = bgfx::createVertexBuffer(bgfx::makeRef(kTriangleVertices, sizeof(kTriangleVertices)), color_vertex_layout);
-    index_buffer_ = bgfx::createIndexBuffer(bgfx::makeRef(kTriangleIndices, sizeof(kTriangleIndices)));
-
-    bgfx::RendererType::Enum renderer_type = bgfx::getRendererType();
-    program_ = bgfx::createProgram(
+      bgfx::RendererType::Enum renderer_type = bgfx::getRendererType();
+      program_ = bgfx::createProgram(
         bgfx::createEmbeddedShader(kEmbeddedShaders, renderer_type, "vs_basic"),
         bgfx::createEmbeddedShader(kEmbeddedShaders, renderer_type, "fs_basic"),
         true
-    );
-  }
+      );
+    }
 
-  void OnTerminate() override {
-    AppExtensionBase::OnTerminate();
-    vertex_buffer_.Destroy();
-    index_buffer_.Destroy();
-    program_.Destroy();
-  }
+    void OnTerminate() override {
+      AppExtensionBase::OnTerminate();
+      vertex_buffer_.Destroy();
+      index_buffer_.Destroy();
+      program_.Destroy();
+    }
 
- private:
-  big2::VertexBufferScopedHandle vertex_buffer_;
-  big2::IndexBufferScopedHandle index_buffer_;
-  big2::ProgramScopedHandle program_;
+  private:
+    big2::VertexBufferScopedHandle vertex_buffer_;
+    big2::IndexBufferScopedHandle index_buffer_;
+    big2::ProgramScopedHandle program_;
 };
 
-int main(std::int32_t, gsl::zstring[]) {
+int main(std::int32_t, gsl::zstring []) {
   big2::App app;
 
   app.AddExtension<big2::DefaultQuitConditionAppExtension>();

@@ -13,7 +13,6 @@
 #include <chrono>
 
 namespace big2 {
-
 Window &App::CreateWindow(const std::string &title, glm::ivec2 size) {
   Expects(windows_.empty() || BgfxInitializationScoped::SupportsMultipleWindows());
 
@@ -33,9 +32,12 @@ Window &App::CreateWindow(const std::string &title, glm::ivec2 size) {
 void App::Run() {
   state_ = ActiveState::Run;
 
-  std::for_each(EXECUTION_POLICY(std::execution::par_unseq) extensions_.begin(), extensions_.end(), [this](std::unique_ptr<AppExtensionBase> &extension) {
-    extension->Initialize(this);
-  });
+  std::for_each(EXECUTION_POLICY(std::execution::par_unseq)
+                extensions_.begin(),
+                extensions_.end(),
+                [this](std::unique_ptr<AppExtensionBase> &extension) {
+                  extension->Initialize(this);
+                });
 
   auto call_extensions_frame_begin = [](std::unique_ptr<AppExtensionBase> &extension) {
     extension->OnFrameBegin();
@@ -61,8 +63,7 @@ void App::Run() {
 
     std::for_each(EXECUTION_POLICY(std::execution::par_unseq) extensions_.begin(), extensions_.end(), call_extensions_frame_begin);
 
-    if(state_ != ActiveState::Pause)
-    {
+    if (state_ != ActiveState::Pause) {
       std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_update);
     }
 
@@ -74,9 +75,12 @@ void App::Run() {
   }
 
   // Terminate
-  std::for_each(EXECUTION_POLICY(std::execution::par_unseq) extensions_.begin(), extensions_.end(), [](std::unique_ptr<AppExtensionBase> &extension) {
-    extension->OnTerminate();
-  });
+  std::for_each(EXECUTION_POLICY(std::execution::par_unseq)
+                extensions_.begin(),
+                extensions_.end(),
+                [](std::unique_ptr<AppExtensionBase> &extension) {
+                  extension->OnTerminate();
+                });
 }
 
 void App::MandatoryBeginFrame() {
@@ -121,5 +125,4 @@ void App::UpdateDeltaTime() {
   delta_time_ = float_duration_seconds(current_time - previous_frame_time_).count();
   previous_frame_time_ = current_time;
 }
-
 }

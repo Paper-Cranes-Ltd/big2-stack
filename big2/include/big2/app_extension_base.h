@@ -17,7 +17,7 @@ class Window;
 
 class AppExtensionBase {
  public:
-
+  virtual ~AppExtensionBase() = default;
  protected:
   virtual void OnInitialize() {};
   virtual void OnTerminate() {};

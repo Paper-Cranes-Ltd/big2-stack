@@ -10,9 +10,5 @@ trim_trailing_whitespace = true
 [*.{h,hpp,cpp,sc,sh}]
 charset = utf-8
 indent_style = space
-indent_size = 4
-tab_width = 4
-curly_bracket_next_line = true
-continuation_indent_size = 8
-indent_brace_style = Allman
-spaces_around_operators = true
+indent_size = 2
+tab_width = 2

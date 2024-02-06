@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(big2-stack VERSION 0.0.6)
+project(big2-stack VERSION 0.0.8)
 
 set(USE_FOLDERS TRUE)
 set(CMAKE_FOLDER "BIG2")

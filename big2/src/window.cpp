@@ -32,6 +32,15 @@ Window &Window::SetIsScoped(bool scoped) {
   return *this;
 }
 
+bool Window::GetIsResizable() const {
+  return glfwGetWindowAttrib(window_, GLFW_RESIZABLE);
+}
+
+Window & Window::SetIsResizable(bool is_resizable) {
+  glfwSetWindowAttrib(window_, GLFW_RESIZABLE, is_resizable);
+  return *this;
+}
+
 void Window::Dispose() {
   glfwDestroyWindow(window_);
   bgfx::resetView(view_id_);
@@ -85,6 +94,12 @@ void Window::SetFrameSize(glm::ivec2 size) {
 
   bgfx::setViewRect(view_id_, 0, 0, size.x, size.y);
 }
+
+void Window::SetWindowSize(glm::ivec2 size) {
+  glfwSetWindowSize(window_, size.x, size.y);
+  SetFrameSize(size);
+}
+
 bool Window::GetShouldClose() const {
   return glfwWindowShouldClose(window_);
 }

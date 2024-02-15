@@ -36,11 +36,14 @@ class Window final {
 
   void SetClearColor(std::uint32_t rgba) const;
   void SetFrameSize(glm::ivec2 size);
+  void SetWindowSize(glm::ivec2 size);
   void Dispose();
 
   [[nodiscard]] gsl::not_null<GLFWwindow *> GetWindowHandle() const { return window_; }
   [[nodiscard]] bool GetIsScoped() const { return is_scoped_; }
   Window& SetIsScoped(bool scoped);
+  [[nodiscard]] bool GetIsResizable() const;
+  Window& SetIsResizable(bool is_resizable);
   [[nodiscard]] bgfx::ViewId GetView() const { return view_id_; }
   [[nodiscard]] bgfx::FrameBufferHandle GetFrameBuffer() const { return frame_buffer_; }
   [[nodiscard]] glm::ivec2 GetSize() const;

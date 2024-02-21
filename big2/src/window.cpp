@@ -59,7 +59,7 @@ void Window::Initialize() {
   const glm::ivec2 initial_window_resolution = GetResolution();
   view_id_ = ReserveViewId();
 
-  if (BgfxInitializationScoped::SupportsMultipleWindows()) {
+  if (BgfxSupportsMultipleWindows()) {
     bgfx::createFrameBuffer(GetNativeWindowHandle(window_), initial_window_resolution.x, initial_window_resolution.y, bgfx::TextureFormat::RGBA8, bgfx::TextureFormat::D24S8);
     frame_buffer_ = bgfx::createFrameBuffer(GetNativeWindowHandle(window_), initial_window_resolution.x, initial_window_resolution.y);
     bgfx::setViewFrameBuffer(view_id_, frame_buffer_);
@@ -84,7 +84,7 @@ glm::ivec2 Window::GetResolution() const {
 }
 
 void Window::SetFrameSize(glm::ivec2 size) {
-  if (BgfxInitializationScoped::SupportsMultipleWindows()) {
+  if (BgfxSupportsMultipleWindows()) {
     bgfx::destroy(frame_buffer_);
     frame_buffer_ = bgfx::createFrameBuffer(GetNativeWindowHandle(window_), size.x, size.y);
     bgfx::setViewFrameBuffer(view_id_, frame_buffer_);

@@ -37,6 +37,11 @@ void FreeViewId(bgfx::ViewId value) {
   view_id_manager.Free(value);
 }
 
+bool BgfxSupportsMultipleWindows() {
+  const bgfx::Caps* caps = bgfx::getCaps();
+  return (caps->supported & BGFX_CAPS_SWAP_CHAIN) != 0;
+}
+
 void ResetWindowFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBufferHandle &out_handle) {
   if (bgfx::isValid(out_handle)) {
     bgfx::destroy(out_handle);

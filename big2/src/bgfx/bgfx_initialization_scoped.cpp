@@ -47,10 +47,6 @@ BgfxInitializationScoped::~BgfxInitializationScoped() {
   bgfx::shutdown();
 }
 
-bool BgfxInitializationScoped::SupportsMultipleWindows() {
-  return bgfx::getCaps()->supported & BGFX_CAPS_SWAP_CHAIN;
-}
-
 void BgfxInitializationScoped::ReInitialize(gsl::not_null<GLFWwindow *> window, const glm::ivec2 size) {
   bgfx::shutdown();
 

@@ -19,8 +19,15 @@ int main(std::int32_t, gsl::zstring[]) {
 
   gsl::final_action terminate_glfw([]() { glfwTerminate(); });
 
-  bgfx::Init init_object;
+  bgfx::Init init_object = bgfx::Init();
+  init_object.resolution.width = 0;
+  init_object.resolution.height = 0;
   big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");
+
+  if(!big2::BgfxSupportsMultipleWindows()) {
+    big2::Info("The selected renderer doesn't support multiple windows through BGFX.");
+    std::exit(EXIT_SUCCESS);
+  }
 
   std::array<GLFWwindow *, 2> windows{};
   std::array<bgfx::ViewId, 2> views{};
@@ -54,5 +61,5 @@ int main(std::int32_t, gsl::zstring[]) {
     bgfx::frame();
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

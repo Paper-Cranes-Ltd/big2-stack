@@ -36,11 +36,6 @@ class BgfxInitializationScoped final {
     static BgfxInitializationScoped *GetInstance() { return instance_; }
 
     /**
-     * \brief Not all renderers support multiple windows.
-     */
-    static bool SupportsMultipleWindows();
-
-    /**
      * \brief To be called after window is created if you initially created the instance in headless mode.
      */
     void ReInitialize(gsl::not_null<GLFWwindow *> window, glm::ivec2 size);

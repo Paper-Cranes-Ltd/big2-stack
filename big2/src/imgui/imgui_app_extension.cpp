@@ -29,7 +29,7 @@ void ImGuiAppExtension::OnWindowCreated(Window& window) {
 #endif // defined(IMGUI_HAS_DOCK)
 
 #if defined(IMGUI_HAS_VIEWPORT)
-  if (BgfxInitializationScoped::SupportsMultipleWindows()) {
+  if (BgfxSupportsMultipleWindows()) {
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // Enable viewports
   }
 #endif // defined(IMGUI_HAS_VIEWPORT)

@@ -58,7 +58,10 @@ void ResetWindowFrameBuffer(gsl::not_null<GLFWwindow *> window, bgfx::FrameBuffe
  */
 void FreeViewId(bgfx::ViewId value);
 
-
+/**
+ * \brief Checks after initialization if bgfx is capable of rendering to multiple windows.
+ */
+bool BgfxSupportsMultipleWindows();
 
 
 }

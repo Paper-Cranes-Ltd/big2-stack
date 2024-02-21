@@ -16,6 +16,7 @@ function(json_config_dependencies)
     list(APPEND DEPENDENCY_COMMON_OPTIONS GIT_SHALLOW TRUE)
     list(APPEND DEPENDENCY_COMMON_OPTIONS GIT_REMOTE_UPDATE_STRATEGY CHECKOUT)
     list(APPEND DEPENDENCY_COMMON_OPTIONS GIT_SUBMODULES_RECURSE TRUE)
+    list(APPEND DEPENDENCY_COMMON_OPTIONS OVERRIDE_FIND_PACKAGE)
 
     if(JSON_CONFIG_ROOT)
         set(JSON_CONFIG_MEMBER_SELECTOR "")
@@ -25,6 +26,7 @@ function(json_config_dependencies)
     string(JSON DEPENDENCIES_COUNT LENGTH "${CONFIG_FILE}" ${JSON_CONFIG_MEMBER_SELECTOR})
     math(EXPR DEPENDENCIES_RANGE_END "${DEPENDENCIES_COUNT} - 1")
 
+    set(DEPENDENCIES)
     foreach (INDEX RANGE 0 "${DEPENDENCIES_RANGE_END}")
         string(JSON DEPENDENCY_JSON GET "${CONFIG_FILE}" ${JSON_CONFIG_MEMBER_SELECTOR} "${INDEX}")
         string(JSON DEPENDENCY_NAME GET "${DEPENDENCY_JSON}" "name")
@@ -33,7 +35,8 @@ function(json_config_dependencies)
         string(JSON DEPENDENCY_OPTIONS ERROR_VARIABLE OPTIONS_MISSING GET "${DEPENDENCY_JSON}" "options")
 
         string(CONFIGURE ${DEPENDENCY_VERSION} DEPENDENCY_VERSION)
-        message(STATUS "Processing dependency: ${DEPENDENCY_NAME} - " ${DEPENDENCY_VERSION})
+        message(STATUS "Found Dependency: ${DEPENDENCY_NAME} - " ${DEPENDENCY_VERSION})
+        list(APPEND DEPENDENCIES "${DEPENDENCY_NAME}")
 
         fetchcontent_declare(
                 "${DEPENDENCY_NAME}"
@@ -54,7 +57,10 @@ function(json_config_dependencies)
                 set("${OPTION_NAME}" "${OPTION_VALUE}" CACHE INTERNAL "")
             endforeach ()
         endif()
+    endforeach ()
 
-        fetchcontent_makeavailable("${DEPENDENCY_NAME}")
+    foreach (DEPENDENCY IN LISTS DEPENDENCIES)
+        message(STATUS "Configuring Dependency: ${DEPENDENCY_NAME} - " ${DEPENDENCY_VERSION})
+        fetchcontent_makeavailable("${DEPENDENCY}")
     endforeach ()
 endfunction()

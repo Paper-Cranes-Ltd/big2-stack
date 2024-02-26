@@ -60,7 +60,7 @@ function(json_config_dependencies)
     endforeach ()
 
     foreach (DEPENDENCY IN LISTS DEPENDENCIES)
-        message(STATUS "Configuring Dependency: ${DEPENDENCY_NAME} - " ${DEPENDENCY_VERSION})
+        message(STATUS "Configuring Dependency: ${DEPENDENCY}")
         fetchcontent_makeavailable("${DEPENDENCY}")
     endforeach ()
 endfunction()

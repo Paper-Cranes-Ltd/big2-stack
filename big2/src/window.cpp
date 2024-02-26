@@ -69,6 +69,7 @@ void Window::Initialize() {
 
   bgfx::setViewRect(view_id_, 0, 0, initial_window_resolution.x, initial_window_resolution.y);
   bgfx::setViewClear(view_id_, BGFX_CLEAR_COLOR, 0x000000FF);
+  back_buffer_size_ = initial_window_resolution;
 }
 
 void Window::SetClearColor(std::uint32_t rgba) const {

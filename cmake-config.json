@@ -26,7 +26,21 @@
     {
       "name": "glm",
       "url": "https://github.com/g-truc/glm.git",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "options": [
+        {
+          "name": "GLM_ENABLE_CXX_20",
+          "value": true
+        },
+        {
+          "name": "GLM_DISABLE_AUTO_DETECTION",
+          "value": true
+        },
+        {
+          "name": "GLM_QUIET",
+          "value": true
+        }
+      ]
     },
     {
       "name": "bgfx",

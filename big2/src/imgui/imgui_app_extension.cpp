@@ -57,20 +57,22 @@ void ImGuiAppExtension::OnWindowDestroyed(Window& window) {
                 });
 }
 
-void ImGuiAppExtension::OnRender(Window& window) {
-  AppExtensionBase::OnRender(window);
+void ImGuiAppExtension::OnUpdate(std::float_t dt) {
+  AppExtensionBase::OnUpdate(dt);
 
-  std::optional<ImGuiContextWrapper> maybe_context = big2::FirstIf<ImGuiContextWrapper>(contexts_.begin(), contexts_.end(), [&window](ImGuiContextWrapper& context) {
-    return context.GetWindow() == window.GetWindowHandle();
-  });
+  for(Window& window : app_->GetWindows()) {
+    std::optional<ImGuiContextWrapper> maybe_context = big2::FirstIf<ImGuiContextWrapper>(contexts_.begin(), contexts_.end(), [&window](ImGuiContextWrapper& context) {
+      return context.GetWindow() == window.GetWindowHandle();
+    });
 
-  if(!maybe_context.has_value())
-  {
-    return;
+    if(!maybe_context.has_value())
+    {
+      return;
+    }
+
+    ImGui::SetCurrentContext(maybe_context.value().GetContext());
+    big2::GlfwEventQueue::UpdateImGuiEvents(window.GetWindowHandle());
   }
-
-  ImGui::SetCurrentContext(maybe_context.value().GetContext());
-  big2::GlfwEventQueue::UpdateImGuiEvents(window.GetWindowHandle());
 }
 
 }

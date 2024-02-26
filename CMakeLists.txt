@@ -19,6 +19,7 @@ endif()
 # Options
 include(CMakeDependentOption)
 
+option(BIG2_PROGRAMMER "Adds a more strict warnings and compiler flags" ${PROJECT_IS_TOP_LEVEL})
 option(BIG2_BUILD_EXAMPLES "Whether or not to build examples with this stack" "${PROJECT_IS_TOP_LEVEL}")
 option(BIG2_BUILD_DOCS "Whether or not to generate documentation" "${PROJECT_IS_TOP_LEVEL}")
 option(BIG2_INCLUDE_IMGUI "Whether or not to add imgui into the mix" ON)

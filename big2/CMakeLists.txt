@@ -77,3 +77,16 @@ endif ()
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+
+if (${BIG2_PROGRAMMER})
+
+    if (CMAKE_COMPILER_IS_GNUCC)
+        target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
+    endif ()
+
+    if (MSVC)
+        target_compile_options(${PROJECT_NAME} PRIVATE /W4)
+    endif ()
+
+    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_WARNING_AS_ERROR TRUE)
+endif ()

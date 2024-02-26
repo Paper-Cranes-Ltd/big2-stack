@@ -53,7 +53,6 @@ void App::Run() {
 
   auto call_extensions_window_render = [this](std::unique_ptr<AppExtensionBase> &extension) {
     for (Window &window : windows_) {
-      bgfx::touch(window.GetView());
       extension->OnRender(window);
     }
   };

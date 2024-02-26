@@ -56,7 +56,7 @@ void Window::Dispose() {
 }
 
 void Window::Initialize() {
-  const glm::ivec2 initial_window_resolution = GetResolution();
+  const glm::u16vec2 initial_window_resolution = GetResolution();
   view_id_ = ReserveViewId();
 
   if (BgfxSupportsMultipleWindows()) {
@@ -75,15 +75,15 @@ void Window::SetClearColor(std::uint32_t rgba) const {
   bgfx::setViewClear(view_id_, BGFX_CLEAR_COLOR, rgba);
 }
 
-glm::ivec2 Window::GetSize() const {
+glm::u16vec2 Window::GetSize() const {
   return big2::GetWindowSize(window_);
 }
 
-glm::ivec2 Window::GetResolution() const {
+glm::u16vec2 Window::GetResolution() const {
   return big2::GetWindowResolution(window_);
 }
 
-void Window::SetFrameSize(glm::ivec2 size) {
+void Window::SetFrameSize(glm::u16vec2 size) {
   if (BgfxSupportsMultipleWindows()) {
     bgfx::destroy(frame_buffer_);
     frame_buffer_ = bgfx::createFrameBuffer(GetNativeWindowHandle(window_), size.x, size.y);
@@ -95,7 +95,7 @@ void Window::SetFrameSize(glm::ivec2 size) {
   bgfx::setViewRect(view_id_, 0, 0, size.x, size.y);
 }
 
-void Window::SetWindowSize(glm::ivec2 size) {
+void Window::SetWindowSize(glm::u16vec2 size) {
   glfwSetWindowSize(window_, size.x, size.y);
   SetFrameSize(size);
 }

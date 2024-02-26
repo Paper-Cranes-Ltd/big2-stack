@@ -13,7 +13,7 @@ void big2::BgfxCallbackHandler::fatal(const char *file_path, uint16_t line, bgfx
   }
 }
 
-void big2::BgfxCallbackHandler::traceVargs(const char *_filePath, uint16_t _line, const char *_format, va_list _argList) {
+void big2::BgfxCallbackHandler::traceVargs(const char *, uint16_t, const char *, va_list) {
 
 }
 
@@ -37,7 +37,7 @@ bool big2::BgfxCallbackHandler::cacheRead(uint64_t, void *, uint32_t) {
 void big2::BgfxCallbackHandler::cacheWrite(uint64_t, const void *, uint32_t) {
 }
 
-void big2::BgfxCallbackHandler::screenShot(const char *_filePath, uint32_t _width, uint32_t _height, uint32_t _pitch, const void *_data, uint32_t _size, bool _yflip) {
+void big2::BgfxCallbackHandler::screenShot(const char *, uint32_t, uint32_t, uint32_t, const void *, uint32_t, bool) {
   big2::Warning("Screenshot not implemented.");
 }
 

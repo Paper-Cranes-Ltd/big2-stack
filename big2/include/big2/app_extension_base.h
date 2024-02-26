@@ -21,11 +21,11 @@ class AppExtensionBase {
  protected:
   virtual void OnInitialize() {};
   virtual void OnTerminate() {};
-  virtual void OnWindowCreated(Window& window) {};
-  virtual void OnWindowDestroyed(Window& window) {};
+  virtual void OnWindowCreated([[maybe_unused]] Window& window) {};
+  virtual void OnWindowDestroyed([[maybe_unused]] Window& window) {};
   virtual void OnFrameBegin() {};
-  virtual void OnUpdate(std::float_t dt) {};
-  virtual void OnRender(Window& window) {};
+  virtual void OnUpdate([[maybe_unused]] std::float_t dt) {};
+  virtual void OnRender([[maybe_unused]] Window& window) {};
   virtual void OnFrameEnd() {};
 
   App *app_ = nullptr;

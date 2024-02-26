@@ -35,8 +35,8 @@ class Window final {
   explicit(false) operator gsl::not_null<GLFWwindow *>() const { return window_; }
 
   void SetClearColor(std::uint32_t rgba) const;
-  void SetFrameSize(glm::ivec2 size);
-  void SetWindowSize(glm::ivec2 size);
+  void SetFrameSize(glm::u16vec2 size);
+  void SetWindowSize(glm::u16vec2 size);
   void Dispose();
 
   [[nodiscard]] gsl::not_null<GLFWwindow *> GetWindowHandle() const { return window_; }
@@ -46,8 +46,8 @@ class Window final {
   Window& SetIsResizable(bool is_resizable);
   [[nodiscard]] bgfx::ViewId GetView() const { return view_id_; }
   [[nodiscard]] bgfx::FrameBufferHandle GetFrameBuffer() const { return frame_buffer_; }
-  [[nodiscard]] glm::ivec2 GetSize() const;
-  [[nodiscard]] glm::ivec2 GetResolution() const;
+  [[nodiscard]] glm::u16vec2 GetSize() const;
+  [[nodiscard]] glm::u16vec2 GetResolution() const;
   [[nodiscard]] bool GetShouldClose() const;
 
  private:

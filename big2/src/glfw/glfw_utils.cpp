@@ -12,7 +12,6 @@
 #include <big2/asserts.h>
 
 namespace big2 {
-
 gsl::span<GLFWmonitor *> GetMonitors() {
   std::int32_t count;
   GLFWmonitor **monitors = glfwGetMonitors(&count);
@@ -35,10 +34,10 @@ std::int32_t GetMonitorRefreshRate(gsl::not_null<GLFWmonitor *> monitor) {
   return mode->refreshRate;
 }
 
-glm::ivec2 GetWindowSize(gsl::not_null<GLFWwindow *> window) {
+glm::u16vec2 GetWindowSize(gsl::not_null<GLFWwindow *> window) {
   glm::ivec2 window_size;
   glfwGetWindowSize(window, &window_size.x, &window_size.y);
-  return window_size;
+  return {static_cast<std::uint16_t>(window_size.x), static_cast<std::uint16_t>(window_size.y)};
 }
 
 VoidPtr GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window) {
@@ -53,14 +52,13 @@ VoidPtr GetNativeWindowHandle(gsl::not_null<GLFWwindow *> window) {
 #endif
 }
 
-void GlfwErrorCallback(std::int32_t error, gsl::czstring description) {
+void GlfwErrorCallback(std::int32_t, gsl::czstring description) {
   big2::Error(description);
 }
 
-glm::ivec2 GetWindowResolution(gsl::not_null<GLFWwindow *> window) {
+glm::u16vec2 GetWindowResolution(gsl::not_null<GLFWwindow *> window) {
   glm::ivec2 window_resolution;
   glfwGetFramebufferSize(window, &window_resolution.x, &window_resolution.y);
-  return window_resolution;
+  return {static_cast<std::uint16_t>(window_resolution.x), static_cast<std::uint16_t>(window_resolution.y)};
 }
-
 }

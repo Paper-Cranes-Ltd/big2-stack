@@ -16,7 +16,7 @@ struct BgfxCallbackHandler final : public bgfx::CallbackI {
 
   void fatal(const char *file_path, uint16_t line, bgfx::Fatal::Enum code, const char *message) override;
 
-  void traceVargs(const char *_filePath, uint16_t _line, const char *_format, va_list _argList) override;
+  void traceVargs(const char * /*_filePath*/, uint16_t /*_line*/, const char */*_format*/, va_list /*_argList*/) override;
 
   void profilerBegin(const char * /*_name*/, uint32_t /*_abgr*/, const char * /*_filePath*/, uint16_t /*_line*/) override;
 
@@ -30,7 +30,7 @@ struct BgfxCallbackHandler final : public bgfx::CallbackI {
 
   void cacheWrite(uint64_t /*_id*/, const void * /*_data*/, uint32_t /*_size*/) override;
 
-  void screenShot(const char *_filePath, uint32_t _width, uint32_t _height, uint32_t _pitch, const void *_data, uint32_t _size, bool _yflip) override;
+  void screenShot(const char */*_filePath*/, uint32_t /*_width*/, uint32_t /*_height*/, uint32_t /*_pitch*/, const void */*_data*/, uint32_t /*_size*/, bool /*_yflip*/) override;
 
   void captureBegin(uint32_t /*_width*/, uint32_t /*_height*/, uint32_t /*_pitch*/, bgfx::TextureFormat::Enum /*_format*/, bool /*_yflip*/) override;
 

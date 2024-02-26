@@ -33,7 +33,7 @@ struct BackendRendererData {
 
 struct Rgba32TextureData {
   std::uint8_t *bytes;
-  glm::ivec2 size;
+  glm::u16vec2 size;
   std::int32_t bytes_per_pixel;
 
   [[nodiscard]] std::size_t GetBytesCount() const { return size.x * size.y * bytes_per_pixel; }
@@ -94,9 +94,9 @@ void ExecuteRenderCommands(const ImDrawData *draw_data, unsigned short view_id, 
       if (draw_command->UserCallback) {
         draw_command->UserCallback(command_list, draw_command);
       } else {
-        const glm::ivec2 position(bx::max(draw_command->ClipRect.x - frame_location.x, 0.0f), bx::max(draw_command->ClipRect.y - frame_location.y, 0.0f));
-        const glm::ivec2 end_position(bx::min(draw_command->ClipRect.z - frame_location.x, 65535.0f), bx::min(draw_command->ClipRect.w - frame_location.y, 65535.0f));
-        const glm::ivec2 size = end_position - position;
+        const glm::u16vec2 position(bx::max(draw_command->ClipRect.x - frame_location.x, 0.0f), bx::max(draw_command->ClipRect.y - frame_location.y, 0.0f));
+        const glm::u16vec2 end_position(bx::min(draw_command->ClipRect.z - frame_location.x, 65535.0f), bx::min(draw_command->ClipRect.w - frame_location.y, 65535.0f));
+        const glm::u16vec2 size = end_position - position;
         bgfx::setScissor(position.x, position.y, size.x, size.y);
 
         bgfx::setState(kState);
@@ -286,7 +286,9 @@ void ImGui_ImplBgfx_RenderDrawData(ImDrawData *draw_data) {
 Rgba32TextureData GetTextureData() {
   ImGuiIO &io = ImGui::GetIO();
   Rgba32TextureData result{};
-  io.Fonts->GetTexDataAsRGBA32(&result.bytes, &result.size.x, &result.size.y, &result.bytes_per_pixel);
+  std::int32_t x, y;
+  io.Fonts->GetTexDataAsRGBA32(&result.bytes, &x, &y, &result.bytes_per_pixel);
+  result.size = {static_cast<std::uint16_t>(x), static_cast<std::uint16_t>(y)};
   Expects(result.bytes_per_pixel == 4); // Since it is RGBA32
   return result;
 }
@@ -299,7 +301,7 @@ bool ImGui_ImplBgfx_CreateFontsTexture() {
   constexpr std::uint16_t kLayersCount = 1;
   constexpr std::uint64_t kFlags = 0;
 
-  const bgfx::Memory *data = bgfx::copy(texture_data.bytes, texture_data.GetBytesCount());
+  const bgfx::Memory *data = bgfx::copy(texture_data.bytes, static_cast<std::uint32_t>(texture_data.GetBytesCount()));
   backend_data->font_texture_handle = bgfx::createTexture2D(texture_data.size.x, texture_data.size.y, kHasMips, kLayersCount, bgfx::TextureFormat::BGRA8, kFlags, data);
 
   ImGuiIO &io = ImGui::GetIO();

@@ -48,13 +48,13 @@ namespace big2 {
  * @brief Returns the window size
  * @return  A 2D vector where x is the width and y is the height of the window
  */
-[[nodiscard]] glm::ivec2 GetWindowSize(gsl::not_null<GLFWwindow *> window);
+[[nodiscard]] glm::u16vec2 GetWindowSize(gsl::not_null<GLFWwindow *> window);
 
 /**
  * @brief Returns the window resolution (framebuffer size)
  * @return  A 2D vector where x is the width and y is the height of the window
  */
-[[nodiscard]] glm::ivec2 GetWindowResolution(gsl::not_null<GLFWwindow *> window);
+[[nodiscard]] glm::u16vec2 GetWindowResolution(gsl::not_null<GLFWwindow *> window);
 
 /**
  * @brief Gets the platform native window handle.

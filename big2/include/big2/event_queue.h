@@ -123,8 +123,6 @@ gsl::span<GlfwEvent> GrabEvents(gsl::not_null<GLFWwindow *> window);
  */
 void PollEvents();
 
-void PushProgramaticEvent(const GlfwEvent& event);
-
 /**
  * @brief Checks that the array of events has a certain event type.
  */

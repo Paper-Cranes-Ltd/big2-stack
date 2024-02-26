@@ -235,11 +235,6 @@ void UpdateImGuiEvents(gsl::not_null<GLFWwindow *> window, gsl::span<GlfwEvent> 
   }
 }
 
-void PushProgramaticEvent(const GlfwEvent &event) {
-  events.push_back(event);
-  SortEventsByWindow();
-}
-
 }
 
 GlfwEvent::GlfwEvent(gsl::not_null<GLFWwindow *> window) : window(window) {

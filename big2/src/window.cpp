@@ -100,10 +100,6 @@ void Window::SetFrameSize(glm::u16vec2 size) {
 
 void Window::SetWindowSize(glm::u16vec2 size) {
   glfwSetWindowSize(window_, size.x, size.y);
-
-  GlfwEvent event(window_);
-  event.data = GlfwEvent::WindowResized{.new_size = size,};
-  GlfwEventQueue::PushProgramaticEvent(GlfwEvent(window_));
 }
 
 bool Window::GetShouldClose() const {

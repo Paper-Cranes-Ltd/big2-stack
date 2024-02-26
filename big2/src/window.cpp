@@ -84,6 +84,7 @@ glm::u16vec2 Window::GetResolution() const {
 }
 
 void Window::SetFrameSize(glm::u16vec2 size) {
+  back_buffer_size_ = size;
   if (BgfxSupportsMultipleWindows()) {
     bgfx::destroy(frame_buffer_);
     frame_buffer_ = bgfx::createFrameBuffer(GetNativeWindowHandle(window_), size.x, size.y);
@@ -97,10 +98,13 @@ void Window::SetFrameSize(glm::u16vec2 size) {
 
 void Window::SetWindowSize(glm::u16vec2 size) {
   glfwSetWindowSize(window_, size.x, size.y);
-  SetFrameSize(size);
 }
 
 bool Window::GetShouldClose() const {
   return glfwWindowShouldClose(window_);
+}
+
+glm::u16vec2 Window::GetBackBufferSize() const {
+  return back_buffer_size_;
 }
 }

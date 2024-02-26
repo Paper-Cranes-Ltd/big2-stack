@@ -49,6 +49,7 @@ class Window final {
   [[nodiscard]] glm::u16vec2 GetSize() const;
   [[nodiscard]] glm::u16vec2 GetResolution() const;
   [[nodiscard]] bool GetShouldClose() const;
+  [[nodiscard]] glm::u16vec2 GetBackBufferSize() const;
 
  private:
   void Initialize();
@@ -57,6 +58,7 @@ class Window final {
   bgfx::FrameBufferHandle frame_buffer_ = BGFX_INVALID_HANDLE;
   bgfx::ViewId view_id_ = BGFX_INVALID_HANDLE;
   bool is_scoped_ = true;
+  glm::u16vec2 back_buffer_size_ = {0, 0};
 };
 
 }

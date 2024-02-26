@@ -89,7 +89,8 @@ void App::MandatoryBeginFrame() {
   GlfwEventQueue::PollEvents();
 
   for (Window &window : windows_) {
-    if (big2::GlfwEventQueue::HasEventType<GlfwEvent::WindowResized>(window)) {
+    if (big2::GlfwEventQueue::HasEventType<GlfwEvent::WindowResized>(window)
+        || window.GetBackBufferSize() != window.GetSize()) {
       const glm::ivec2 window_resolution = GetWindowSize(window);
       window.SetFrameSize(window_resolution);
     }

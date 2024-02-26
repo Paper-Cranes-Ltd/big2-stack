@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 #include <big2/bgfx/bgfx_utils.h>
 #include <big2/glfw/glfw_utils.h>
+#include <big2/event_queue.h>
 
 namespace big2 {
 Window::Window(gsl::czstring title, glm::ivec2 size, GLFWmonitor *monitor) {
@@ -99,6 +100,10 @@ void Window::SetFrameSize(glm::u16vec2 size) {
 
 void Window::SetWindowSize(glm::u16vec2 size) {
   glfwSetWindowSize(window_, size.x, size.y);
+
+  GlfwEvent event(window_);
+  event.data = GlfwEvent::WindowResized{.new_size = size,};
+  GlfwEventQueue::PushProgramaticEvent(GlfwEvent(window_));
 }
 
 bool Window::GetShouldClose() const {

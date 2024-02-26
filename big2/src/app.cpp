@@ -60,16 +60,17 @@ void App::Run() {
   while (state_ != ActiveState::Stop) {
     MandatoryBeginFrame();
 
-    std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_frame_begin);
-
     if (state_ != ActiveState::Pause) {
       std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_update);
     }
 
-    std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_window_render);
-    std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_frame_end);
+    if(do_render_this_frame_) {
+      std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_frame_begin);
+      std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_window_render);
+      std::for_each(EXECUTION_POLICY(std::execution::seq) extensions_.begin(), extensions_.end(), call_extensions_frame_end);
+      bgfx::frame();
+    }
 
-    bgfx::frame();
     ProcessClosedWindows();
   }
 
@@ -83,12 +84,13 @@ void App::Run() {
 }
 
 void App::MandatoryBeginFrame() {
+  do_render_this_frame_ = true;
   UpdateDeltaTime();
   GlfwEventQueue::PollEvents();
 
   for (Window &window : windows_) {
-    if (big2::GlfwEventQueue::HasEventType<GlfwEvent::FrameBufferResized>(window)) {
-      const glm::ivec2 window_resolution = GetWindowResolution(window);
+    if (big2::GlfwEventQueue::HasEventType<GlfwEvent::WindowResized>(window)) {
+      const glm::ivec2 window_resolution = GetWindowSize(window);
       window.SetFrameSize(window_resolution);
     }
   }

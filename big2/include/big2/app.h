@@ -69,6 +69,8 @@ class App final {
    */
   void Pause() { SetActiveState(ActiveState::Pause); }
 
+  void DoNotRenderThisFrame() { do_render_this_frame_ = false; }
+
   /**
    * @brief Checks if the application is still in a running state.
    */
@@ -111,6 +113,7 @@ class App final {
   time_point previous_frame_time_;
   std::float_t delta_time_ = 0.0f;
   ActiveState state_ = ActiveState::Unset;
+  bool do_render_this_frame_ = true;
 
   std::unique_ptr<GlfwInitializationScoped> glfw_initialization_scoped_ = nullptr;
   std::unique_ptr<BgfxInitializationScoped> bgfx_initialization_scoped_ = nullptr;

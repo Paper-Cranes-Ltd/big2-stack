@@ -93,6 +93,8 @@ void App::MandatoryBeginFrame() {
         || window.GetBackBufferSize() != window.GetSize()) {
       const glm::ivec2 window_resolution = GetWindowSize(window);
       window.SetFrameSize(window_resolution);
+      DoNotRenderThisFrame();
+      bgfx::frame();
     }
   }
 }

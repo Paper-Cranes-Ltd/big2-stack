@@ -34,7 +34,7 @@ class App final {
    Stop,
   };
 
-  explicit App(bgfx::RendererType::Enum renderer_type = bgfx::RendererType::Count);
+  explicit App(bgfx::RendererType::Enum renderer_type = bgfx::RendererType::Count, std::uint64_t capabilities = std::numeric_limits<std::uint64_t>::max());
 
   /**
    * @brief Creates an extension in the app.

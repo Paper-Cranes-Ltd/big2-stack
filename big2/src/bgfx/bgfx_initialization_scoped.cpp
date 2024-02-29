@@ -14,8 +14,9 @@ namespace big2 {
 static BgfxCallbackHandler global_bgfx_callback_handler;
 BgfxInitializationScoped *BgfxInitializationScoped::instance_ = nullptr;
 
-BgfxInitializationScoped::BgfxInitializationScoped(bgfx::RendererType::Enum renderer_type)
-  : renderer_type_(renderer_type) {
+BgfxInitializationScoped::BgfxInitializationScoped(bgfx::RendererType::Enum renderer_type,  std::uint64_t capabilities)
+  : renderer_type_(renderer_type)
+  , capabilities_(capabilities) {
   Expects(instance_ == nullptr);
   instance_ = this;
 
@@ -24,7 +25,7 @@ BgfxInitializationScoped::BgfxInitializationScoped(bgfx::RendererType::Enum rend
   init_object.type = renderer_type;
   init_object.resolution.width = 0;
   init_object.resolution.height = 0;
-  init_object.capabilities = BGFX_CAPS_INDEX32;
+  init_object.capabilities = capabilities_;
 
   if (renderer_type == bgfx::RendererType::Vulkan) {
     big2::Validate(glfwVulkanSupported(), "Vulkan is not supported by GLFW");
@@ -55,7 +56,7 @@ void BgfxInitializationScoped::ReInitialize(gsl::not_null<GLFWwindow *> window, 
   init_object.type = renderer_type_;
   init_object.resolution.width = size.x;
   init_object.resolution.height = size.y;
-  init_object.capabilities = BGFX_CAPS_INDEX32;
+  init_object.capabilities = capabilities_;
   big2::SetNativeWindowData(init_object, window);
 
   big2::Validate(bgfx::init(init_object), "BGFX couldn't be initialized");

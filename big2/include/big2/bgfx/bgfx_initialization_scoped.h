@@ -21,7 +21,7 @@ namespace big2 {
  */
 class BgfxInitializationScoped final {
   public:
-    BgfxInitializationScoped(bgfx::RendererType::Enum renderer_type = bgfx::RendererType::Count);
+    BgfxInitializationScoped(bgfx::RendererType::Enum renderer_type = bgfx::RendererType::Count, std::uint64_t capabilities = std::numeric_limits<std::uint64_t>::max());
 
     BgfxInitializationScoped(BgfxInitializationScoped && other);
 
@@ -43,6 +43,7 @@ class BgfxInitializationScoped final {
   private:
     static BgfxInitializationScoped *instance_;
     bgfx::RendererType::Enum renderer_type_ = bgfx::RendererType::Count;
+    std::uint64_t capabilities_ = std::numeric_limits<std::uint64_t>::max();
 };
 }
 

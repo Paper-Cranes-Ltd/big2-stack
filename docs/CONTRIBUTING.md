@@ -1,4 +1,4 @@
-# How to contribute?
+# How to contribute? {#contributing}
 
 This project is another abstraction layer above at least 4 other projects (like the WAMP, MEAN and other popular stacks for the web). 
 This essentially means that this repostiory might need updates to reflect changes and improvements in the other libraries but also that some contributions are better targeted at the other repositories.

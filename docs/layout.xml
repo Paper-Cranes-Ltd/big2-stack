@@ -1,6 +1,7 @@
 <doxygenlayout version="1.0">
     <navindex>
         <tab type="user" url="@ref changelist" title="Changelist"/>
+        <tab type="user" url="@ref contributing" title="How to contribute?"/>
         <tab type="usergroup" title="Learn" url="[none]">
             <tab type="user" url="@ref getting_started" title="Getting Started"/>
             <tab type="examples" visible="yes" title=""/>

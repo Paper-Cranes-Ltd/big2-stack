@@ -78,6 +78,21 @@ endif ()
 target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
+if (CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 10)
+
+    find_package(TBB)
+    if(TBB_FOUND)
+        target_compile_definitions(${PROJECT_NAME} PUBLIC BIG2_EXECUTION_ENABLED=1)
+        target_link_libraries(${PROJECT_NAME} PUBLIC tbb)
+    else()
+        message(STATUS "Compiling without parallel execution support")
+        target_compile_definitions(${PROJECT_NAME} PUBLIC BIG2_EXECUTION_ENABLED=0)
+    endif()
+
+else()
+    target_compile_definitions(${PROJECT_NAME} PUBLIC BIG2_EXECUTION_ENABLED=1)
+endif()
+
 if (${BIG2_PROGRAMMER})
 
     set(WARNING_OPTIONS)

@@ -13,7 +13,7 @@
 #include <chrono>
 
 namespace big2 {
-Window &App::CreateWindow(const std::string &title, glm::ivec2 size) {
+Window &App::AddWindow(const std::string &title, glm::ivec2 size) {
   Expects(windows_.empty() || BgfxSupportsMultipleWindows());
 
   glfwWindowHint(GLFW_FLOATING, false);

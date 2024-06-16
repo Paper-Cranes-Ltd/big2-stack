@@ -109,7 +109,7 @@ int main(std::int32_t, gsl::zstring []) {
 #endif // BIG2_IMGUI_ENABLED
   app.AddExtension<TriangleRenderAppExtension>();
 
-  app.CreateWindow("My App", {800, 600});
+  app.AddWindow("My App", {800, 600});
   app.Run();
 
   return 0;

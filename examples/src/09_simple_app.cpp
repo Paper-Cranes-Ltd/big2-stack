@@ -32,7 +32,7 @@ int main(std::int32_t, gsl::zstring []) {
   big2::App app = big2::CreateSimpleApp();
   app.AddExtension<MainAppExtension>();
 
-  app.CreateWindow("My App", {800, 600});
+  app.AddWindow("My App", {800, 600});
   app.Run();
 
   return 0;

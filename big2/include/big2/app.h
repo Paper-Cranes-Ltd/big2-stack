@@ -79,7 +79,7 @@ class App final {
   /**
    * @brief Creates a window with the given title and size.
    */
-  Window &CreateWindow(const std::string &title, glm::ivec2 size);
+  Window &AddWindow(const std::string &title, glm::ivec2 size);
 
   /**
    * @brief Gets all created windows that are linked to the app.

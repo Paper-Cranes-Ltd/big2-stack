@@ -45,7 +45,7 @@
     {
       "name": "bgfx",
       "url": "https://github.com/bkaradzic/bgfx.cmake.git",
-      "version": "v1.125.8678-462",
+      "version": "v1.128.8832-488",
       "options": [
         {
           "name": "BGFX_BUILD_TOOLS",

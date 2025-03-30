@@ -101,7 +101,7 @@ void ExecuteRenderCommands(const ImDrawData *draw_data, unsigned short view_id, 
 
         bgfx::setState(kState);
 
-        bgfx::TextureHandle texture = {static_cast<uint16_t>(reinterpret_cast<intptr_t>(draw_command->TextureId) & 0xffff)};
+        bgfx::TextureHandle texture = {static_cast<uint16_t>(static_cast<uintptr_t>(draw_command->TextureId) & 0xffff)};
 
         bgfx::setTexture(0, texture_location, texture);
         bgfx::setVertexBuffer(0, &transient_vtx_buffer, 0, requested_vertices_count);
@@ -305,7 +305,7 @@ bool ImGui_ImplBgfx_CreateFontsTexture() {
   backend_data->font_texture_handle = bgfx::createTexture2D(texture_data.size.x, texture_data.size.y, kHasMips, kLayersCount, bgfx::TextureFormat::BGRA8, kFlags, data);
 
   ImGuiIO &io = ImGui::GetIO();
-  io.Fonts->SetTexID(reinterpret_cast<ImTextureID>(static_cast<std::intptr_t>(backend_data->font_texture_handle.idx)));
+  io.Fonts->SetTexID(static_cast<ImTextureID>(backend_data->font_texture_handle.idx));
 
   return true;
 }
@@ -315,7 +315,7 @@ void ImGui_ImplBgfx_DestroyFontsTexture() {
 
   if (isValid(backend_data->font_texture_handle)) {
     bgfx::destroy(backend_data->font_texture_handle);
-    ImGui::GetIO().Fonts->SetTexID(nullptr);
+    ImGui::GetIO().Fonts->SetTexID(0);
     backend_data->font_texture_handle = BGFX_INVALID_HANDLE;
   }
 }

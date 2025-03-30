@@ -3,7 +3,7 @@
     {
       "name": "glfw",
       "url": "https://github.com/glfw/glfw.git",
-      "version": "3.3.8",
+      "version": "3.4",
       "options": [
         {
           "name": "GLFW_BUILD_EXAMPLES",
@@ -26,7 +26,7 @@
     {
       "name": "glm",
       "url": "https://github.com/g-truc/glm.git",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "options": [
         {
           "name": "GLM_ENABLE_CXX_20",
@@ -45,7 +45,7 @@
     {
       "name": "bgfx",
       "url": "https://github.com/bkaradzic/bgfx.cmake.git",
-      "version": "v1.125.8678-462",
+      "version": "v1.129.8866-492",
       "options": [
         {
           "name": "BGFX_BUILD_TOOLS",
@@ -69,12 +69,12 @@
     {
       "name": "microsoft-gsl",
       "url": "https://github.com/microsoft/GSL",
-      "version": "v4.0.0"
+      "version": "v4.2.0"
     },
     {
       "name": "spdlog",
       "url": "https://github.com/gabime/spdlog.git",
-      "version": "v1.11.0"
+      "version": "v1.15.2"
     }
   ]
 }

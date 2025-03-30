@@ -35,22 +35,24 @@ function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
 
     file(MAKE_DIRECTORY "${SHADERS_OUT_DIR}")
 
-    bgfx_compile_shader_to_header(
+    bgfx_compile_shaders(
             TYPE VERTEX
             SHADERS ${VERTEX_SHADER_FILES}
             VARYING_DEF "${VARYING_DEF_LOCATION}"
             OUTPUT_DIR "${SHADERS_OUT_DIR}"
             OUT_FILES_VAR VERTEX_OUTPUT_FILES
             INCLUDE_DIRS "${SHADERS_DIR}" "${BGFX_DIR}/src"
+            AS_HEADERS ON
     )
 
-    bgfx_compile_shader_to_header(
+    bgfx_compile_shaders(
             TYPE FRAGMENT
             SHADERS ${FRAGMENT_SHADER_FILES}
             VARYING_DEF "${VARYING_DEF_LOCATION}"
             OUTPUT_DIR "${SHADERS_OUT_DIR}"
             OUT_FILES_VAR FRAGMENT_OUTPUT_FILES
             INCLUDE_DIRS "${SHADERS_DIR}" "${BGFX_DIR}/src"
+            AS_HEADERS ON
     )
 
     set(OUTPUT_FILES)
@@ -64,8 +66,10 @@ function(add_shaders_directory SHADERS_DIR TARGET_OUT_VAR)
 
     set(INCLUDE_ALL_HEADER "")
     foreach(OUTPUT_FILE IN LISTS OUTPUT_FILES)
+        get_filename_component(FULL_PARENT_PATH ${OUTPUT_FILE} DIRECTORY)
+        get_filename_component(PARENT_DIR_NAME ${FULL_PARENT_PATH} NAME)
         get_filename_component(OUTPUT_FILENAME "${OUTPUT_FILE}" NAME)
-        string(APPEND INCLUDE_ALL_HEADER "#include <generated/shaders/${NAMESPACE}/${OUTPUT_FILENAME}>\n")
+        string(APPEND INCLUDE_ALL_HEADER "#include <generated/shaders/${NAMESPACE}/${PARENT_DIR_NAME}/${OUTPUT_FILENAME}>\n")
     endforeach()
     file(WRITE "${SHADERS_OUT_DIR}/all.h" "${INCLUDE_ALL_HEADER}")
     list(APPEND OUTPUT_FILES "${SHADERS_OUT_DIR}/all.h")

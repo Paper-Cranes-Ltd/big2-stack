@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(big2-stack VERSION 0.0.9)
+project(big2-stack VERSION 0.0.10)
 
 set(USE_FOLDERS TRUE)
 set(CMAKE_FOLDER "BIG2")
@@ -28,7 +28,7 @@ cmake_dependent_option(BIG2_USE_IMGUI_DOCKING "Will use the docking branch of Im
 if(BIG2_USE_IMGUI_DOCKING)
     set(IMGUI_VERSION "docking")
 else()
-    set(IMGUI_VERSION "v1.89.4")
+    set(IMGUI_VERSION "v1.91.9b")
 endif ()
 
 include(cmake/utils.cmake)
@@ -36,6 +36,8 @@ include(cmake/utils.cmake)
 # Dependencies
 include(external/cmake-snippets/JsonDependency.cmake)
 json_config_dependencies(FILE "${CMAKE_CURRENT_SOURCE_DIR}/cmake-config.json" MEMBER_SELECTOR "dependencies")
+
+include(${CMAKE_BINARY_DIR}/_deps/bgfx-src/cmake/bgfxToolUtils.cmake)
 
 if("${BIG2_INCLUDE_IMGUI}")
     include(cmake/imgui.cmake)
